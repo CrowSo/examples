@@ -1,0 +1,220 @@
+<div class="client-management-container">
+
+    <div class="cm-header">
+        <div class="cm-header-left">
+            <h1><i class='bx bxs-group'></i> Client Management</h1>
+        </div>
+        <div class="cm-header-actions">
+            <button class="btn-goldmex-secondary" id="import-csv-btn">
+                <i class='bx bxs-file-import'></i>
+                <span class="text">Import from CSV</span>
+            </button>
+            <button class="btn-goldmex-primary" id="add-client-btn">
+                <i class='bx bxs-user-plus'></i>
+                <span class="text">Add New Client</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cm-dashboard-summary">
+        <div class="cm-scorecard">
+            <div class="cm-scorecard-icon total">
+                <i class='bx bxs-group'></i>
+            </div>
+            <div class="cm-scorecard-info">
+                <h4>Total Clients</h4>
+                <p id="total-clients-card">0</p>
+            </div>
+        </div>
+        <div class="cm-scorecard">
+            <div class="cm-scorecard-icon regular">
+                <i class='bx bxs-star'></i>
+            </div>
+            <div class="cm-scorecard-info">
+                <h4>Regular Clients</h4>
+                <p id="regular-clients-card">0</p>
+            </div>
+        </div>
+        <div class="cm-scorecard">
+            <div class="cm-scorecard-icon grupo-lr">
+                <i class='bx bxs-business'></i>
+            </div>
+            <div class="cm-scorecard-info">
+                <h4>Grupo LR Clients</h4>
+                <p id="grupo-lr-clients-card">0</p>
+            </div>
+        </div>
+        <div class="cm-scorecard">
+            <div class="cm-scorecard-icon tramites-ry">
+                <i class='bx bxs-file-find'></i>
+            </div>
+            <div class="cm-scorecard-info">
+                <h4>Tramites RY Clients</h4>
+                <p id="tramites-ry-clients-card">0</p>
+            </div>
+        </div>
+        <div class="cm-scorecard">
+            <div class="cm-scorecard-icon new">
+                <i class='bx bxs-calendar-plus'></i>
+            </div>
+            <div class="cm-scorecard-info">
+                <h4>New This Month</h4>
+                <p id="new-clients-card">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cm-table-container">
+        <table id="clientsTable" class="display responsive nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Contact Name</th>
+                    <th>Position</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Client Type</th>
+                    <th>Nationality</th>
+                    <th>Actions</th>
+                    <th>Docs</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="addClientModal" class="cm-modal">
+    <div class="cm-modal-content">
+        <div class="cm-modal-header">
+            <h2>Add New Client</h2>
+            <span class="cm-close-btn">&times;</span>
+        </div>
+        <div class="cm-modal-body">
+            <form id="addClientForm">
+                <div class="cm-form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" id="companyName" required>
+                </div>
+                <div class="cm-form-group">
+                    <label for="contactName">Contact Name</label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="cm-form-group">
+                    <label for="contactPosition">Contact Position</label>
+                    <input type="text" id="contactPosition" required>
+                </div>
+                <div class="cm-form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="cm-form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="cm-form-group">
+                    <label for="clientType">Client Type</label>
+                    <select id="clientType" required>
+                        <option value="" disabled selected>Select type</option>
+                        <option value="Grupo LR Clients">Grupo LR Clients</option>
+                        <option value="Tramites RY Clients">Tramites RY Clients</option>
+                        <option value="Regular Clients">Regular Clients</option>
+                    </select>
+                </div>
+                <div class="cm-form-group">
+                    <label for="nationality">Nationality</label>
+                    <select id="nationality" required>
+                        <option value="" disabled selected>Select nationality</option>
+                        <option value="Mexicano">Mexicano</option>
+                        <option value="Americano">Americano</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="cm-form-group cm-address-field">
+                    <label for="address">Company Address</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+                <div class="cm-modal-footer">
+                    <button type="submit" class="btn-goldmex-primary">Save Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="cmConfirmModal" class="cm-modal">
+    <div class="cm-modal-content" style="max-width: 450px; height: auto;">
+        <div class="cm-modal-header">
+            <h2 id="cmConfirmTitle">Confirm Action</h2>
+            <span class="cm-close-btn" id="cmConfirmCloseBtn">&times;</span>
+        </div>
+        <div class="cm-modal-body">
+            <p id="cmConfirmMessage" style="line-height: 1.6; font-size: 1rem;"></p>
+        </div>
+        <div class="cm-modal-footer" style="justify-content: flex-end; gap: 0.8rem;">
+            <button type="button" id="cmConfirmCancelBtn" class="btn-goldmex-secondary">Cancel</button>
+            <button type="button" id="cmConfirmOkBtn" class="btn-goldmex-primary">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="importCsvModal" class="cm-modal">
+    <div class="cm-modal-content" style="height: auto;">
+        <div class="cm-modal-header">
+            <h2><i class='bx bxs-file-import'></i> Import Clients from CSV</h2>
+            <span class="cm-close-btn">&times;</span>
+        </div>
+        <div class="cm-modal-body">
+            <p class="cm-modal-instructions">
+                Upload a .CSV file with the required columns: <strong>company_name, contact_name, contact_position, email, phone, client_type, nationality, address</strong>. The system will skip any clients whose email already exists in the database.
+            </p>
+            <div class="cm-form-group">
+                <label for="csvFileInput">CSV File</label>
+                <input type="file" id="csvFileInput" class="cm-file-input" accept=".csv">
+            </div>
+            <div id="csv-processing-results" class="cm-csv-results" style="display:none;">
+                <h4>Processing Results:</h4>
+                <p id="csvResultsMessage"></p>
+            </div>
+        </div>
+        <div class="cm-modal-footer">
+            <button type="button" id="cancelCsvUploadBtn" class="btn-goldmex-secondary">Cancel</button>
+            <button type="button" id="processCsvBtn" class="btn-goldmex-primary" disabled>Process File</button>
+        </div>
+    </div>
+</div>
+
+<div id="docManagementModal" class="cm-modal">
+    <div class="cm-modal-content" style="max-width: 800px;">
+        <div class="cm-modal-header">
+            <h2 id="docModalTitle"><i class='bx bx-folder-open'></i> Client Documents</h2>
+            <span class="cm-close-btn">&times;</span>
+        </div>
+        <div class="cm-modal-body">
+            <div class="cm-doc-upload-section">
+                <h4><i class='bx bx-cloud-upload'></i> Upload New Document</h4>
+                <div class="cm-form-grid">
+                    <div class="cm-form-group">
+                        <label for="docFileInput">Select File:</label>
+                        <input type="file" id="docFileInput" class="cm-file-input">
+                    </div>
+                    <div class="cm-form-group-button">
+                        <button type="button" id="uploadDocBtn" class="btn-goldmex-primary"><i class='bx bx-upload'></i> Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cm-doc-list-section">
+                <h4><i class='bx bx-list-ul'></i> Uploaded Documents</h4>
+                <div id="docListContainer" class="cm-doc-list-container">
+                    <p id="noDocsMessage" class="cm-no-docs-message" style="display:none;">No documents uploaded for this client yet.</p>
+                    </div>
+            </div>
+        </div>
+        <div class="cm-modal-footer">
+            <button type="button" class="btn-goldmex-secondary" id="closeDocModalFooterBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/client-management.js"></script>

@@ -1,0 +1,439 @@
+<div class="cq-container">
+    <div class="cq-header">
+        <h2><i class='bx bx-sitemap'></i> Classification & Quoting</h2>
+        <div class="cq-header-actions">
+            <button id="cq-history-btn" class="btn-goldmex-secondary">
+                <i class='bx bx-history'></i> History
+            </button>
+        </div>
+    </div>
+
+    <div class="cq-dashboard-summary">
+        <div class="cq-scorecard pending">
+            <div class="cq-scorecard-icon"><i class='bx bx-file-blank'></i></div>
+            <div class="cq-scorecard-info">
+                <h4>Pending & Awaiting Info</h4>
+                <p id="cq-db-pending">0</p>
+                <div class="cq-scorecard-subtext">
+                    <span>New: <b id="cq-db-pending-new">0</b></span>
+                    <span>Awaiting: <b id="cq-db-pending-awaiting">0</b></span>
+                </div>
+                <div id="cq-db-pending-oldest" class="cq-scorecard-footer">
+                    <i class='bx bx-time-five'></i> Oldest: -
+                </div>
+            </div>
+        </div>
+        <div class="cq-scorecard in-progress">
+            <div class="cq-scorecard-icon"><i class='bx bx-loader-circle'></i></div>
+            <div class="cq-scorecard-info">
+                <h4>In Process</h4>
+                <p id="cq-db-in-process">0</p>
+                <div class="cq-scorecard-subtext">
+                    <span>Avg. Process Time</span>
+                </div>
+                <div id="cq-db-in-process-avg-time" class="cq-scorecard-footer">
+                    <i class='bx bx-timer'></i> ~ 0 days
+                </div>
+            </div>
+        </div>
+        <div class="cq-scorecard completed">
+            <div class="cq-scorecard-icon"><i class='bx bx-check-double'></i></div>
+            <div class="cq-scorecard-info">
+                <h4>Completed (Current Month)</h4>
+                <p id="cq-db-completed">0</p>
+                <div class="cq-scorecard-subtext">
+                    <span id="cq-db-completed-comparison" class="cq-comparison neutral"><i
+                            class='bx bx-trending-down'></i> 0% vs last month</span>
+                </div>
+                <div id="cq-db-completed-avg-time" class="cq-scorecard-footer">
+                    <i class='bx bx-tachometer'></i> Avg. Resolution: ~ 0 days
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cq-table-container">
+        <h3><i class='bx bx-list-ul'></i> Active Requests</h3>
+        <table id="cqPendingTable" class="display responsive nowrap" style="width: 100%"></table>
+    </div>
+</div>
+
+<div id="cqWorkspaceModal" class="cq-modal">
+    <div class="cq-modal-content cq-modal-fullscreen">
+        <div class="cq-modal-header">
+            <h3 id="cqWorkspaceTitle"><i class='bx bx-edit-alt'></i> Processing Request #CQP-XXXXXX</h3>
+            <button class="cq-close-button" id="cqCloseWorkspaceBtn">&times;</button>
+        </div>
+
+        <form id="cqWorkspaceForm" class="cq-modal-body">
+            <input type="hidden" id="cq-request-id-hidden">
+
+            <div id="cqWorkspaceStepper" class="cq-workspace-stepper">
+                <div id="cq-step-1" class="cq-step active" data-step="1">
+                    <i class='bx bx-sitemap'></i> 1. Product Classification
+                </div>
+                <div id="cq-step-2" class="cq-step" data-step="2">
+                    <i class='bx bx-calculator'></i> 2. Duties & Fees Quotation
+                </div>
+            </div>
+
+            <div class="cq-workspace">
+                <div id="cq-classification-view" class="cq-workspace-view active">
+                    <div class="cq-column client-data">
+                        <div class="cq-column-header">
+                            <h4><i class='bx bx-user-pin'></i> Information sent by the client</h4>
+                        </div>
+                        <div class="cq-column-content">
+                            <div id="cq-client-data-container">
+                                <p>Loading client data...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cq-column classification-form">
+                        <div class="cq-column-header">
+                            <h4><i class='bx bx-shield-quarter'></i> Classification Form</h4>
+                        </div>
+                        <div class="cq-column-content">
+                            <div class="cq-form-column">
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bx-search-alt'></i>Initial Review</h6>
+                                    <div class="cq-form-group">
+                                        <label>Is information missing? Check all that apply and provide details.</label>
+                                        <div class="cq-checkbox-grid">
+                                            <label><input type="checkbox" name="missing_item"
+                                                    value="Detailed Commercial Invoice"> Detailed Commercial
+                                                Invoice</label>
+                                            <label><input type="checkbox" name="missing_item" value="Packing List">
+                                                Packing
+                                                List</label>
+                                            <label><input type="checkbox" name="missing_item" value="Air Waybill or BL">
+                                                Air
+                                                Waybill or BL</label>
+                                            <label><input type="checkbox" name="missing_item"
+                                                    value="Certificate of Origin">
+                                                Certificate of Origin</label>
+                                        </div>
+                                    </div>
+                                    <div class="cq-form-group">
+                                        <label for="cq-missing-info-details">Other Missing Info / Questions for
+                                            Client</label>
+                                        <textarea id="cq-missing-info-details" class="hidden-textarea"></textarea>
+                                        <div class="text-editor-trigger" data-target="cq-missing-info-details"
+                                            data-title="Questions for Client">
+                                            <p class="text-preview">Click to edit...</p>
+                                            <button type="button" class="btn-edit-text"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bxs-file-doc'></i>3. Required Documentation for Import</h6>
+                                    <div class="cq-checkbox-grid required-docs-grid">
+                                        <label><input type="checkbox" name="required_doc_item"
+                                                value="Detailed Commercial Invoice"> Detailed Commercial Invoice</label>
+                                        <label><input type="checkbox" name="required_doc_item" value="Packing List">
+                                            Packing
+                                            List</label>
+                                        <label><input type="checkbox" name="required_doc_item"
+                                                value="Air Waybill or BL">
+                                            Air Waybill or BL</label>
+                                        <label><input type="checkbox" name="required_doc_item"
+                                                value="Sanitary/Phytosanitary Certificate"> Sanitary/Phytosanitary
+                                            Certificate</label>
+                                        <label><input type="checkbox" name="required_doc_item"
+                                                value="Certificate of Origin"> Certificate of Origin</label>
+                                        <label><input type="checkbox" name="required_doc_item" value="Customs Bond">
+                                            Customs
+                                            Bond</label>
+                                    </div>
+                                    <div class="cq-form-group" style="margin-top: 1rem;">
+                                        <label for="cq-required-docs-details">Documentation Notes</label>
+                                        <textarea id="cq-required-docs-details" class="hidden-textarea"></textarea>
+                                        <div class="text-editor-trigger" data-target="cq-required-docs-details"
+                                            data-title="Documentation Notes">
+                                            <p class="text-preview">Add additional comments or details...</p>
+                                            <button type="button" class="btn-edit-text"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bxs-purchase-tag-alt'></i>4. Labeling & Marking Requirements</h6>
+                                    <div class="cq-checkbox-grid">
+                                        <label><input type="checkbox" name="labeling_item"
+                                                value="Country of origin visible"> Country of origin visible</label>
+                                        <label><input type="checkbox" name="labeling_item"
+                                                value="Ingredients and allergens in English"> Ingredients and allergens
+                                            in
+                                            English</label>
+                                        <label><input type="checkbox" name="labeling_item"
+                                                value="Labeling according to applicable agency"> Labeling according to
+                                            applicable agency</label>
+                                    </div>
+                                    <div class="cq-form-group" style="margin-top: 1rem;">
+                                        <label for="cq-labeling-requirements-details">Labeling Notes</label>
+                                        <textarea id="cq-labeling-requirements-details"
+                                            class="hidden-textarea"></textarea>
+                                        <div class="text-editor-trigger" data-target="cq-labeling-requirements-details"
+                                            data-title="Labeling Notes">
+                                            <p class="text-preview">e.g., Country of origin must be visible...</p>
+                                            <button type="button" class="btn-edit-text"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cq-form-column">
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bx-sitemap'></i>1. HTSUS Classification</h6>
+                                    <div class="cq-form-group">
+                                        <label for="cq-hts-code-validated">HTSUS Code (Validated) <span
+                                                class="cq-required">*</span></label>
+                                        <input type="text" id="cq-hts-code-validated" placeholder="e.g., 8517.12.0050"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bxs-shield-quarter'></i>2. Involved Government Agencies (PGAs)</h6>
+                                    <div class="cq-checkbox-grid pga-grid">
+                                        <label><input type="checkbox" name="pga_applies" value="CBP"> CBP</label>
+                                        <label><input type="checkbox" name="pga_applies" value="FDA"> FDA</label>
+                                        <label><input type="checkbox" name="pga_applies" value="USDA-APHIS">
+                                            USDA-APHIS</label>
+                                        <label><input type="checkbox" name="pga_applies" value="USDA-FSIS">
+                                            USDA-FSIS</label>
+                                        <label><input type="checkbox" name="pga_applies" value="EPA"> EPA</label>
+                                        <label><input type="checkbox" name="pga_applies" value="CPSC"> CPSC</label>
+                                        <label><input type="checkbox" name="pga_applies" value="FCC"> FCC</label>
+                                        <label><input type="checkbox" name="pga_applies" value="DOT/NHTSA">
+                                            DOT/NHTSA</label>
+                                        <label><input type="checkbox" name="pga_applies" value="PHMSA"> PHMSA</label>
+                                        <label><input type="checkbox" name="pga_applies" value="TTB"> TTB</label>
+                                        <label><input type="checkbox" name="pga_applies" value="ATF"> ATF</label>
+                                        <label><input type="checkbox" name="pga_applies" value="FWS"> FWS</label>
+                                        <label><input type="checkbox" name="pga_applies" value="CDC"> CDC</label>
+                                        <label><input type="checkbox" name="pga_applies" value="OFAC"> OFAC</label>
+                                    </div>
+                                    <div class="cq-form-group" style="margin-top: 1rem;">
+                                        <label for="cq-pga-explanation">PGA Explanation</label>
+                                        <textarea id="cq-pga-explanation" class="hidden-textarea"></textarea>
+                                        <div class="text-editor-trigger" data-target="cq-pga-explanation"
+                                            data-title="PGA Explanation">
+                                            <p class="text-preview">Explain why the selected agencies apply...</p>
+                                            <button type="button" class="btn-edit-text"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bx-block'></i>5. Restrictions / Special Conditions</h6>
+                                    <div class="cq-checkbox-grid">
+                                        <label><input type="checkbox" name="restriction_item"
+                                                value="Allowed in commercial packaging only"> Allowed in commercial
+                                            packaging only</label>
+                                        <label><input type="checkbox" name="restriction_item"
+                                                value="May require border inspection"> May require border
+                                            inspection</label>
+                                        <label><input type="checkbox" name="restriction_item"
+                                                value="Check for quotas or antidumping"> Check for quotas /
+                                            antidumping</label>
+                                    </div>
+                                    <div class="cq-form-group" style="margin-top: 1rem;">
+                                        <label for="cq-restrictions-details">Other Restrictions / Details</label>
+                                        <textarea id="cq-restrictions-details" class="hidden-textarea"></textarea>
+                                        <div class="text-editor-trigger" data-target="cq-restrictions-details"
+                                            data-title="Other Restrictions / Details">
+                                            <p class="text-preview">e.g., Subject to additional permits...</p>
+                                            <button type="button" class="btn-edit-text"><i
+                                                    class='bx bx-edit-alt'></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cq-form-section">
+                                    <h6><i class='bx bxs-note'></i>6. Internal Broker Notes (Not visible to client)</h6>
+                                    <textarea id="cq-broker-notes" class="hidden-textarea"></textarea>
+                                    <div class="text-editor-trigger" data-target="cq-broker-notes"
+                                        data-title="Internal Broker Notes">
+                                        <p class="text-preview">Internal notes for the team...</p>
+                                        <button type="button" class="btn-edit-text"><i
+                                                class='bx bx-edit-alt'></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cq-quotation-view" class="cq-workspace-view">
+                    <div class="cq-column quotation-form" style="grid-column: 1 / -1;">
+                        <div class="cq-column-header">
+                            <h4><i class='bx bx-calculator'></i> Duties & Fees Quotation Form</h4>
+                        </div>
+                        <div class="cq-column-content">
+                            <div id="cq-quotation-grid">
+                                <div class="cq-form-section">
+                                    <h5>Duty Calculation</h5>
+                                    <div class="cq-form-group">
+                                        <label for="cq-duty-rate">Base Duty Rate (%) <span
+                                                class="cq-required">*</span></label>
+                                        <input type="number" id="cq-duty-rate" placeholder="e.g., 5.5" step="0.01"
+                                            required>
+                                    </div>
+                                    <div class="cq-form-group">
+                                        <label for="cq-other-taxes">Other Taxes / Fees (%)</label>
+                                        <input type="number" id="cq-other-taxes" placeholder="e.g., 16.0 for VAT/IVA"
+                                            step="0.01">
+                                    </div>
+                                    <div id="cq-additional-duties-container"></div>
+                                    <button type="button" id="cq-add-duty-btn"
+                                        class="btn-goldmex-secondary btn-goldmex-small">
+                                        <i class='bx bx-plus'></i> Add Additional Duty
+                                    </button>
+                                </div>
+
+                                <div class="cq-form-section">
+                                    <h5>Customs & Service Fees (USD)</h5>
+                                    <div class="cq-form-group">
+                                        <label for="cq-mpf">Merchandise Processing Fee (MPF)</label>
+                                        <input type="number" id="cq-mpf" placeholder="e.g., 32.71" step="0.01">
+                                    </div>
+                                    <div class="cq-form-group">
+                                        <label for="cq-hmf">Harbor Maintenance Fee (HMF)</label>
+                                        <input type="number" id="cq-hmf" placeholder="e.g., 0.24" step="0.01">
+                                    </div>
+                                    <div class="cq-form-group">
+                                        <label for="cq-brokerage-fee">Brokerage Fee <span
+                                                class="cq-required">*</span></label>
+                                        <input type="number" id="cq-brokerage-fee" placeholder="e.g., 150.00"
+                                            step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="cq-form-section">
+                                    <h5>Import Process Details</h5>
+                                    <div class="cq-form-group">
+                                        <label for="cq-entry-type">Entry Type</label>
+                                        <select id="cq-entry-type">
+                                            <option value="">Select an option</option>
+                                            <option value="Type 01 - Formal">Type 01 - Formal</option>
+                                            <option value="Type 11 - Courier">Type 11 - Courier</option>
+                                            <option value="Type 86">Type 86</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="cq-form-group">
+                                        <label for="cq-release-time">Estimated Release Time (Days)</label>
+                                        <input type="number" id="cq-release-time" placeholder="e.g., 3">
+                                    </div>
+                                </div>
+
+                                <div class="cq-form-section cq-summary-section">
+                                    <h5>Quote Summary</h5>
+                                    <div class="cq-summary-line"><span>Total Duties & Taxes:</span><span
+                                            id="cq-summary-duties">$0.00</span></div>
+                                    <div class="cq-summary-line"><span>Total Fees:</span><span
+                                            id="cq-summary-fees">$0.00</span></div>
+                                    <div class="cq-summary-line grand-total"><span>Grand Total to Pay:</span><span
+                                            id="cq-summary-total">$0.00</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="cq-modal-footer">
+            <div class="cq-footer-left">
+                <label for="cq-status-select">Request Status:</label>
+                <select id="cq-status-select">
+                    <option value="Pending">Pending</option>
+                    <option value="Awaiting Documents">Awaiting Documents</option>
+                    <option value="In Process">In Process</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div id="cq-footer-actions" class="cq-footer-right">
+                <button type="button" id="cq-request-info-btn" class="btn-goldmex-secondary">Request Missing
+                    Info</button>
+                <button type="button" id="cq-continue-quote-btn" class="btn-goldmex-primary">Save & Continue to
+                    Quotation</button>
+                <button type="button" id="cq-save-progress-btn" class="btn-goldmex-secondary"
+                    style="display: none;">Save Progress</button>
+                <button type="submit" form="cqWorkspaceForm" id="cq-finish-btn" class="btn-goldmex-primary"
+                    style="display: none;">Finish & Notify Client</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cqHistoryModal" class="cq-modal">
+    <div class="cq-modal-content" style="max-width: 90vw; width: 1400px; height: 85vh;">
+        <div class="cq-modal-header">
+            <h3><i class='bx bx-history'></i> Requests History</h3>
+            <button class="cq-close-button" id="cqCloseHistoryModalBtn">&times;</button>
+        </div>
+        <div class="cq-modal-body">
+            <div class="cqp-history-filters">
+                <div class="cqp-form-group">
+                    <label for="cq-hist-month">Month</label>
+                    <select id="cq-hist-month"></select>
+                </div>
+                <div class="cqp-form-group">
+                    <label for="cq-hist-year">Year</label>
+                    <select id="cq-hist-year"></select>
+                </div>
+                <div class="cqp-form-group">
+                    <label for="cq-hist-search">Client or Product</label>
+                    <input type="text" id="cq-hist-search" placeholder="Search...">
+                </div>
+                <button id="cq-apply-filters-btn" class="btn-goldmex-primary">
+                    <i class='bx bx-filter-alt'></i> Filter
+                </button>
+            </div>
+            <div class="cqp-table-container">
+                <table id="cqHistoryTable" class="display responsive nowrap" style="width:100%"></table>
+            </div>
+        </div>
+        <div class="cqp-modal-footer">
+            <button type="button" id="cqCloseHistoryFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqTextEditorModal" class="cq-modal">
+    <div class="cq-modal-content" style="max-width: 700px; height: auto;">
+        <div class="cq-modal-header">
+            <h3 id="cqTextEditorTitle">Edit Text</h3>
+            <button class="cq-close-button" id="cqCloseTextEditorBtn">&times;</button>
+        </div>
+        <div class="cq-modal-body" style="padding: 1.5rem;">
+            <input type="hidden" id="cqTextEditorTargetId">
+            <textarea id="cqTextEditorTextarea" rows="10" style="width: 100%; font-size: 1rem;"></textarea>
+        </div>
+        <div class="cq-modal-footer" style="justify-content: flex-end;">
+            <button type="button" id="cqSaveTextEditorBtn" class="btn-goldmex-primary">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqViewReportModal" class="cq-modal">
+    <div class="cq-modal-content cq-report-modal-content">
+        <div class="cq-modal-header">
+            <h3 id="cqReportTitle">Classification & Quoting Report</h3>
+            <button class="cq-close-button" id="cqCloseReportModalBtn">&times;</button>
+        </div>
+        <div id="cq-report-body" class="cq-report-body">
+        </div>
+        <div class="cq-modal-footer" style="justify-content: space-between;">
+            <button type="button" id="cqDownloadReportPdfBtn" class="btn-goldmex-secondary">
+                <i class='bx bxs-file-pdf'></i> Download PDF
+            </button>
+            <button type="button" id="cqCloseReportFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="customNotificationContainerCQ" class="custom-notification-cqp-container"></div>
+<script src="js/classification-quoting.js"></script>

@@ -1,0 +1,433 @@
+<div class="rcv-container">
+
+    <div class="rcv-header">
+        <div class="rcv-header-left">
+            <h2><i class='bx bxs-ship'></i> Receiving Portal</h2>
+            <div class="rcv-tabs">
+                <button class="rcv-tab-btn active" data-target="scan">
+                    <i class='bx bx-scan'></i> Scanner
+                </button>
+                <button class="rcv-tab-btn" data-target="incoming">
+                    <i class='bx bx-calendar'></i> Incoming Dashboard
+                </button>
+            </div>
+        </div>
+        
+        <div class="rcv-header-right">
+            <span id="rcv-global-status" class="rcv-badge status-idle">IDLE</span>
+            
+            <button id="btn-rcv-cancel" class="btn-rcv-danger" style="display: none; margin-right: 5px;">
+                <i class='bx bx-log-out'></i> Exit
+            </button>
+
+            <button class="btn-rcv-icon" id="btn-rcv-history" title="History">
+                <i class='bx bx-history'></i>
+            </button>
+            
+            <button class="btn-rcv-icon" id="btn-rcv-refresh" title="Refresh Data" style="display:none;">
+                <i class='bx bx-refresh'></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="rcv-workspace">
+        
+        <div id="rcv-tab-scan" class="rcv-tab-content active">
+            
+            <div id="rcv-scan-section" class="rcv-centered-view">
+                <div class="rcv-scan-card">
+                    <div style="margin-bottom: 2rem;">
+                        <i class='bx bx-barcode-reader' style="font-size: 4rem; color: var(--goldmex-primary-color);"></i>
+                        <h3>Scan Inbound Pass</h3>
+                        <p style="color: #666;">Scan the driver's manifest QR code to begin.</p>
+                    </div>
+                    
+                    <div class="rcv-input-group-lg">
+                        <button id="btn-scan-camera-trigger" class="btn-rcv-secondary" style="padding: 0 1rem;" title="Open Camera">
+                            <i class='bx bxs-camera'></i>
+                        </button>
+                        <input type="text" id="rcv-main-input" placeholder="ORD-XXXX..." autocomplete="off" autofocus>
+                        <button id="btn-rcv-lookup">GO</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rcv-active-order-container" class="rcv-hidden">
+                
+                <div class="rcv-top-bar">
+                    <div class="rtb-item">
+                        <small>Order Ref</small>
+                        <strong id="rcv-order-code">--</strong>
+                    </div>
+                    <div class="rtb-item">
+                        <small>Client / Vendor</small>
+                        <strong id="rcv-client-name">--</strong>
+                    </div>
+                    <div class="rtb-item">
+                        <small>Arrival / Slot</small>
+                        <strong><span id="rcv-arrival-date">--</span> <span id="rcv-arrival-slot" class="rcv-pill">--</span></strong>
+                    </div>
+                    <div class="rtb-item">
+                        <small>Total Expected</small>
+                        <strong id="rcv-total-expected">0 Plt</strong>
+                    </div>
+                    </div>
+
+                <div class="rcv-control-bar">
+                    <div class="rcv-scan-tool">
+                        <i class='bx bx-barcode-reader'></i>
+                        <input type="text" id="rcv-product-upc-input" placeholder="Scan Item Barcode / SKU to receive..." autocomplete="off">
+                        <button id="btn-item-camera-trigger" class="rcv-scan-tool-btn">
+                            <i class='bx bxs-camera'></i>
+                        </button>
+                    </div>
+                    
+                    <div class="rcv-mode-toggle">
+                        <span style="font-size:0.8rem; color:#666; margin-right:5px;">View Mode:</span>
+                        <select id="rcv-view-mode">
+                            <option value="cases">Show Cases (CTN)</option>
+                            <option value="units">Show Units (PCS)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="rcv-table-container">
+                    <table class="rcv-table" id="rcv-items-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%">Product</th>
+                                <th>SKU</th>
+                                <th>UPC / Barcode</th>
+                                <th class="text-center">Expected</th>
+                                <th class="text-center">Received (Live)</th>
+                                <th class="text-center" style="width: 150px;">Action</th> <th class="text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rcv-items-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="rcv-action-bar">
+                    <button id="btn-rcv-open-damage" class="btn-rcv-warning-ghost" style="margin-right: auto;">
+                        <i class='bx bx-error-circle'></i> Report Damage (Merma)
+                    </button>
+                    
+                    <button id="btn-rcv-pre-confirm" class="btn-rcv-confirm">
+                        <i class='bx bx-check-double'></i> Finalize & Evidence
+                    </button>
+                </div>
+
+            </div> 
+        </div>
+
+        <div id="rcv-tab-incoming" class="rcv-tab-content" style="display:none;">
+            <div class="rcv-dashboard-wrapper">
+                <div class="rcv-dashboard-header">
+                    <h3><i class='bx bx-calendar-event'></i> Incoming Appointments</h3>
+                    <p>Live Schedule. Click "View" to see manifest details.</p>
+                </div>
+                <div class="rcv-table-container dashboard-mode">
+                    <table class="rcv-table" id="rcv-incoming-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Slot</th>
+                                <th>Order #</th>
+                                <th>Client / Vendor</th>
+                                <th class="text-center">Lines</th>
+                                <th class="text-right">Est. Volume</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rcv-incoming-body">
+                            <tr><td colspan="8" class="text-center">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="rcvScannerModal" class="rcv-modal-overlay" style="z-index: 2500;">
+    <div class="rcv-modal" style="max-width: 400px; background: black;">
+        <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+            <button id="closeScannerModal" style="background: rgba(255,255,255,0.2); color: white; border: none; font-size: 1.5rem; border-radius: 50%; width: 40px; height: 40px; cursor: pointer;">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+        <div class="rcv-modal-body" style="padding: 0; display: flex; align-items: center; justify-content: center; height: 400px;">
+            <div id="rcv-camera-render-target" style="width: 100%; height: 100%;"></div>
+        </div>
+        <div style="text-align: center; padding: 10px; color: white;">
+            <small>Point camera at code</small>
+        </div>
+    </div>
+</div>
+
+<div id="rcvQtyInputModal" class="rcv-modal-overlay" style="z-index: 2400;">
+    <div class="rcv-modal">
+        <div class="rcv-modal-header">
+            <h3><i class='bx bx-box'></i> Receive Item</h3>
+            <button class="rcv-modal-close" id="closeQtyModal"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body">
+            
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
+                <h4 id="modal-item-name" style="margin: 0 0 0.5rem 0; color: var(--goldmex-primary-color);">Product Name</h4>
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span id="modal-item-sku" style="font-family: monospace; font-weight: bold;">SKU: ---</span>
+                    <span id="modal-item-progress" style="color: var(--color-text-secondary);">Rec: 0 / Exp: 0</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Receiving Unit:</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button type="button" class="btn-rcv-mode-select active" data-mode="cases" id="btn-mode-cases">
+                        <i class='bx bxs-package'></i> CASES
+                    </button>
+                    <button type="button" class="btn-rcv-mode-select" data-mode="units" id="btn-mode-units">
+                        <i class='bx bxs-cube'></i> UNITS (PCS)
+                    </button>
+                </div>
+                <small id="modal-conversion-hint" style="display: block; margin-top: 5px; color: #666; font-size: 0.8rem; text-align: center;">1 Case = X Units</small>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label for="modal-qty-input" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Quantity to Add:</label>
+                <input type="number" id="modal-qty-input" class="rcv-input-lg" placeholder="0" autofocus>
+            </div>
+
+        </div>
+        <div class="rcv-modal-footer">
+            <button type="button" class="btn-rcv-secondary" id="btn-cancel-qty">Cancel</button>
+            <button type="button" class="btn-rcv-confirm" id="btn-confirm-qty">
+                <i class='bx bx-check'></i> CONFIRM & SAVE
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="rcvEvidenceModal" class="rcv-modal-overlay">
+    <div class="rcv-modal">
+        <div class="rcv-modal-header">
+            <h3><i class='bx bxs-camera'></i> Receipt Evidence</h3>
+            <button class="rcv-modal-close" id="closeRcvEvidenceModal"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body">
+            <p style="text-align:center; color:#666; margin-bottom:1rem;">
+                Capture photos of unloaded material.<br>
+                <strong>Requirement: Min 2 photos.</strong>
+            </p>
+            
+            <div class="rcv-photo-zone" id="rcv-evidence-trigger">
+                <i class='bx bxs-camera-plus'></i>
+                <p>Tap to Add Photo(s)</p>
+            </div>
+            
+            <div id="rcv-evidence-grid" class="rcv-photo-grid-modal"></div>
+            
+            <textarea id="rcv-notes" class="rcv-textarea" rows="3" placeholder="General comments..." style="margin-top:1rem;"></textarea>
+        </div>
+        <div class="rcv-modal-footer">
+            <button type="button" class="btn-rcv-secondary" id="btn-cancel-evidence">Back</button>
+            <button type="button" class="btn-rcv-confirm" id="btn-final-confirm" disabled style="opacity: 0.5;">
+                Complete Receipt
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="rcvDamageModal" class="rcv-modal-overlay">
+    <div class="rcv-modal">
+        <div class="rcv-modal-header" style="background:#f59e0b;">
+            <h3 style="color:#fff;"><i class='bx bxs-error'></i> Report Damage (Merma)</h3>
+            <button class="rcv-modal-close" id="closeRcvDamageModal" style="color:#fff;"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body">
+            <div class="rcv-damage-row">
+                <div>
+                    <label>Select Item</label>
+                    <select id="rcv-damage-item-select" class="rcv-select">
+                        <option value="">-- Choose Product --</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Qty Damaged (Units)</label>
+                    <input type="number" id="rcv-damage-qty" class="rcv-select" placeholder="0">
+                </div>
+            </div>
+            
+            <div class="rcv-photo-zone" id="rcv-damage-photo-trigger" style="padding: 1rem;">
+                <i class='bx bxs-camera'></i> <span style="font-size:0.9rem">Add Damage Photo</span>
+            </div>
+            <div id="rcv-damage-photo-grid" class="rcv-photo-grid-modal"></div>
+            
+            <textarea id="rcv-damage-notes" class="rcv-textarea" rows="2" placeholder="Describe damage details..." style="margin-top:1rem;"></textarea>
+        </div>
+        <div class="rcv-modal-footer">
+            <button type="button" class="btn-rcv-secondary" id="btn-cancel-damage">Cancel</button>
+            <button type="button" class="btn-rcv-confirm" id="btn-save-damage" style="background:#f59e0b;">
+                Save Report
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="rcvSummaryModal" class="rcv-modal-overlay">
+    <div class="rcv-modal">
+        <div class="rcv-modal-header">
+            <h3><i class='bx bxs-check-circle'></i> LPN Generator</h3>
+            <button class="rcv-modal-close" id="closeRcvSummaryModal"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body">
+            
+            <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <label style="font-weight: 600; color: var(--color-text-secondary);">Print Format:</label>
+                <select id="lpn-paper-size" class="rcv-select" style="width: auto;">
+                    <option value="thermal">Thermal Label (4" x 6")</option>
+                    <option value="letter">Full Sheet (Letter)</option>
+                </select>
+            </div>
+            <div class="lpn-generator-section">
+                <h4 style="margin-bottom: 10px; color: var(--color-text-main); font-size: 1rem;">
+                    <i class='bx bxs-purchase-tag'></i> Select Quantities
+                </h4>
+                <p style="font-size: 0.85rem; color: var(--color-text-secondary); margin-bottom: 10px;">
+                    How many labels (copies) do you need for each item?
+                </p>
+                
+                <div id="rcv-lpn-config-container" style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <div id="rcv-lpn-item-list">
+                        </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="rcv-modal-footer" style="justify-content: space-between;">
+            <button type="button" class="btn-rcv-secondary" id="btn-rcv-finish">Close</button>
+            <button type="button" class="btn-rcv-confirm" id="btn-rcv-print-lpn">
+                <i class='bx bxs-printer'></i> Generate & Print
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="rcvOrderPreviewModal" class="rcv-modal-overlay">
+    <div class="rcv-modal rcv-modal-lg">
+        <div class="rcv-modal-header">
+            <h3><i class='bx bx-file-blank'></i> Manifest Preview</h3>
+            <button class="rcv-modal-close" id="closeRcvPreviewModal"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body" style="background-color: #f8fafc;">
+            
+            <div class="rcv-manifest-card">
+                <div class="rmc-header">
+                    <div>
+                        <small>ORDER REFERENCE</small>
+                        <h2 id="prev-order-code">--</h2>
+                    </div>
+                    <div style="text-align: right;">
+                        <small>CURRENT STATUS</small>
+                        <div id="prev-status">--</div>
+                    </div>
+                </div>
+                <div class="rmc-details">
+                    <div>
+                        <label>Client / Vendor</label>
+                        <strong id="prev-client">--</strong>
+                    </div>
+                    <div>
+                        <label>Arrival Info</label>
+                        <strong id="prev-arrival">--</strong>
+                    </div>
+                </div>
+                
+                <div class="rcv-table-container" style="max-height: 300px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <table class="rcv-table sm">
+                        <thead style="background: #f1f5f9;">
+                            <tr>
+                                <th>SKU</th>
+                                <th>Product Name</th>
+                                <th class="text-center">Expected (Pallets)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prev-items-body" style="background: white;"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="rcv-alert-info" style="margin-top: 1rem;">
+                <i class='bx bx-info-circle'></i> Read-only mode. Go to <strong>Scanner Tab</strong> to process this order.
+            </div>
+        </div>
+        <div class="rcv-modal-footer">
+            <button type="button" class="btn-rcv-secondary" id="btn-close-preview">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="rcvHistoryModal" class="rcv-modal-overlay">
+    <div class="rcv-modal rcv-modal-lg">
+        <div class="rcv-modal-header">
+            <h3><i class='bx bx-history'></i> Receiving History</h3>
+            <button class="rcv-modal-close" id="closeRcvHistoryModal"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body">
+            <div class="rcv-table-container">
+                <table class="rcv-table" id="rcv-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order #</th>
+                            <th>Rcvd By</th>
+                            <th>Items</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rcv-history-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="rcvEditQtyModal" class="rcv-modal-overlay" style="z-index: 2450;">
+    <div class="rcv-modal" style="max-width: 350px;">
+        <div class="rcv-modal-header" style="background: #3b82f6;">
+            <h3><i class='bx bx-edit'></i> Correct Quantity</h3>
+            <button class="rcv-modal-close" id="closeEditQtyModal"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="rcv-modal-body">
+            <div style="margin-bottom: 1rem;">
+                <h4 id="edit-item-name" style="margin: 0; color: #1e3a8a;">Product</h4>
+                <small id="edit-item-sku" style="font-family: monospace; color: #666;">SKU</small>
+            </div>
+            
+            <div style="background: #eff6ff; padding: 10px; border-radius: 6px; border: 1px solid #dbeafe; margin-bottom: 1rem;">
+                <p style="margin:0; font-size:0.85rem; color:#1e40af;">
+                    <strong>Warning:</strong> Adjusting this value will create an inventory correction record.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Correct Total Received (Cases):</label>
+                <input type="number" id="edit-qty-input" class="rcv-input-lg" placeholder="0" style="color: #3b82f6; border-color: #3b82f6;">
+                <small style="display:block; margin-top:5px; color:#666;">Enter the ACTUAL total amount of cases you have physically.</small>
+            </div>
+        </div>
+        <div class="rcv-modal-footer">
+            <button type="button" class="btn-rcv-secondary" id="btn-cancel-edit">Cancel</button>
+            <button type="button" class="btn-rcv-confirm" id="btn-save-edit" style="background: #3b82f6;">
+                Update Correction
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<link rel="stylesheet" href="css/receiving-portal.css">
+<script src="js/receiving-portal.js"></script>

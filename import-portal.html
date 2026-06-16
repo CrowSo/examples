@@ -1,0 +1,340 @@
+<div class="imp-container">
+    <div class="imp-header">
+        <h2><i class='bx bxs-paper-plane'></i> Import Management Portal</h2>
+        <div class="imp-header-actions">
+            <button id="imp-resources-btn" class="btn-goldmex-info">
+                <i class='bx bx-library'></i> Resources
+            </button>
+            <button id="imp-history-btn" class="btn-goldmex-secondary">
+                <i class='bx bx-history'></i> History
+            </button>
+            <button id="imp-new-shipment-btn" class="btn-goldmex-primary">
+                <i class='bx bx-plus-circle'></i> New Shipment
+            </button>
+        </div>
+    </div>
+
+    <div class="imp-dashboard-summary">
+        <div class="imp-scorecard balance">
+            <div class="imp-scorecard-icon"><i class='bx bxs-wallet'></i></div>
+            <div class="imp-scorecard-info">
+                <h4>Available Balance</h4>
+                <p id="imp-db-balance">$0.00</p>
+                <button id="imp-view-ledger-btn" class="imp-link-btn">View Ledger</button>
+            </div>
+        </div>
+        <div class="imp-scorecard action-required">
+            <div class="imp-scorecard-icon"><i class='bx bx-user-voice'></i></div>
+            <div class="imp-scorecard-info">
+                <h4>Action Required</h4>
+                <p id="imp-db-action-required">0</p>
+                <span>Awaiting your approval or info</span>
+            </div>
+        </div>
+        <div class="imp-scorecard in-progress">
+            <div class="imp-scorecard-icon"><i class='bx bx-loader-alt'></i></div>
+            <div class="imp-scorecard-info">
+                <h4>Shipments In Progress</h4>
+                <p id="imp-db-in-progress">0</p>
+                <span>Currently being processed by Goldmex</span>
+            </div>
+        </div>
+        <div class="imp-scorecard completed">
+            <div class="imp-scorecard-icon"><i class='bx bx-check-shield'></i></div>
+            <div class="imp-scorecard-info">
+                <h4>Completed (Last 30 Days)</h4>
+                <p id="imp-db-completed">0</p>
+                <span>Final documents are ready</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="imp-table-container">
+        <table id="imp-active-shipments-table" class="display responsive nowrap" style="width: 100%"></table>
+    </div>
+</div>
+
+<div id="imp-new-shipment-modal" class="imp-modal">
+    <div class="imp-modal-content imp-modal-large">
+        <div class="imp-modal-header">
+            <h3><i class='bx bx-plus-circle'></i> New Shipment Request</h3>
+            <button class="imp-close-button" id="imp-close-new-shipment-btn">&times;</button>
+        </div>
+
+        <div id="imp-entry-type-selection" class="imp-modal-body">
+            <h4>First, select the Entry Type for this shipment:</h4>
+            <div class="imp-entry-type-options">
+                <div class="imp-entry-type-card" data-entry-type="01">
+                    <i class='bx bxs-ship'></i>
+                    <strong>Type 01</strong>
+                    <span>Formal Consumption Entry</span>
+                </div>
+                <div class="imp-entry-type-card" data-entry-type="11">
+                    <i class='bx bxs-plane-alt'></i>
+                    <strong>Type 11</strong>
+                    <span>Informal / Courier Entry</span>
+                </div>
+                <div class="imp-entry-type-card" data-entry-type="86">
+                    <i class='bx bxs-package'></i>
+                    <strong>Type 86</strong>
+                    <span>De Minimis (Section 321)</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="imp-new-shipment-form" class="imp-modal-body" style="display: none;">
+            <input type="hidden" id="imp-shipment-id">
+            <input type="hidden" id="imp-entry-type-selected">
+            <div class="imp-form-stepper">
+                <div class="imp-step active" data-step="1"><span>1</span> Details</div>
+                <div class="imp-step" data-step="2"><span>2</span> Documents</div>
+            </div>
+            <div class="imp-form-step-content active" data-step-content="1">
+                <div id="imp-dynamic-form-container">
+                    <p class="imp-instructions">Form fields will appear here.</p>
+                </div>
+            </div>
+            <div class="imp-form-step-content" data-step-content="2">
+                <p class="imp-instructions">Please upload the required support documents (e.g., Commercial Invoice,
+                    Packing List, Bill of Lading / Air Waybill).</p>
+                <div class="imp-form-group">
+                    <label for="imp-file-input">Attach Files:</label>
+                    <input type="file" id="imp-file-input" multiple>
+                </div>
+                <div id="imp-file-list" class="imp-file-list"></div>
+            </div>
+        </form>
+
+        <div class="imp-modal-footer">
+            <button type="button" id="imp-cancel-shipment-btn" class="btn-goldmex-secondary">Cancel</button>
+            <div id="imp-stepper-controls" style="display: none;">
+                <button type="button" id="imp-prev-step-btn" class="btn-goldmex-secondary"
+                    style="display: none;">Previous</button>
+                <button type="button" id="imp-next-step-btn" class="btn-goldmex-primary">Next</button>
+                <button type="submit" form="imp-new-shipment-form" id="imp-submit-shipment-btn"
+                    class="btn-goldmex-primary" style="display: none;">Submit Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imp-history-modal" class="imp-modal">
+    <div class="imp-modal-content imp-modal-xlarge">
+        <div class="imp-modal-header">
+            <h3><i class='bx bx-history'></i> Shipments History</h3>
+            <button class="imp-close-button" id="imp-close-history-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            <div class="imp-history-filters">
+                <div class="imp-form-group">
+                    <label for="imp-hist-month">Month</label>
+                    <select id="imp-hist-month"></select>
+                </div>
+                <div class="imp-form-group">
+                    <label for="imp-hist-year">Year</label>
+                    <select id="imp-hist-year"></select>
+                </div>
+                <div class="imp-form-group">
+                    <label for="imp-hist-search">Search by ID</label>
+                    <input type="text" id="imp-hist-search" placeholder="Enter Shipment ID...">
+                </div>
+                <button id="imp-apply-filters-btn" class="btn-goldmex-primary"><i class='bx bx-filter-alt'></i>
+                    Filter</button>
+            </div>
+            <div class="imp-table-container">
+                <table id="imp-history-table" class="display responsive nowrap" style="width:100%"></table>
+            </div>
+        </div>
+        <div class="imp-modal-footer">
+            <button type="button" id="imp-close-history-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="imp-details-modal" class="imp-modal">
+    <div class="imp-modal-content imp-modal-fullscreen">
+        <div class="imp-modal-header">
+            <h3 id="imp-details-title"><i class='bx bx-show-alt'></i> Shipment Details</h3>
+            <button class="imp-close-button" id="imp-close-details-btn">&times;</button>
+        </div>
+        <div id="imp-details-body" class="imp-modal-body">
+            <p>Loading shipment details...</p>
+        </div>
+        <div id="imp-details-footer" class="imp-modal-footer">
+            <button type="button" id="imp-close-details-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="imp-ledger-modal" class="imp-modal">
+    <div class="imp-modal-content imp-modal-xlarge">
+        <div class="imp-modal-header">
+            <h3><i class='bx bxs-wallet'></i> My Ledger</h3>
+            <button class="imp-close-button" id="imp-close-ledger-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            
+            <div class="imp-ledger-controls">
+                <div class="imp-form-group" style="flex: 2;">
+                    <label class="imp-balance-summary" style="padding: 0; background: none; border: none; font-size: 0.9rem; margin-bottom: 0;">
+                        Available Balance: <span id="imp-ledger-current-balance">$0.00</span>
+                    </label>
+                    <input type="text" id="imp-ledger-search" placeholder="Search Reference or ID...">
+                </div>
+                <div class="imp-form-group">
+                    <label for="imp-ledger-month">Month</label>
+                    <select id="imp-ledger-month"></select>
+                </div>
+                <div class="imp-form-group">
+                    <label for="imp-ledger-year">Year</label>
+                    <select id="imp-ledger-year"></select>
+                </div>
+                <div class="imp-form-group">
+                    <label for="imp-ledger-start-date">Start Date</label>
+                    <input type="date" id="imp-ledger-start-date">
+                </div>
+                <div class="imp-form-group">
+                    <label for="imp-ledger-end-date">End Date</label>
+                    <input type="date" id="imp-ledger-end-date">
+                </div>
+                
+                <button id="imp-ledger-filter-btn" class="btn-goldmex-primary" style="height: 38px;"><i class='bx bx-filter-alt'></i> Filter</button>
+                <button id="imp-ledger-download-btn" class="btn-goldmex-secondary" style="height: 38px;"><i class='bx bx-download'></i> CSV</button>
+            </div>
+
+            <div class="imp-table-container">
+                <table id="imp-ledger-history-table" class="display responsive nowrap" style="width:100%"></table>
+            </div>
+        </div>
+        <div class="imp-modal-footer">
+            <button type="button" id="imp-close-ledger-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="imp-doc-management-modal" class="imp-modal">
+    <div class="imp-modal-content" style="max-width: 800px;">
+        <div class="imp-modal-header">
+            <h3 id="imp-doc-modal-title"><i class='bx bx-folder-open'></i> Shipment Documents</h3>
+            <button class="imp-close-button" id="imp-close-doc-modal-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            <div class="imp-doc-upload-section">
+                <h4><i class='bx bx-cloud-upload'></i> Upload New Document</h4>
+                <div class="imp-form-grid-upload">
+                    <div class="imp-form-group">
+                        <label for="imp-doc-file-input">Select File:</label>
+                        <input type="file" id="imp-doc-file-input">
+                    </div>
+                    <button type="button" id="imp-upload-doc-btn" class="btn-goldmex-primary"><i
+                            class='bx bx-upload'></i> Upload</button>
+                </div>
+            </div>
+            <div class="imp-doc-list-section">
+                <h4><i class='bx bx-list-ul'></i> Uploaded Documents</h4>
+                <div id="imp-doc-list-container" class="imp-doc-list-container">
+                    <p id="imp-no-docs-message" class="imp-no-docs-message" style="display:none;">No documents uploaded
+                        for this shipment yet.</p>
+                </div>
+            </div>
+        </div>
+        <div class="imp-modal-footer">
+            <button type="button" class="btn-goldmex-secondary" id="imp-close-doc-modal-footer-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="imp-confirm-modal" class="imp-modal">
+    <div class="imp-modal-content" style="max-width: 450px;">
+        <div class="imp-modal-header">
+            <h3 id="imp-confirm-title">Confirm Action</h3>
+            <button class="imp-close-button" id="imp-confirm-close-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            <p id="imp-confirm-message"></p>
+        </div>
+        <div class="imp-modal-footer" style="justify-content: flex-end;">
+            <button type="button" id="imp-confirm-cancel-btn" class="btn-goldmex-secondary">Cancel</button>
+            <button type="button" id="imp-confirm-ok-btn" class="btn-goldmex-primary">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="imp-review-modal" class="imp-modal">
+    <div class="imp-modal-content">
+        <div class="imp-modal-header">
+            <h3 id="imp-review-title"><i class='bx bx-message-alt-error'></i> Information Required</h3>
+            <button class="imp-close-button" id="imp-review-close-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            <h4>Notes from your agent:</h4>
+            <p id="imp-review-notes-content"
+                style="background-color: var(--color-bg); padding: 1rem; border-radius: 0.3rem; min-height: 100px;"></p>
+        </div>
+        <div id="imp-review-footer" class="imp-modal-footer" style="justify-content: flex-end;">
+        </div>
+    </div>
+</div>
+
+<div id="imp-quote-modal" class="imp-modal">
+    <div class="imp-modal-content imp-report-modal-content">
+        <div class="imp-modal-header">
+            <h3 id="imp-quote-title">Import Operations Quote</h3>
+            <button class="imp-close-button" id="imp-quote-close-btn">&times;</button>
+        </div>
+        <div id="imp-quote-body" class="imp-report-body">
+        </div>
+        <div class="imp-modal-footer" style="justify-content: space-between;">
+            <button type="button" id="imp-quote-download-btn" class="btn-goldmex-secondary"><i
+                    class='bx bxs-file-pdf'></i> Download PDF</button>
+            <div>
+                <button type="button" id="imp-quote-clarification-btn" class="btn-goldmex-secondary">Request
+                    Clarification</button>
+                <button type="button" id="imp-quote-approve-btn" class="btn-goldmex-primary">Approve Quote</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imp-assets-modal" class="imp-modal">
+    <div class="imp-modal-content" style="max-width: 700px;">
+        <div class="imp-modal-header">
+            <h3 id="imp-assets-title"><i class='bx bxs-file-archive'></i> Final Documents</h3>
+            <button class="imp-close-button" id="imp-assets-close-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            <p class="imp-instructions">These are the final documents for your shipment. You can download them at any
+                time.</p>
+            <div id="imp-assets-list-container" class="imp-doc-list-container" style="margin-top: 1rem;">
+            </div>
+        </div>
+        <div class="imp-modal-footer">
+            <button type="button" class="btn-goldmex-secondary" id="imp-assets-close-footer-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="imp-resources-modal" class="imp-modal">
+    <div class="imp-modal-content imp-modal-xlarge">
+        <div class="imp-modal-header">
+            <h3><i class='bx bx-library'></i> Resources</h3>
+            <button class="imp-close-button" id="imp-close-resources-btn">&times;</button>
+        </div>
+        <div class="imp-modal-body">
+            <div class="imp-resources-controls">
+                <div class="imp-resources-search">
+                    <i class='bx bx-search'></i>
+                    <input type="search" id="imp-resource-search-input" placeholder="Search resources by name...">
+                </div>
+            </div>
+            <div id="imp-resources-list-container">
+                </div>
+        </div>
+        <div class="imp-modal-footer">
+            <button type="button" id="imp-resources-close-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/import-portal.js"></script>

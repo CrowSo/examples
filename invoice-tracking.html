@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Tracking - Goldmex WMS</title>
+</head>
+
+<body>
+    <div class="invoice-tracking-container">
+
+        <div class="it-header">
+            <h2><i class='bx bx-receipt'></i> Invoice Tracking</h2>
+            <button id="createManualInvoiceBtn" class="btn-goldmex-base btn-goldmex-primary">
+                <i class='bx bx-plus-circle'></i> Create Manual Invoice
+            </button>
+        </div>
+
+        <div class="it-dashboard-summary">
+            <div class="it-scorecard">
+                <div class="it-scorecard-icon total"><i class='bx bx-file-blank'></i></div>
+                <div class="it-scorecard-info">
+                    <h4>Total Invoices</h4>
+                    <p id="db-total-invoices">0</p>
+                </div>
+            </div>
+            <div class="it-scorecard">
+                <div class="it-scorecard-icon paid"><i class='bx bx-check-double'></i></div>
+                <div class="it-scorecard-info">
+                    <h4>Paid Invoices</h4>
+                    <p id="db-paid-invoices">0</p>
+                </div>
+            </div>
+            <div class="it-scorecard">
+                <div class="it-scorecard-icon pending"><i class='bx bx-time-five'></i></div>
+                <div class="it-scorecard-info">
+                    <h4>Pending Invoices</h4>
+                    <p id="db-pending-invoices">0</p>
+                </div>
+            </div>
+            <div class="it-scorecard">
+                <div class="it-scorecard-icon overdue"><i class='bx bx-error-circle'></i></div>
+                <div class="it-scorecard-info">
+                    <h4>Overdue Invoices</h4>
+                    <p id="db-overdue-invoices">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="it-controls-bar">
+            <div class="it-filters">
+                <div class="it-filter-group">
+                    <label for="filterCustomer">Customer:</label>
+                    <input type="text" id="filterCustomer" placeholder="Enter customer name">
+                </div>
+                <div class="it-filter-group">
+                    <label for="filterDateRange">Date Range:</label>
+                    <input type="date" id="filterDateStart">
+                    <span>to</span>
+                    <input type="date" id="filterDateEnd">
+                </div>
+                <div class="it-filter-group">
+                    <label for="filterStatus">Status:</label>
+                    <select id="filterStatus">
+                        <option value="all">All Statuses (Current)</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Overdue">Overdue</option>
+                        </select>
+                </div>
+                <div class="it-filter-group">
+                    <label for="filterCurrency">Currency:</label>
+                    <select id="filterCurrency">
+                        <option value="all">All Currencies</option>
+                        <option value="USD">USD</option>
+                        <option value="MXN">MXN</option>
+                    </select>
+                </div>
+                <button id="applyFiltersBtn" class="btn-goldmex-base btn-goldmex-secondary"><i
+                        class='bx bx-filter-alt'></i> Apply Filters</button>
+                <button id="resetFiltersBtn" class="btn-goldmex-base btn-goldmex-neutral"><i class='bx bx-reset'></i>
+                    Reset</button>
+                <button id="openInvoiceHistoryModalBtn" class="btn-goldmex-base btn-goldmex-primary"><i
+                        class='bx bx-history'></i> History</button>
+            </div>
+        </div>
+
+        <div class="it-table-container">
+            <table id="invoicesTable" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Service ID</th>
+                        <th>Customer</th>
+                        <th>Invoice Date</th>
+                        <th>Due Date</th>
+                        <th>Total Amount</th>
+                        <th>Currency</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="viewInvoiceModal" class="it-modal">
+        <div class="it-modal-content it-modal-content-invoice-view">
+            <div class="it-modal-header">
+                <h3><i class='bx bx-detail'></i> Invoice Details: <span id="viewInvoiceNumber"></span></h3>
+                <button class="it-close-button" id="closeViewInvoiceModalBtn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="it-modal-body">
+                <div id="invoiceContentContainer">
+                    <p>Loading invoice details...</p>
+                </div>
+            </div>
+            <div class="it-modal-footer">
+                <button type="button" id="downloadInvoicePdfBtn" class="btn-goldmex-base btn-goldmex-primary"><i
+                        class='bx bxs-file-pdf'></i> Download PDF</button>
+                <button type="button" id="closeViewInvoiceFooterBtn"
+                    class="btn-goldmex-base btn-goldmex-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="manualInvoiceModal" class="it-modal">
+        <div class="it-modal-content it-modal-content-xlarge">
+            <div class="it-modal-header">
+                <h3 id="manualInvoiceModalTitle"><i class='bx bx-edit-alt'></i> Create Manual Invoice</h3>
+                <button class="it-close-button" id="closeManualInvoiceModalBtn" aria-label="Close modal">&times;</button>
+            </div>
+            <form id="manualInvoiceForm" class="it-modal-body">
+                <input type="hidden" id="manualInvoiceId" name="manualInvoiceId">
+                <div class="it-form-columns">
+                    <div class="it-form-column">
+                        <h4><i class='bx bx-user-detail'></i> Customer Details</h4>
+                        <div class="it-form-group">
+                            <label for="manualCustomerName">Customer Name: <span class="it-required">*</span></label>
+                            <input type="text" id="manualCustomerName" name="customer_name"
+                                placeholder="Enter customer name" required>
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualCustomerAddress">Customer Address:</label>
+                            <textarea id="manualCustomerAddress" name="customer_address"
+                                placeholder="Enter customer address" rows="2"></textarea>
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualCustomerTaxId">Customer Tax ID:</label>
+                            <input type="text" id="manualCustomerTaxId" name="customer_tax_id"
+                                placeholder="Enter customer Tax ID (RFC/VAT ID)">
+                        </div>
+
+                        <h4><i class='bx bx-calendar-event'></i> Invoice Dates</h4>
+                        <div class="it-form-group">
+                            <label for="manualInvoiceDate">Invoice Date: <span class="it-required">*</span></label>
+                            <input type="date" id="manualInvoiceDate" name="invoice_date" required>
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualDueDate">Due Date:</label>
+                            <input type="date" id="manualDueDate" name="due_date">
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualServiceDisplayId">Original Service ID (Optional):</label>
+                            <input type="text" id="manualServiceDisplayId" name="service_display_id"
+                                placeholder="e.g., OCN-001, AIR-005">
+                        </div>
+                    </div>
+                    <div class="it-form-column">
+                        <h4><i class='bx bx-dollar-circle'></i> Payment & Status</h4>
+                        <div class="it-form-group">
+                            <label for="manualInvoiceNumber">Invoice Number: (auto-generated if empty)</label>
+                            <input type="text" id="manualInvoiceNumber" name="invoice_number"
+                                placeholder="e.g., GMXYYMM-XXXX or INV-YYYY-XXXX">
+                            <small>If left empty, a number like GMXYYMM-XXXX will be generated.</small>
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualStatus">Status: <span class="it-required">*</span></label>
+                            <select id="manualStatus" name="status" required>
+                                <option value="Pending" selected>Pending</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Overdue">Overdue</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualPaymentCommunication">Payment Communication:</label>
+                            <input type="text" id="manualPaymentCommunication" name="payment_communication"
+                                placeholder="e.g., Bank transfer details, Check #">
+                        </div>
+                        <div class="it-form-group">
+                            <label for="manualNotes">Notes:</label>
+                            <textarea id="manualNotes" name="notes" placeholder="Additional notes for the invoice"
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="it-form-divider">
+
+                <h4><i class='bx bx-list-ul'></i> Invoice Charges</h4>
+                <div id="manualChargesContainer" class="it-charges-container">
+                    <div class="it-charge-line-headers">
+                        <span>Description <span class="it-required">*</span></span>
+                        <span>Qty <span class="it-required">*</span></span>
+                        <span>Unit Price <span class="it-required">*</span></span>
+                        <span>Currency <span class="it-required">*</span></span>
+                        <span>Amount</span>
+                        <span>Action</span>
+                    </div>
+                    </div>
+                <button type="button" id="itAddChargeLineBtn" class="btn-goldmex-secondary btn-goldmex-small"
+                    style="margin-top: 0.5rem;">
+                    <i class='bx bx-plus'></i> Add Charge Line
+                </button>
+
+                <div id="manualTotalsByCurrency" class="it-totals-summary">
+                    <p><strong>Totals by Currency:</strong></p>
+                    </div>
+
+            </form>
+            <div class="it-modal-footer">
+                <button type="button" id="cancelManualInvoiceBtn"
+                    class="btn-goldmex-base btn-goldmex-secondary">Cancel</button>
+                <button type="submit" form="manualInvoiceForm" id="saveManualInvoiceBtn"
+                    class="btn-goldmex-base btn-goldmex-primary">Save Invoice</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="changeInvoiceStatusModal" class="it-modal">
+        <div class="it-modal-content" style="max-width: 500px;">
+            <div class="it-modal-header">
+                <h3 id="changeStatusModalTitle"><i class='bx bx-transfer-alt'></i> Change Invoice Status</h3>
+                <button class="it-close-button" id="closeChangeStatusModalBtn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="it-modal-body">
+                <p id="changeStatusMessage">Are you sure you want to change the status of this invoice?</p>
+                <div class="it-form-group">
+                    <label for="newInvoiceStatus">New Status:</label>
+                    <select id="newInvoiceStatus">
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Overdue">Overdue</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="it-modal-footer">
+                <button type="button" id="cancelChangeStatusBtn"
+                    class="btn-goldmex-base btn-goldmex-secondary">Cancel</button>
+                <button type="button" id="confirmChangeStatusBtn" class="btn-goldmex-base btn-goldmex-primary">Confirm
+                    Change</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="itCustomConfirmModal" class="it-modal" style="display: none;">
+        <div class="it-modal-content" style="max-width: 450px;">
+            <div class="it-modal-header">
+                <h3 id="itCustomConfirmTitle">Confirm Action</h3>
+                <button class="it-close-button" id="itCustomConfirmCloseBtn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="it-modal-body">
+                <p id="itCustomConfirmMessage" style="margin-bottom: 1.5rem; line-height: 1.6; font-size: 1rem;"></p>
+            </div>
+            <div class="it-modal-footer">
+                <button type="button" id="itCustomConfirmCancelBtn"
+                    class="btn-goldmex-base btn-goldmex-secondary">Cancel</button>
+                <button type="button" id="itCustomConfirmOkBtn" class="btn-goldmex-base btn-goldmex-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="invoiceHistoryModal" class="it-modal">
+        <div class="it-modal-content" style="max-width: 90vw; width: 1200px;">
+            <div class="it-modal-header">
+                <h3><i class='bx bx-history'></i> Invoice History</h3>
+                <button class="it-close-button" id="closeInvoiceHistoryModalBtn"
+                    aria-label="Close modal">&times;</button>
+            </div>
+            <div class="it-modal-body">
+                <div class="it-history-controls it-filters">
+                    <div class="it-filter-group">
+                        <label for="historyFilterCustomer">Customer:</label>
+                        <input type="text" id="historyFilterCustomer" placeholder="Enter customer name">
+                    </div>
+                    <div class="it-filter-group">
+                        <label for="historyFilterMonth">Month:</label>
+                        <select id="historyFilterMonth" name="historyFilterMonth">
+                            </select>
+                    </div>
+                    <div class="it-filter-group">
+                        <label for="historyFilterYear">Year:</label>
+                        <select id="historyFilterYear" name="historyFilterYear">
+                            </select>
+                    </div>
+                    <div class="it-filter-group">
+                        <label for="historyFilterStatus">Status:</label>
+                        <select id="historyFilterStatus">
+                            <option value="all" selected>All (Completed/Cancelled)</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <button id="applyHistoryFiltersBtn" class="btn-goldmex-base btn-goldmex-secondary"><i
+                            class='bx bx-filter-alt'></i> Filter History</button>
+                </div>
+                <div id="historyTotalResults" style="margin: 1rem 0; font-weight: 500;">Results: 0</div>
+                
+                <div class="it-table-container" id="historyTableContainer">
+                    <table id="invoiceHistoryTable" class="display nowrap" style="width:100%">
+                        <thead>
+                            </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                    <p id="noHistoryResultsMessage"
+                        style="text-align:center; padding: 2rem; display:none; color: var(--color-text-secondary);">No
+                        historical invoices found for the selected criteria.</p>
+                </div>
+            </div>
+            <div class="it-modal-footer">
+                <button type="button" id="closeInvoiceHistoryFooterBtn"
+                    class="btn-goldmex-base btn-goldmex-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="customNotificationContainerIT" class="custom-notification-it-container"></div>
+
+    <div id="pdf-invoice-render-area-container-estilo"
+        style="position: absolute; left: -9999px; top: auto; width: 210mm; background-color: #f1f3f6; color: #333; font-family: 'Segoe UI', sans-serif; box-sizing: border-box;">
+        </div>
+
+    <script src="js/invoice-tracking.js"></script>
+    </body>
+
+</html>

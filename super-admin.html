@@ -1,0 +1,138 @@
+<div id="super-admin-module">
+    <div class="module-header">
+        <div class="header-row">
+            <h1><i class='bx bxs-shield-alt-2'></i> System Administration</h1>
+            <span class="header-desc">Manage user roles, email exceptions, and granular module permissions.</span>
+        </div>
+    </div>
+
+    <div class="admin-tabs">
+        <button class="tab-link active" data-tab="tab-users">
+            <i class='bx bx-user-circle'></i> User Management
+        </button>
+        <button class="tab-link" data-tab="tab-exceptions">
+            <i class='bx bx-shield-quarter'></i> Email Exceptions
+        </button>
+    </div>
+
+    <div id="tab-users" class="tab-pane active">
+        <div class="admin-widget" id="user-management-widget">
+            <div class="table-scroll-container">
+                <div class="table-responsive">
+                    <table class="admin-table" id="user-management-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Current Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-management-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-exceptions" class="tab-pane">
+        <div class="admin-widget" id="exception-management-widget">
+            
+            <div class="admin-form-inline">
+                <div class="form-group" style="flex: 1.5;">
+                    <label for="exception-email-input">New Email</label>
+                    <input type="email" id="exception-email-input" placeholder="user@example.com" required>
+                </div>
+                
+                <div class="form-group" style="flex: 1;">
+                    <label for="exception-role-input">Assign Role</label>
+                    <select id="exception-role-input" class="role-select">
+                        <option value="employee" selected>Employee</option>
+                        <option value="manager">Manager</option>
+                        <option value="team-lead">Team Lead</option>
+                        <option value="client">Client</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="flex: 1.5;">
+                    <label for="exception-description-input">Description</label>
+                    <input type="text" id="exception-description-input" placeholder="e.g. Auditor">
+                </div>
+
+                <button type="button" id="add-exception-btn" class="btn-goldmex-secondary" style="margin-bottom: 2px;">
+                    <i class='bx bx-plus'></i> Add
+                </button>
+            </div>
+
+            <div class="table-scroll-container">
+                <div class="table-responsive">
+                    <table class="admin-table" id="exception-management-table">
+                        <thead>
+                            <tr>
+                                <th>Email Address</th>
+                                <th>Assigned Role</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exception-management-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="permissions-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Manage Module Access</h2>
+            <button id="close-permissions-modal" class="modal-close-btn"><i class='bx bx-x'></i></button>
+        </div>
+        
+        <div class="modal-body-scroll">
+            <p id="permissions-user-email" style="margin-bottom: 1rem; font-weight: 600; color: var(--goldmex-primary-color); border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem;">...</p>
+            
+            <form id="permissions-form">
+                </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" id="save-permissions-btn" class="btn-goldmex-primary">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<div id="password-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+            <h2>Set User Password</h2>
+            <button id="close-password-modal" class="modal-close-btn"><i class='bx bx-x'></i></button>
+        </div>
+        
+        <div class="modal-body-scroll" style="overflow: visible;">
+            <p id="password-user-email" style="margin-bottom: 1.5rem; color: var(--goldmex-primary-color); font-weight: 600; text-align: center; border-bottom: 1px solid var(--color-border); padding-bottom: 10px;">...</p>
+            
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--color-text-secondary); margin-bottom:0.4rem; text-transform: uppercase;">New Password</label>
+                <div style="position:relative;">
+                    <input type="password" id="new-password-input" placeholder="Enter new password" 
+                        style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); color: var(--color-text-primary); outline: none; font-size: 1rem;">
+                    <i class='bx bx-show' id="toggle-password-visibility" 
+                       style="position:absolute; right:15px; top:50%; transform:translateY(-50%); cursor:pointer; color:var(--color-text-light); font-size: 1.2rem;"></i>
+                </div>
+            </div>
+            
+            <div style="font-size: 0.8rem; color: var(--color-text-light); margin-top: 1rem; background: rgba(245, 158, 11, 0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #f59e0b;">
+                <i class='bx bx-info-circle' style="color: #f59e0b;"></i> This will <strong>immediately override</strong> the user's current password.
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" id="save-password-btn" class="btn-goldmex-primary" style="width:100%;">Set Password</button>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="css/super-admin.css">
+<script src="js/super-admin.js"></script>

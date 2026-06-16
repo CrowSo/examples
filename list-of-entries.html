@@ -1,0 +1,642 @@
+<div class="list-of-entries-container">
+  <div class="le-header">
+    <h2><i class="bx bx-spreadsheet"></i> List of Entries</h2>
+    <div class="le-header-actions">
+      <button id="addEntryNumbersBtn" class="btn-goldmex-secondary">
+        <i class="bx bx-upload"></i> Add Entry Numbers (CSV)
+      </button>
+      <button id="openHistoryModalBtn" class="btn-goldmex-secondary">
+        <i class="bx bx-history"></i> History
+      </button>
+      <button id="addNewEntryBtn" class="btn-goldmex-primary">
+        <i class="bx bx-plus-circle"></i> Add New Entry
+      </button>
+    </div>
+  </div>
+
+  <div class="le-dashboard-summary">
+    <div class="le-scorecard">
+      <div class="le-scorecard-icon total">
+        <i class="bx bx-file-blank"></i>
+      </div>
+      <div class="le-scorecard-info">
+        <h4>Active Entries</h4>
+        <p id="db-total-entries">0</p>
+      </div>
+    </div>
+    <div class="le-scorecard">
+      <div class="le-scorecard-icon in-progress">
+        <i class="bx bx-loader-circle"></i>
+      </div>
+      <div class="le-scorecard-info">
+        <h4>In Progress</h4>
+        <p id="db-inprogress-entries">0</p>
+      </div>
+    </div>
+    <div class="le-scorecard">
+      <div class="le-scorecard-icon completed">
+        <i class="bx bx-check-double"></i>
+      </div>
+      <div class="le-scorecard-info">
+        <h4>Completed (Month)</h4>
+        <p id="db-completed-entries">0</p>
+      </div>
+    </div>
+    <div class="le-scorecard">
+      <div class="le-scorecard-icon cancelled">
+        <i class="bx bx-x-circle"></i>
+      </div>
+      <div class="le-scorecard-info">
+        <h4>Cancelled (Month)</h4>
+        <p id="db-cancelled-entries">0</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="le-table-container">
+    <table
+      id="entriesTable"
+      class="stripe hover row-border"
+      style="width: 100%"
+    ></table>
+  </div>
+</div>
+
+<div id="entryFormModal" class="le-modal">
+  <div class="le-modal-content le-modal-content-xlarge">
+    <div class="le-modal-header">
+      <h3 id="entryFormModalTitle">
+        <i class="bx bx-edit-alt"></i> Add New Entry
+      </h3>
+      <button class="le-close-button" id="closeEntryFormModalBtn">
+        &times;
+      </button>
+    </div>
+    <form id="entryForm" class="le-modal-body">
+      <input type="hidden" id="entryId" name="entryId" />
+      <div class="le-form-step">
+        <h4>
+          <span class="le-step-number">1</span> Customer & Entry Selection
+        </h4>
+        <div class="le-form-grid-3">
+          <div class="le-form-group">
+            <label for="le-customer-type-select">Customer Type</label>
+            <select id="le-customer-type-select" class="le-select-control">
+              <option value="" selected disabled>Select a type...</option>
+            </select>
+          </div>
+          <div class="le-form-group">
+            <label for="le-customer-name-input">Customer Name</label>
+            <input
+              type="text"
+              id="le-customer-name-input"
+              class="le-input-control le-clickable-input"
+              placeholder="Click to select customer..."
+              readonly
+            />
+          </div>
+          <div class="le-form-group">
+            <label for="le-entry-number-input">Entry Number</label>
+            <div style="display: flex; gap: 0.5rem">
+              <input
+                type="text"
+                id="le-entry-number-input"
+                class="le-input-control"
+                placeholder="Select customer type first..."
+                disabled
+                autocomplete="off"
+                style="flex: 1"
+              />
+              <button
+                type="button"
+                id="searchEntryNumberBtn"
+                class="btn-goldmex-secondary"
+                title="Search Available Numbers"
+                disabled
+                style="padding: 0 0.8rem"
+              >
+                <i class="bx bx-search"></i>
+              </button>
+            </div>
+            <small
+              id="entryLockStatus"
+              style="
+                display: none;
+                font-size: 0.75rem;
+                margin-top: 0.2rem;
+                color: var(--goldmex-success-color);
+              "
+            >
+              <i class="bx bx-lock-alt"></i> Reserved for you
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div id="entryDetailsSection" class="le-entry-details-section">
+        <div class="le-details-grid">
+          <div class="le-duties-column">
+            <h4><span class="le-step-number">2</span> Duties Details</h4>
+            <div id="le-duties-container"></div>
+            <button
+              type="button"
+              id="addDutyLineBtn"
+              class="btn-goldmex-secondary btn-goldmex-small"
+            >
+              <i class="bx bx-plus"></i> Add Duty
+            </button>
+          </div>
+          <div class="le-other-details-column">
+            <h4><span class="le-step-number">3</span> Additional Info</h4>
+            <div class="le-form-group">
+              <label for="le-invoice-input">Invoice</label>
+              <input
+                type="text"
+                id="le-invoice-input"
+                class="le-input-control"
+                placeholder="Enter invoice number..."
+              />
+            </div>
+            <div class="le-form-group">
+              <label>Bond Type <span class="le-required">*</span></label>
+              <div id="le-bond-section" class="le-bond-options">
+                <label
+                  ><input
+                    type="radio"
+                    name="bondType"
+                    value="Single Entry Bond"
+                    required
+                  />
+                  Single</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="bondType"
+                    value="Continuous Bond"
+                  />
+                  Continuous</label
+                >
+              </div>
+              <p
+                id="bondTypeError"
+                class="le-validation-error"
+                style="display: none"
+              >
+                Please select a bond type.
+              </p>
+            </div>
+            <div class="le-form-group">
+              <label for="le-fda-status-select">FDA Status</label>
+              <select id="le-fda-status-select" class="le-select-control">
+                <option value="Hold" selected>Hold</option>
+                <option value="May Proceed">May Proceed</option>
+              </select>
+            </div>
+            <div class="le-form-group">
+              <label for="le-cargo-release-select">Cargo Release</label>
+              <select id="le-cargo-release-select" class="le-select-control">
+                <option value="Pending" selected>Pending</option>
+                <option value="In progress">In progress</option>
+                <option value="Released">Released</option>
+              </select>
+            </div>
+            <div class="le-form-group">
+              <label for="le-notes-input">Notes</label>
+              <textarea
+                id="le-notes-input"
+                class="le-input-control"
+                rows="4"
+                placeholder="Add any relevant notes..."
+              ></textarea>
+            </div>
+            <div
+              class="le-form-group"
+              id="le-status-group"
+              style="display: none"
+            >
+              <label for="le-status-select">Status</label>
+              <select id="le-status-select" class="le-select-control">
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="cancelEntryFormBtn"
+        class="btn-goldmex-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        form="entryForm"
+        id="saveEntryBtn"
+        class="btn-goldmex-primary"
+        disabled
+      >
+        Save Entry
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="leClientPickerModal" class="le-modal">
+  <div class="le-modal-content">
+    <div class="le-modal-header">
+      <h3><i class="bx bx-user-check"></i> Select Client</h3>
+      <button class="le-close-button" id="closeClientPickerModalBtn">
+        &times;
+      </button>
+    </div>
+    <div class="le-modal-body">
+      <div class="le-form-group">
+        <input
+          type="text"
+          id="leClientSearchInput"
+          class="le-input-control"
+          placeholder="Search company..."
+        />
+      </div>
+      <div id="leClientCardsContainer" class="le-cards-grid"></div>
+      <p
+        id="leNoClientsMessage"
+        class="le-no-docs-message"
+        style="display: none"
+      >
+        No clients found for this type.
+      </p>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="closeClientPickerFooterBtn"
+        class="btn-goldmex-secondary"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="leEntryNumberPickerModal" class="le-modal">
+  <div class="le-modal-content">
+    <div class="le-modal-header">
+      <h3><i class="bx bx-list-ol"></i> Select Available Number</h3>
+      <button class="le-close-button" id="closeEntryNumberPickerModalBtn">
+        &times;
+      </button>
+    </div>
+    <div class="le-modal-body">
+      <div class="le-form-group" style="display: flex; gap: 0.5rem">
+        <input
+          type="text"
+          id="leEntryNumberSearchInput"
+          class="le-input-control"
+          placeholder="Search number..."
+          style="flex: 1"
+        />
+        <button
+          type="button"
+          id="leEntryNumberManualSearchBtn"
+          class="btn-goldmex-primary"
+          style="padding: 0 1rem"
+        >
+          <i class="bx bx-search"></i>
+        </button>
+      </div>
+      <div
+        id="leEntryNumberCardsContainer"
+        class="le-cards-grid"
+        style="max-height: 350px"
+      ></div>
+      <p
+        id="leNoEntryNumbersMessage"
+        class="le-no-docs-message"
+        style="display: none"
+      >
+        No available numbers found.
+      </p>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="closeEntryNumberPickerFooterBtn"
+        class="btn-goldmex-secondary"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="viewEntryModal" class="le-modal">
+  <div class="le-modal-content le-modal-content-xlarge">
+    <div class="le-modal-header">
+      <h3 id="viewEntryModalTitle">
+        <i class="bx bx-show-alt"></i> Entry Details
+      </h3>
+      <button class="le-close-button" id="closeViewEntryModalBtn">
+        &times;
+      </button>
+    </div>
+    <div id="viewEntryDetailsBody" class="le-modal-body"></div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="closeViewEntryFooterBtn"
+        class="btn-goldmex-secondary"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="leDocManagementModal" class="le-modal">
+  <div class="le-modal-content" style="max-width: 800px">
+    <div class="le-modal-header">
+      <h3 id="leDocModalTitle">
+        <i class="bx bx-folder-open"></i> Entry Documents
+      </h3>
+      <button class="le-close-button" id="leCloseDocModalBtn">&times;</button>
+    </div>
+    <div class="le-modal-body">
+      <div class="le-doc-upload-section">
+        <h4><i class="bx bx-cloud-upload"></i> Upload New Document</h4>
+        <div class="le-form-grid">
+          <div class="le-form-group">
+            <label for="leDocFileInput">Select File:</label>
+            <input type="file" id="leDocFileInput" class="le-input-control" />
+          </div>
+          <div class="le-form-group le-form-group-button">
+            <button
+              type="button"
+              id="leUploadDocBtn"
+              class="btn-goldmex-primary"
+            >
+              <i class="bx bx-upload"></i> Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="le-doc-list-section">
+        <h4><i class="bx bx-list-ul"></i> Uploaded Documents</h4>
+        <div id="leDocListContainer" class="le-doc-list-container">
+          <p
+            id="leNoDocsMessage"
+            class="le-no-docs-message"
+            style="display: none"
+          >
+            No documents uploaded for this entry yet.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="leCloseDocModalFooterBtn"
+        class="btn-goldmex-secondary"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="leCustomConfirmModal" class="le-modal">
+  <div class="le-modal-content" style="max-width: 450px">
+    <div class="le-modal-header">
+      <h3 id="leCustomConfirmTitle">Confirm Action</h3>
+      <button class="le-close-button" id="leCustomConfirmCloseBtn">
+        &times;
+      </button>
+    </div>
+    <div class="le-modal-body">
+      <p id="leCustomConfirmMessage"></p>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="leCustomConfirmCancelBtn"
+        class="btn-goldmex-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="leCustomConfirmOkBtn"
+        class="btn-goldmex-primary"
+      >
+        OK
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="addEntryNumbersModal" class="le-modal">
+  <div class="le-modal-content">
+    <div class="le-modal-header">
+      <h3><i class="bx bx-upload"></i> Add Entry Numbers via CSV</h3>
+      <button class="le-close-button" id="closeEntryNumbersModalBtn">
+        &times;
+      </button>
+    </div>
+    <div class="le-modal-body">
+      <p class="le-modal-instructions">
+        Upload a .CSV file with two columns: <strong>customer_type</strong>, and
+        <strong>entry_number</strong>. The system will process the file and add
+        only the new, non-duplicate entry numbers.
+      </p>
+      <div class="le-form-group">
+        <label for="csvUploadInput">CSV File</label>
+        <input
+          type="file"
+          id="csvUploadInput"
+          class="le-input-control"
+          accept=".csv"
+        />
+      </div>
+      <div
+        id="csv-processing-results"
+        class="le-csv-results"
+        style="display: none"
+      >
+        <h4>Processing Results:</h4>
+        <p id="csvResultsMessage"></p>
+      </div>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="cancelCsvUploadBtn"
+        class="btn-goldmex-secondary"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        id="processCsvBtn"
+        class="btn-goldmex-primary"
+        disabled
+      >
+        Process Data
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="historyModal" class="le-modal">
+  <div class="le-modal-content" style="max-width: 90vw; width: 1400px">
+    <div class="le-modal-header">
+      <h3><i class="bx bx-history"></i> Entries History</h3>
+      <button class="le-close-button" id="closeHistoryModalBtn">&times;</button>
+    </div>
+    <div class="le-modal-body">
+      <div class="le-history-controls">
+        <div class="le-form-group">
+          <label for="historyCustomerType">Customer Type:</label>
+          <select id="historyCustomerType" class="le-select-control"></select>
+        </div>
+        <div class="le-form-group">
+          <label for="historyCustomerName">Customer Name:</label>
+          <input
+            type="text"
+            id="historyCustomerName"
+            class="le-input-control"
+            placeholder="Filter by customer name..."
+          />
+        </div>
+        <div class="le-form-group">
+          <label for="historyMonth">Month:</label>
+          <select id="historyMonth" class="le-select-control"></select>
+        </div>
+        <div class="le-form-group">
+          <label for="historyYear">Year:</label>
+          <select id="historyYear" class="le-select-control"></select>
+        </div>
+        <button id="filterHistoryBtn" class="btn-goldmex-primary">
+          <i class="bx bx-filter-alt"></i> Filter
+        </button>
+      </div>
+      <div
+        id="historyTotalResults"
+        style="margin-bottom: 1rem; font-weight: 500"
+      >
+        Results: 0
+      </div>
+      <div
+        class="le-table-container"
+        id="historyTableContainer"
+        style="max-height: 60vh; overflow-y: auto"
+      >
+        <table
+          id="historyTable"
+          class="stripe hover row-border"
+          style="width: 100%"
+        ></table>
+        <p
+          id="noHistoryResultsMessage"
+          style="text-align: center; padding: 2rem; display: none"
+        >
+          No historical entries found for the selected criteria.
+        </p>
+      </div>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="closeHistoryFooterBtn"
+        class="btn-goldmex-secondary"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="manualEmailModal" class="le-modal">
+  <div class="le-modal-content" style="max-width: 500px">
+    <div class="le-modal-header">
+      <h3 id="manualEmailTitle">
+        <i class="bx bx-error-circle"></i> Client not found
+      </h3>
+    </div>
+    <div class="le-modal-body">
+      <p id="manualEmailMessage">
+        No email address could be found for the specified client. Please enter
+        the recipient's email address manually.
+      </p>
+      <div class="le-form-group" style="margin-top: 1rem">
+        <label for="manualEmailInput">Customer Email</label>
+        <input
+          type="email"
+          id="manualEmailInput"
+          class="le-input-control"
+          placeholder="ejemplo@cliente.com"
+          required
+        />
+      </div>
+    </div>
+    <div class="le-modal-footer">
+      <button
+        type="button"
+        id="manualEmailCancelBtn"
+        class="btn-goldmex-secondary"
+      >
+        Cancel
+      </button>
+      <button type="button" id="manualEmailOkBtn" class="btn-goldmex-primary">
+        Send Notification
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="sendingNotificationModal" class="le-modal">
+  <div
+    class="le-modal-content"
+    style="
+      max-width: 400px;
+      padding: 2rem;
+      text-align: center;
+      background-color: var(--color-surface);
+    "
+  >
+    <i
+      class="bx bx-loader-alt bx-spin"
+      style="font-size: 3.5rem; color: var(--goldmex-secondary-color)"
+    ></i>
+    <h4
+      style="
+        margin-top: 1.5rem;
+        font-size: 1.2rem;
+        color: var(--color-text-primary);
+      "
+    >
+      Sending Notification...
+    </h4>
+    <p
+      style="
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+        margin-top: 0.5rem;
+      "
+    >
+      Please wait a moment.
+    </p>
+  </div>
+</div>
+<div
+  id="customNotificationContainerLE"
+  class="custom-notification-le-container"
+></div>
+
+<script src="js/list-of-entries.js"></script>

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Goldmex System</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="css/dataTables.min.css" />
+
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+
+    <link rel="stylesheet" href="css/client-management.css" />
+    <link rel="stylesheet" href="css/service-tracking.css" />
+    <link rel="stylesheet" href="css/invoice-tracking.css" />
+    <link rel="stylesheet" href="css/list-of-entries.css" />
+    <link rel="stylesheet" href="css/quoting-module.css" />
+    <link rel="stylesheet" href="css/brokerage-cqp.css" />
+    <link rel="stylesheet" href="css/classification-quoting.css" />
+    <link rel="stylesheet" href="css/import-operations.css" />
+    <link rel="stylesheet" href="css/import-portal.css" />
+    <link rel="stylesheet" href="css/wst-data.css" />
+    <link rel="stylesheet" href="css/wst-workstation.css" />
+    <link rel="stylesheet" href="css/wst-ranking.css" />
+    <link rel="stylesheet" href="css/super-admin.css" />
+    <link rel="stylesheet" href="css/inventory-management.css" />
+    <link rel="stylesheet" href="css/orders-portal.css" />
+    <link rel="stylesheet" href="css/outbound-operations.css" />
+    <link rel="stylesheet" href="css/outbound-analytics.css" />
+    <link rel="stylesheet" href="css/wst-scan.css">
+    
+    <link rel="stylesheet" href="css/receiving-portal.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+
+  <body class="loading-permissions">
+    <div class="menu-btn sidebar-btn" id="sidebar-btn">
+      <i class="bx bx-menu"></i>
+      <i class="bx bx-x"></i>
+    </div>
+
+    <div class="dark-mode-btn" id="dark-mode-btn">
+      <i class="bx bx-moon"></i>
+      <i class="bx bx-sun"></i>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+      <div class="header">
+        <div class="menu-btn" id="menu-btn">
+          <i class="bx bx-chevron-left"></i>
+        </div>
+        <div class="brand">
+          <img
+            class="brand-light"
+            src="/assets/goldmex-logo-light.svg"
+            alt="Goldmex Logo Light"
+          />
+          <img
+            class="brand-dark"
+            src="/assets/goldmex-logo-dark.svg"
+            alt="Goldmex Logo Dark"
+          />
+          <span>Goldmex System</span>
+        </div>
+      </div>
+      <div class="menu-container">
+        <div class="search">
+          <i class="bx bx-search"></i>
+          <input type="search" placeholder="Search..." />
+        </div>
+        <ul class="menu">
+          <li class="menu-item menu-item-static" id="client-portal-link">
+            <a href="#" class="menu-link" data-module="brokerage-cqp">
+              <i class="bx bx-file-find"></i>
+              <span>Brokerage CQP</span>
+            </a>
+          </li>
+
+          <li class="menu-item menu-item-static" id="import-portal-link">
+            <a href="#" class="menu-link" data-module="import-portal">
+              <i class="bx bxs-paper-plane"></i>
+              <span>Import Portal</span>
+            </a>
+          </li>
+
+          <li class="menu-item menu-item-static" id="orders-portal-link">
+            <a href="#" class="menu-link" data-module="orders-portal">
+              <i class="bx bxs-ship"></i>
+              <span>Orders Portal</span>
+            </a>
+          </li>
+
+          <li class="menu-item menu-item-static" id="receiving-portal-link">
+            <a href="#" class="menu-link" data-module="receiving-portal">
+              <i class="bx bxs-log-in-circle"></i>
+              <span>Receiving Portal</span>
+            </a>
+          </li>
+
+          <li class="menu-item menu-item-dropdown" id="crm-menu">
+            <a href="#" class="menu-link">
+              <i class="bx bxs-briefcase"></i>
+              <span>CRM</span>
+              <i class="bx bx-chevron-down"></i>
+            </a>
+            <ul class="sub-menu">
+              <li>
+                <a
+                  href="#"
+                  class="sub-menu-link"
+                  data-module="client-management"
+                  >Client Management</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item menu-item-dropdown" id="sales-menu">
+            <a href="#" class="menu-link">
+              <i class="bx bxs-calculator"></i>
+              <span>Sales & Quoting</span>
+              <i class="bx bx-chevron-down"></i>
+            </a>
+            <ul class="sub-menu">
+              <li>
+                <a href="#" class="sub-menu-link" data-module="quoting-module"
+                  >Quoting Tool</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item menu-item-dropdown" id="warehouse-menu">
+            <a href="#" class="menu-link">
+              <i class="bx bxs-package"></i>
+              <span>Warehouse</span>
+              <i class="bx bx-chevron-down"></i>
+            </a>
+            <ul class="sub-menu">
+              <li>
+                <a href="#" class="sub-menu-link" data-module="wst-workstation"
+                  >Workstation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="sub-menu-link" data-module="wst-scan"
+                  >Scanner Inbound</a
+                >
+              </li>
+              <li>
+                <a href="#" class="sub-menu-link" data-module="wst-ranking"
+                  >Ranking TV</a
+                >
+              </li>
+              <li>
+                <a href="#" class="sub-menu-link" data-module="wst-data"
+                  >Data Manager</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="sub-menu-link"
+                  data-module="inventory-management"
+                  >Inventory Manager</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item menu-item-dropdown" id="outbound-menu">
+            <a href="#" class="menu-link">
+              <i class="bx bxs-truck"></i>
+              <span>Outbound</span>
+              <i class="bx bx-chevron-down"></i>
+            </a>
+            <ul class="sub-menu">
+              <li>
+                <a
+                  href="#"
+                  class="sub-menu-link"
+                  data-module="outbound-operations"
+                  >Operations Dashboard</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="sub-menu-link"
+                  data-module="outbound-analytics"
+                  >Analytics & Control</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item menu-item-dropdown" id="brokerage-menu">
+            <a href="#" class="menu-link">
+              <i class="bx bxs-file-import"></i>
+              <span>Brokerage</span>
+              <i class="bx bx-chevron-down"></i>
+            </a>
+            <ul class="sub-menu">
+              <li>
+                <a
+                  href="#"
+                  class="sub-menu-link"
+                  data-module="import-operations"
+                  >Import Operations</a
+                >
+              </li>
+              <li>
+                <a href="#" class="sub-menu-link" data-module="service-tracking"
+                  >Service Tracking</a
+                >
+              </li>
+              <li>
+                <a href="#" class="sub-menu-link" data-module="list-of-entries"
+                  >List of Entries</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="sub-menu-link"
+                  data-module="classification-quoting"
+                  >Classification & Quoting</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item menu-item-dropdown" id="billing-menu">
+            <a href="#" class="menu-link">
+              <i class="bx bx-file-blank"></i>
+              <span>Billing</span>
+              <i class="bx bx-chevron-down"></i>
+            </a>
+            <ul class="sub-menu">
+              <li>
+                <a href="#" class="sub-menu-link" data-module="invoice-tracking"
+                  >Invoice Tracking</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <li
+            class="menu-item menu-item-static role-super-admin"
+            style="display: none"
+          >
+            <a href="#" class="menu-link" data-module="super-admin">
+              <i class="bx bxs-shield-alt-2"></i>
+              <span>System Admin</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="footer">
+        <div class="user" id="user-profile-area">
+          <div class="user-img">
+            <img src="assets/favicon.png" alt="User Avatar" id="user-avatar" />
+          </div>
+          <div class="user-data">
+            <span class="name" id="user-name">User Name</span>
+            <span class="email" id="user-email">user@example.com</span>
+          </div>
+          <div class="user-icon" id="auth-button">
+            <i class="bx bx-log-in"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div
+        id="auth-required-message"
+        style="display: none; text-align: center; padding: 2rem"
+      >
+        <h2>Authentication Required</h2>
+        <p>Please sign in to access the content.</p>
+        <button
+          id="login-button-main"
+          class="btn-goldmex-primary"
+          style="margin-top: 1rem"
+        >
+          <i class="bx bxl-google"></i> Sign In with Google
+        </button>
+      </div>
+      <div id="main-app-content">
+        <h1>GMX Content Area</h1>
+        <p>
+          Welcome to the main dashboard. Please select an option from the menu.
+        </p>
+      </div>
+    </main>
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

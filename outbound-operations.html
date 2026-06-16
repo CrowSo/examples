@@ -1,0 +1,540 @@
+<div class="out-container">
+  <div class="out-header">
+    <div class="out-header-title">
+      <h2><i class="bx bxs-truck"></i> Outbound Operations</h2>
+    </div>
+    <div class="out-header-info">
+      <span id="out-global-status" class="badge-counter"
+        >Loading System...</span
+      >
+    </div>
+    <div class="out-header-actions">
+      <button id="out-refresh-btn" class="btn-out-secondary">
+        <i class="bx bx-refresh"></i> Refresh
+      </button>
+    </div>
+  </div>
+
+  <div class="out-layout">
+    <div class="out-sidebar">
+      <div class="out-sidebar-header">
+        <div class="search-box">
+          <i class="bx bx-search"></i>
+          <input
+            type="text"
+            id="out-search-order"
+            placeholder="Search Order #..."
+          />
+        </div>
+        <div class="out-filter-tabs">
+          <button class="filter-tab active" data-filter="pending">
+            Active
+          </button>
+          <button class="filter-tab" data-filter="processing">
+            Processing
+          </button>
+          <button class="filter-tab" data-filter="loading">Loading</button>
+          <button class="filter-tab" data-filter="shipped">Shipped</button>
+        </div>
+      </div>
+
+      <div id="out-orders-list" class="out-orders-list"></div>
+    </div>
+
+    <div class="out-workspace">
+      <div id="out-state-empty" class="out-workspace-empty">
+        <div class="empty-content">
+          <i class="bx bxs-component"></i>
+          <h3>No Order Selected</h3>
+          <p>Select an order from the list to begin picking or loading.</p>
+        </div>
+      </div>
+
+      <div id="out-state-active" class="out-workspace-active hidden">
+        <div class="out-order-header">
+          <div class="header-left" id="out-header-left-container">
+            <h2 id="out-active-code">ORD-XXXXX</h2>
+            <span id="out-active-status" class="out-big-badge status-processing"
+              >IN PROCESS</span
+            >
+          </div>
+          <div class="header-right">
+            <div class="meta-box">
+              <label>Client</label>
+              <span id="out-active-client">--</span>
+            </div>
+            <div class="meta-box">
+              <label>Total Pallets</label>
+              <span id="out-active-total-pallets">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="out-section picking-section">
+          <div class="section-title">
+            <h3><i class="bx bx-list-check"></i> Order Items (Picking)</h3>
+            <span class="section-subtitle"
+              >Scan pallets for each item individually.</span
+            >
+          </div>
+
+          <div class="out-slider-wrapper">
+            <button
+              class="out-slider-btn prev"
+              id="btn-slide-prev"
+              title="Scroll Left"
+            >
+              <i class="bx bx-chevron-left"></i>
+            </button>
+
+            <div class="out-items-track" id="out-items-container"></div>
+
+            <button
+              class="out-slider-btn next"
+              id="btn-slide-next"
+              title="Scroll Right"
+            >
+              <i class="bx bx-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="out-section loading-section disabled"
+          id="out-loading-section"
+        >
+          <div class="section-title">
+            <h3><i class="bx bxs-truck"></i> Shipment & Documentation</h3>
+            <span class="section-subtitle"
+              >Locked until all items are processed.</span
+            >
+          </div>
+
+          <div class="loading-controls">
+            <div class="loading-status-msg" id="out-loading-msg">
+              <i class="bx bx-lock-alt"></i> Complete all items to enable
+              loading.
+            </div>
+
+            <div class="loading-actions hidden" id="out-loading-actions"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="outScanModal" class="out-modal hidden">
+  <div class="out-modal-content large-modal">
+    <div class="out-modal-header">
+      <h3 id="scan-modal-title">Scanning...</h3>
+      <button class="out-close-modal" id="closeScanModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+
+    <div class="out-modal-body scan-layout">
+      <div id="out-reader-container" class="hidden" style="width: 100%; margin-bottom: 1rem; border: 2px solid var(--out-border); border-radius: 8px; overflow: hidden;">
+          <div id="out-qr-reader" style="width: 100%;"></div>
+          <button id="btn-stop-camera" class="btn-out-secondary" style="width: 100%; border-radius: 0; border: none; border-top: 1px solid #ccc; color: var(--out-danger);">
+              <i class='bx bxs-camera-off'></i> Stop Camera
+          </button>
+      </div>
+
+      <div class="scan-input-area">
+        <div class="scan-box">
+          <i class="bx bx-qr-scan"></i>
+          <input
+            type="text"
+            id="out-scan-input"
+            placeholder="Scan Pallet QR..."
+            autocomplete="off"
+            inputmode="none" 
+          />
+          <button
+            id="btn-camera-scan"
+            class="btn-icon-inside"
+            title="Use Camera"
+          >
+            <i class="bx bxs-camera"></i>
+          </button>
+        </div>
+        <div id="out-scanner-feedback" class="scan-feedback">
+          Ready to scan.
+        </div>
+
+        <div class="scan-mini-history">
+          <label>Session Scans:</label>
+          <ul id="out-scan-list"></ul>
+        </div>
+      </div>
+
+      <div class="scan-progress-area">
+        <div class="big-counter">
+          <span id="scan-current">0</span>
+          <span class="divider">/</span>
+          <span id="scan-target">0</span>
+        </div>
+        <label>Pallets Scanned</label>
+
+        <div class="progress-ring-container">
+          <div class="progress-bar-linear">
+            <div id="scan-progress-fill" class="fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; width: 100%; margin-top: auto">
+          <button
+            id="out-btn-cancel-scan"
+            class="btn-out-secondary"
+            style="flex: 1"
+          >
+            Cancel
+          </button>
+          <button
+            id="out-btn-confirm-item"
+            class="btn-out-success"
+            style="flex: 2"
+            disabled
+          >
+            <i class="bx bx-check"></i> CONFIRM ITEM
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="outLoadModal" class="out-modal hidden">
+  <div class="out-modal-content">
+    <div class="out-modal-header">
+      <h3><i class="bx bxs-camera"></i> Loading Evidence</h3>
+      <button class="out-close-modal" id="closeLoadModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="out-modal-body">
+      <div class="load-step">
+        <h4>1. Upload Evidence (4-6 Photos)</h4>
+        <p class="helper-text">
+          Photos of the truck, loading process, and final seal.
+        </p>
+
+        <div class="photo-grid" id="out-photo-grid">
+          <label class="photo-upload-box">
+            <input
+              type="file"
+              id="out-photo-input"
+              accept="image/*"
+              multiple
+              hidden
+            />
+            <i class="bx bx-image-add"></i>
+            <span>Add Photos</span>
+          </label>
+        </div>
+        <div id="out-photo-count" class="validation-msg">
+          0 photos selected (Min 4)
+        </div>
+      </div>
+
+      <hr class="modal-divider" />
+
+      <div class="load-step">
+        <h4>2. Transport Data</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Trailer Number</label>
+            <input type="text" id="out-transport-unit" placeholder="e.g. T19" />
+          </div>
+          <div class="form-group">
+            <label>Container Number</label>
+            <input
+              type="text"
+              id="out-transport-caja"
+              placeholder="e.g. 4353"
+            />
+          </div>
+          <div class="form-group full">
+            <label>Seal Numbers</label>
+            <input
+              type="text"
+              id="out-transport-seals"
+              placeholder="e.g. 33614329"
+            />
+          </div>
+          <div class="form-group full">
+            <label>Special Instructions</label>
+            <textarea
+              id="out-special-instructions"
+              rows="2"
+              placeholder="Enter special instructions for BOL..."
+              style="
+                width: 100%;
+                padding: 0.8rem;
+                border: 1px solid var(--out-border);
+                border-radius: 8px;
+                font-family: inherit;
+              "
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="out-modal-footer">
+      <button class="btn-out-secondary" id="cancelLoadBtn">Cancel</button>
+      <button class="btn-out-primary" id="confirmLoadBtn" disabled>
+        Generate BOL & Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="outSimpleConfirm" class="out-modal hidden">
+  <div class="out-modal-content small-modal center-text">
+    <div class="icon-box warning"><i class="bx bx-question-mark"></i></div>
+    <h3 id="simple-confirm-title">Are you sure?</h3>
+    <p id="simple-confirm-msg">This action cannot be undone.</p>
+    <div class="out-modal-actions">
+      <button id="simple-confirm-no" class="btn-out-secondary">No</button>
+      <button id="simple-confirm-yes" class="btn-out-primary">Yes</button>
+    </div>
+  </div>
+</div>
+
+<div id="outBolPreviewModal" class="out-modal hidden">
+  <div
+    class="out-modal-content large-modal"
+    style="height: 90vh; max-width: 1000px"
+  >
+    <div class="out-modal-header">
+      <h3><i class="bx bxs-file-pdf"></i> Bill Of Lading (BOL)</h3>
+      <button class="out-close-modal" id="closeBolModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div
+      class="out-modal-body"
+      style="
+        background: #525659;
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        overflow: auto;
+      "
+    >
+      <div
+        id="bol-render-container"
+        style="
+          background: white;
+          width: 21.59cm;
+          min-height: 27.94cm;
+          padding: 0.5cm;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        "
+      >
+        Loading BOL...
+      </div>
+    </div>
+    <div class="out-modal-footer">
+      <button class="btn-out-secondary" id="btn-bol-close">Close</button>
+      <button class="btn-out-primary" id="btn-bol-print">
+        <i class="bx bx-printer"></i> Print
+      </button>
+      <button class="btn-out-success" id="btn-bol-download">
+        <i class="bx bxs-download"></i> Download PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="outDetailsModal" class="out-modal hidden">
+  <div class="out-modal-content large-modal">
+    <div class="out-modal-header">
+      <h3><i class="bx bx-history"></i> Order Traceability & Details</h3>
+      <button class="out-close-modal" id="closeDetailsModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="out-modal-body">
+      <div
+        style="
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+          margin-bottom: 1.5rem;
+        "
+      >
+        <div
+          style="
+            background: var(--out-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--out-border);
+          "
+        >
+          <h4 style="margin-top: 0; color: var(--out-primary)">
+            <i class="bx bxs-user-badge"></i> Processed By
+          </h4>
+          <div id="out-det-user" style="font-weight: 600; font-size: 1.1rem">
+            --
+          </div>
+          <div
+            style="
+              margin-top: 0.5rem;
+              font-size: 0.9rem;
+              color: var(--out-text-light);
+            "
+          >
+            <strong>Start:</strong> <span id="out-det-start">--</span><br />
+            <strong>End:</strong> <span id="out-det-end">--</span>
+          </div>
+        </div>
+        <div
+          style="
+            background: var(--out-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--out-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+          "
+        >
+          <h4
+            style="
+              margin: 0;
+              color: var(--out-text-light);
+              font-size: 0.9rem;
+              text-transform: uppercase;
+            "
+          >
+            Total Duration
+          </h4>
+          <div
+            id="out-det-duration"
+            style="font-size: 2rem; font-weight: 800; color: var(--out-success)"
+          >
+            0m
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.5rem">
+        <h4
+          style="
+            border-bottom: 1px solid var(--out-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--out-text-main);
+          "
+        >
+          <i class="bx bxs-truck"></i> Transport Information
+        </h4>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+          "
+        >
+          <div>
+            <label style="font-size: 0.8rem; color: var(--out-text-light)"
+              >Trailer / Unit</label
+            >
+            <div id="out-det-trailer" style="font-weight: 600">--</div>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--out-text-light)"
+              >Container / Plate</label
+            >
+            <div id="out-det-plate" style="font-weight: 600">--</div>
+          </div>
+          <div>
+            <label style="font-size: 0.8rem; color: var(--out-text-light)"
+              >Seals</label
+            >
+            <div id="out-det-seals" style="font-weight: 600">--</div>
+          </div>
+        </div>
+        <div style="margin-top: 1rem">
+          <label style="font-size: 0.8rem; color: var(--out-text-light)"
+            >Special Instructions</label
+          >
+          <div
+            id="out-det-notes"
+            style="
+              font-style: italic;
+              background: var(--out-bg);
+              padding: 0.5rem;
+              border-radius: 4px;
+            "
+          >
+            --
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.5rem">
+        <h4
+          style="
+            border-bottom: 1px solid var(--out-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--out-text-main);
+          "
+        >
+          <i class="bx bxs-image"></i> Loading Evidence
+        </h4>
+        <div
+          id="out-det-photos"
+          class="photo-grid"
+          style="grid-template-columns: repeat(4, 1fr); gap: 1rem"
+        >
+          <span style="color: var(--out-text-light)">No photos available.</span>
+        </div>
+      </div>
+
+      <div>
+        <h4
+          style="
+            border-bottom: 1px solid var(--out-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: var(--out-text-main);
+          "
+        >
+          <i class="bx bxs-barcode"></i> Scanned Pallets (Items)
+        </h4>
+        <div style="overflow-x: auto">
+          <table
+            style="width: 100%; border-collapse: collapse; font-size: 0.9rem"
+          >
+            <thead style="background: var(--out-bg); text-align: left">
+              <tr>
+                <th style="padding: 0.5rem">Pallet QR</th>
+                <th style="padding: 0.5rem">Product SKU</th>
+                <th style="padding: 0.5rem">Product Name</th>
+                <th style="padding: 0.5rem">Scan Time</th>
+              </tr>
+            </thead>
+            <tbody id="out-det-items-list"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="out-modal-footer">
+      <button class="btn-out-secondary" id="btnCloseDetailsFooter">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="css/outbound-operations.css" />
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/outbound-operations.js"></script>

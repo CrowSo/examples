@@ -1,0 +1,452 @@
+<div class="wst-data-container">
+  <div class="wst-header">
+    <div class="wst-title-area">
+      <h2><i class="bx bxs-data"></i> Warehouse Data Manager</h2>
+    </div>
+
+    <div class="wst-tabs">
+      <button class="wst-tab-button active" data-tab="wst-tab-logs">
+        <i class="bx bx-list-ul"></i> Production Logs
+      </button>
+      <button class="wst-tab-button" data-tab="wst-tab-database">
+        <i class="bx bx-package"></i> Product Database
+      </button>
+    </div>
+
+    <div class="wst-header-actions"></div>
+  </div>
+
+  <div class="wst-tab-content-wrapper">
+    <div id="wst-tab-logs" class="wst-tab-content active">
+      <div class="wst-filters-section">
+        <div class="wst-filter-group">
+          <label>Date Range:</label>
+          <div class="wst-date-inputs">
+            <input type="date" id="wst-date-from" />
+            <span>to</span>
+            <input type="date" id="wst-date-to" />
+          </div>
+        </div>
+        <div class="wst-filter-group">
+          <label>Filter by Line:</label>
+          <select id="wst-filter-line">
+            <option value="all">All Lines</option>
+            <option value="1">Line 1</option>
+            <option value="2">Line 2</option>
+            <option value="3">Line 3</option>
+            <option value="4">Line 4</option>
+          </select>
+        </div>
+        <div class="wst-filter-group">
+          <button class="btn-goldmex-secondary" id="wst-apply-filters-btn">
+            <i class="bx bx-filter-alt"></i> Apply Filters
+          </button>
+        </div>
+        <div
+          class="wst-filter-group ml-auto"
+          style="flex-direction: row; gap: 0.5rem"
+        >
+          <button
+            class="btn-goldmex-secondary"
+            id="wst-refresh-btn"
+            title="Refresh Data"
+          >
+            <i class="bx bx-refresh"></i>
+          </button>
+          <button class="btn-goldmex-primary" id="wst-export-csv-btn">
+            <i class="bx bxs-download"></i> Export Detailed CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="wst-table-container">
+        <table
+          id="wstLogsTable"
+          class="display responsive nowrap"
+          style="width: 100%"
+        >
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Line</th>
+              <th>Product</th>
+              <th title="Number of workers assigned">Crew</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th title="Time actually taken">Real Time</th>
+              <th title="Target time adjusted by crew size">Adj. Target</th>
+              <th title="Positive = Saved Time, Negative = Delay">
+                Diff (+/-)
+              </th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="wst-tab-database" class="wst-tab-content">
+      <div
+        class="wst-database-toolbar"
+        style="
+          margin-bottom: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div class="wst-db-info">
+          <h3>Product Standards Master List</h3>
+          <p style="color: var(--color-text-secondary); font-size: 0.9rem">
+            Manage SKUs, standard times, and configurations.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <button class="btn-goldmex-secondary" id="wst-export-db-btn">
+            <i class="bx bxs-download"></i> Export Database
+          </button>
+          <button class="btn-goldmex-primary" id="wst-add-product-btn">
+            <i class="bx bx-plus"></i> Add New Product
+          </button>
+        </div>
+      </div>
+
+      <div class="wst-table-container">
+        <table
+          id="wstProductsTable"
+          class="display responsive nowrap"
+          style="width: 100%"
+        >
+          <thead>
+            <tr>
+              <th>SKU / Part #</th>
+              <th>Product Name</th>
+              <th>Cases/Pallet</th>
+              <th>Units/Case</th>
+              <th>Std Time (Mins)</th>
+              <th>Std Time (Secs)</th>
+              <th>Total Pallet Time (Hrs)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="wstProductModal" class="cm-modal">
+  <div class="cm-modal-content" style="max-width: 950px">
+    <div class="cm-modal-header">
+      <h2 id="wstModalTitle"><i class="bx bxs-package"></i> Add Product</h2>
+      <span class="cm-close-btn" id="wst-modal-close-x">&times;</span>
+    </div>
+    <div class="cm-modal-body">
+      <form id="wstProductForm">
+        <input type="hidden" id="wst-prod-id" />
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 180px;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            align-items: end;
+          "
+        >
+          <div class="cm-form-group">
+            <label
+              for="wst-prod-sku"
+              style="
+                font-size: 0.95rem;
+                font-weight: 700;
+                color: var(--goldmex-primary-color);
+              "
+              >SKU / Part Number</label
+            >
+            <input
+              type="text"
+              id="wst-prod-sku"
+              placeholder="e.g. GMX-001-A"
+              required
+              style="
+                font-family: monospace;
+                letter-spacing: 1px;
+                font-weight: 600;
+              "
+            />
+          </div>
+
+          <div class="cm-form-group">
+            <label
+              for="wst-prod-barcode"
+              style="font-size: 0.95rem; font-weight: 700"
+              >Barcode / EAN / UPC</label
+            >
+            <input
+              type="text"
+              id="wst-prod-barcode"
+              placeholder="Scan or type..."
+              style="font-family: monospace; letter-spacing: 1px"
+            />
+          </div>
+
+          <div
+            class="cm-form-group"
+            style="
+              text-align: center;
+              background: #fff;
+              padding: 5px;
+              border-radius: 4px;
+              border: 1px solid var(--wst-border);
+              height: 72px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <svg id="wst-barcode-preview"></svg>
+          </div>
+        </div>
+        <div class="cm-form-group" style="margin-bottom: 1.5rem">
+          <label for="wst-prod-name" style="font-size: 0.95rem"
+            >Product Name / Description</label
+          >
+          <input
+            type="text"
+            id="wst-prod-name"
+            placeholder="e.g. Leche Carnation 225g"
+            required
+            style="font-size: 1.1rem; font-weight: 500"
+          />
+        </div>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+          "
+        >
+          <div class="cm-form-group">
+            <label>Net Content (Value & Unit)</label>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                border: 1px solid var(--color-border);
+                border-radius: 4px;
+                overflow: hidden;
+                background-color: var(--color-bg);
+              "
+            >
+              <input
+                type="number"
+                id="wst-prod-value"
+                step="0.01"
+                placeholder="225"
+                style="
+                  border: none;
+                  flex: 1;
+                  padding: 0.6rem 0.8rem;
+                  outline: none;
+                  background: transparent;
+                  color: var(--color-text-primary);
+                  min-width: 0;
+                "
+              />
+
+              <select
+                id="wst-prod-uom"
+                style="
+                  border: none;
+                  border-left: 1px solid var(--color-border);
+                  background-color: var(--color-surface);
+                  padding: 0.6rem 0.5rem;
+                  font-weight: 500;
+                  color: var(--color-text-secondary);
+                  width: 110px;
+                  outline: none;
+                  cursor: pointer;
+                "
+              >
+                <option value="g">grams (g)</option>
+                <option value="kg">kilos (kg)</option>
+                <option value="ml">ml</option>
+                <option value="l">Liters (L)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cm-form-group">
+            <label for="wst-prod-units">Units per Case</label>
+            <input
+              type="number"
+              id="wst-prod-units"
+              placeholder="e.g. 12"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="cm-form-group">
+            <label for="wst-prod-cases">Cases per Pallet</label>
+            <input
+              type="number"
+              id="wst-prod-cases"
+              placeholder="e.g. 100"
+              min="1"
+              required
+            />
+          </div>
+
+          <div class="cm-form-group">
+            <label title="Weight of empty bottle/can"
+              >Empty Pkg Weight (g)</label
+            >
+            <input
+              type="number"
+              id="wst-prod-pkg-weight"
+              step="0.01"
+              placeholder="e.g. 28"
+            />
+          </div>
+
+          <div class="cm-form-group">
+            <label title="Weight of empty cardboard box"
+              >Empty Case Weight (g)</label
+            >
+            <input
+              type="number"
+              id="wst-prod-case-weight"
+              step="0.01"
+              placeholder="e.g. 454"
+            />
+          </div>
+
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              color: var(--goldmex-secondary-color);
+              font-size: 0.85rem;
+              opacity: 0.8;
+            "
+          >
+            <i
+              class="bx bx-info-circle"
+              style="margin-right: 5px; font-size: 1.2rem"
+            ></i>
+            Used for automatic BOL & Weight calculations.
+          </div>
+        </div>
+
+        <div
+          class="cm-form-group"
+          style="
+            background: rgba(255, 215, 0, 0.05);
+            padding: 1.5rem;
+            border: 1px dashed var(--goldmex-secondary-color);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+          "
+        >
+          <div style="flex: 1">
+            <label
+              for="wst-prod-minutes"
+              style="
+                color: var(--goldmex-primary-color);
+                font-weight: bold;
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+                display: block;
+              "
+              >Standard Time per Case</label
+            >
+            <div style="display: flex; align-items: center; gap: 0.8rem">
+              <input
+                type="number"
+                id="wst-prod-minutes"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                required
+                style="
+                  font-size: 1.4rem;
+                  width: 120px;
+                  border-color: var(--goldmex-secondary-color);
+                  font-weight: bold;
+                  padding: 0.5rem;
+                "
+              />
+              <span
+                style="
+                  font-weight: 600;
+                  color: var(--color-text-secondary);
+                  font-size: 1.1rem;
+                "
+                >Minutes</span
+              >
+            </div>
+          </div>
+
+          <div style="text-align: right">
+            <div
+              style="
+                font-size: 0.85rem;
+                color: var(--color-text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: 600;
+              "
+            >
+              Estimated Pallet Time
+            </div>
+            <div
+              id="wst-time-calc-preview"
+              style="
+                font-size: 1.4rem;
+                color: var(--goldmex-primary-color);
+                font-weight: 800;
+                margin-top: 5px;
+              "
+            >
+              0h 0m
+            </div>
+            <div style="font-size: 0.8rem; color: #999">(For 1 person)</div>
+          </div>
+        </div>
+
+        <div
+          class="cm-modal-footer"
+          style="padding: 0; margin-top: 2rem; border: none"
+        >
+          <button
+            type="button"
+            class="btn-goldmex-secondary"
+            id="wst-modal-cancel-btn"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn-goldmex-primary"
+            id="wst-save-prod-btn"
+          >
+            <i class="bx bxs-save"></i> Save Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+<script src="js/wst-data.js"></script>

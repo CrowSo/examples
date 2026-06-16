@@ -1,0 +1,1227 @@
+<div class="ord-container">
+  <div class="ord-header">
+    <div class="ord-header-title">
+      <h2><i class="bx bxs-ship"></i> Orders Portal</h2>
+    </div>
+
+    <div class="ord-header-actions">
+      <button class="btn-ord-secondary" id="btn-order-history">
+        <i class="bx bx-history"></i> History
+      </button>
+      <button class="btn-ord-primary" id="btn-new-order">
+        <i class="bx bx-plus"></i> New Order
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="ord-dashboard-summary"
+    style="grid-template-columns: repeat(6, 1fr)"
+  >
+    <div class="ord-scorecard incoming">
+      <div
+        class="ord-card-icon"
+        style="background-color: #e0f2fe; color: #0284c7"
+      >
+        <i class="bx bxs-truck"></i>
+      </div>
+      <div class="ord-card-content-wrapper">
+        <div class="ord-card-info">
+          <h4>Incoming</h4>
+          <p id="score-incoming-total">0</p>
+        </div>
+        <div class="ord-card-breakdown">
+          <span class="bd-item regular"
+            ><small>Reg:</small>
+            <strong id="score-incoming-reg">0</strong></span
+          >
+          <span class="bd-item urgent"
+            ><small>Urg:</small>
+            <strong id="score-incoming-urg">0</strong></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="ord-scorecard receiving">
+      <div
+        class="ord-card-icon"
+        style="background-color: #dbeafe; color: #2563eb"
+      >
+        <i class="bx bx-door-open"></i>
+      </div>
+      <div class="ord-card-content-wrapper">
+        <div class="ord-card-info">
+          <h4>Receiving</h4>
+          <p id="score-receiving-total">0</p>
+        </div>
+        <div class="ord-card-breakdown">
+          <span class="bd-item regular"
+            ><small>Reg:</small>
+            <strong id="score-receiving-reg">0</strong></span
+          >
+          <span class="bd-item urgent"
+            ><small>Urg:</small>
+            <strong id="score-receiving-urg">0</strong></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="ord-scorecard production">
+      <div
+        class="ord-card-icon"
+        style="background-color: #f3e8ff; color: #9333ea"
+      >
+        <i class="bx bx-cog"></i>
+      </div>
+      <div class="ord-card-content-wrapper">
+        <div class="ord-card-info">
+          <h4>In Production</h4>
+          <p id="score-production-total">0</p>
+        </div>
+        <div class="ord-card-breakdown">
+          <span class="bd-item regular"
+            ><small>Reg:</small>
+            <strong id="score-production-reg">0</strong></span
+          >
+          <span class="bd-item urgent"
+            ><small>Urg:</small>
+            <strong id="score-production-urg">0</strong></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="ord-scorecard ready">
+      <div
+        class="ord-card-icon"
+        style="background-color: #dcfce7; color: #16a34a"
+      >
+        <i class="bx bx-check-square"></i>
+      </div>
+      <div class="ord-card-content-wrapper">
+        <div class="ord-card-info">
+          <h4>Ready to Ship</h4>
+          <p id="score-ready-total">0</p>
+        </div>
+        <div class="ord-card-breakdown">
+          <span class="bd-item regular"
+            ><small>Reg:</small> <strong id="score-ready-reg">0</strong></span
+          >
+          <span class="bd-item urgent"
+            ><small>Urg:</small> <strong id="score-ready-urg">0</strong></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="ord-scorecard dispatching">
+      <div
+        class="ord-card-icon"
+        style="background-color: #ffedd5; color: #ea580c"
+      >
+        <i class="bx bxs-package"></i>
+      </div>
+      <div class="ord-card-content-wrapper">
+        <div class="ord-card-info">
+          <h4>Dispatching</h4>
+          <p id="score-dispatching-total">0</p>
+        </div>
+        <div class="ord-card-breakdown">
+          <span class="bd-item regular"
+            ><small>Reg:</small>
+            <strong id="score-dispatching-reg">0</strong></span
+          >
+          <span class="bd-item urgent"
+            ><small>Urg:</small>
+            <strong id="score-dispatching-urg">0</strong></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="ord-scorecard shipped">
+      <div
+        class="ord-card-icon"
+        style="background-color: #f1f5f9; color: #475569"
+      >
+        <i class="bx bxs-truck"></i>
+      </div>
+      <div class="ord-card-content-wrapper">
+        <div class="ord-card-info">
+          <h4>Shipped</h4>
+          <p id="score-shipped-total">0</p>
+        </div>
+        <div class="ord-card-breakdown">
+          <span class="bd-item regular"
+            ><small>Reg:</small> <strong id="score-shipped-reg">0</strong></span
+          >
+          <span class="bd-item urgent"
+            ><small>Urg:</small> <strong id="score-shipped-urg">0</strong></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ord-table-wrapper">
+    <div class="ord-table-header">
+      <h3><i class="bx bx-list-ul"></i> Current Orders</h3>
+      <button
+        id="btn-refresh-orders"
+        class="btn-action-icon"
+        title="Refresh Data"
+      >
+        <i class="bx bx-refresh"></i>
+      </button>
+    </div>
+
+    <div
+      class="ord-table-filters"
+      style="
+        padding: 1rem;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        background: #f9fafb;
+      "
+    >
+      <div
+        class="ord-filter-group"
+        style="flex-direction: row; align-items: center; gap: 0.5rem; margin: 0"
+      >
+        <label
+          style="
+            margin: 0;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+          "
+          ><i class="bx bx-filter-alt"></i> Phase:</label
+        >
+        <select
+          id="filter-phase"
+          style="
+            width: auto;
+            padding: 0.4rem;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+          "
+        >
+          <option value="all">All Phases</option>
+          <option value="inbound">Incoming & Receiving</option>
+          <option value="production">In Production</option>
+          <option value="outbound">Ready & Dispatching</option>
+          <option value="shipped">Shipped</option>
+        </select>
+      </div>
+
+      <div
+        class="ord-filter-group"
+        style="flex-direction: row; align-items: center; gap: 0.5rem; margin: 0"
+      >
+        <label
+          style="
+            margin: 0;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+          "
+          >Date:</label
+        >
+        <input
+          type="date"
+          id="filter-date-start"
+          style="
+            padding: 0.35rem;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+          "
+        />
+        <span style="color: #999">-</span>
+        <input
+          type="date"
+          id="filter-date-end"
+          style="
+            padding: 0.35rem;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+          "
+        />
+      </div>
+
+      <div
+        class="ord-filter-group"
+        style="flex-direction: row; align-items: center; gap: 0.5rem; margin: 0"
+      >
+        <input
+          type="text"
+          id="filter-product-search"
+          placeholder="Search Product Name..."
+          style="
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            min-width: 180px;
+          "
+        />
+      </div>
+
+      <div
+        class="ord-filter-group"
+        style="
+          flex-direction: row;
+          align-items: center;
+          gap: 0.5rem;
+          margin: 0;
+          margin-left: auto;
+        "
+      >
+        <label
+          style="
+            margin: 0;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+          "
+          >View:</label
+        >
+        <div
+          class="ord-unit-switcher"
+          style="
+            display: flex;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            overflow: hidden;
+          "
+        >
+          <button
+            class="btn-unit-switch active"
+            data-unit="pallets"
+            style="
+              border: none;
+              padding: 0.4rem 0.8rem;
+              cursor: pointer;
+              background: var(--goldmex-primary-color);
+              color: white;
+              font-size: 0.85rem;
+            "
+          >
+            Plts
+          </button>
+          <button
+            class="btn-unit-switch"
+            data-unit="cases"
+            style="
+              border: none;
+              padding: 0.4rem 0.8rem;
+              cursor: pointer;
+              background: white;
+              border-left: 1px solid var(--color-border);
+              font-size: 0.85rem;
+            "
+          >
+            Cases
+          </button>
+          <button
+            class="btn-unit-switch"
+            data-unit="pieces"
+            style="
+              border: none;
+              padding: 0.4rem 0.8rem;
+              cursor: pointer;
+              background: white;
+              border-left: 1px solid var(--color-border);
+              font-size: 0.85rem;
+            "
+          >
+            Pcs
+          </button>
+          <button
+            class="btn-unit-switch"
+            data-unit="lbs"
+            style="
+              border: none;
+              padding: 0.4rem 0.8rem;
+              cursor: pointer;
+              background: white;
+              border-left: 1px solid var(--color-border);
+              font-size: 0.85rem;
+            "
+          >
+            Lbs
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="ord-filter-group"
+        style="flex-direction: row; align-items: center; gap: 0.5rem; margin: 0"
+      >
+        <button
+          id="filter-urgent-btn"
+          class="btn-ord-secondary"
+          style="
+            color: #ef4444;
+            border-color: #fca5a5;
+            background: #fef2f2;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+          "
+        >
+          <i class="bx bxs-hot"></i>
+          <span id="filter-urgent-text">Show Only Urgent</span>
+        </button>
+      </div>
+    </div>
+
+    <table id="ordersTable" class="display nowrap" style="width: 100%">
+      <thead>
+        <tr>
+          <th>Created</th>
+          <th>Order #</th>
+          <th>Product</th>
+          <th>Schedule (In - Out)</th>
+          <th>Request</th>
+          <th>Status</th>
+          <th>Files</th>
+          <th>Urgent</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="evidenceModal" class="ord-modal-overlay" style="z-index: 2100">
+  <div class="ord-modal ord-modal-lg">
+    <div
+      class="ord-modal-header"
+      id="ev-modal-header"
+      style="background: var(--goldmex-primary-color); color: #ffffff"
+    >
+      <h3 style="color: #ffffff !important">
+        <i class="bx bxs-camera"></i> Order Evidence
+      </h3>
+      <button
+        class="ord-modal-close"
+        id="closeEvidenceModal"
+        style="color: #ffffff"
+      >
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      
+      <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+          <button id="btn-tab-inbound" class="btn-ord-secondary" style="flex:1; justify-content:center; border-bottom: 3px solid transparent; transition: all 0.2s;">
+              <i class='bx bx-import'></i> INBOUND (Arrival)
+          </button>
+          <button id="btn-tab-outbound" class="btn-ord-secondary" style="flex:1; justify-content:center; border-bottom: 3px solid transparent; transition: all 0.2s;">
+              <i class='bx bx-export'></i> OUTBOUND (Shipping)
+          </button>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 1.5rem">
+        <h2 id="ev-order-code" style="margin-bottom: 0.5rem">ORD-XXXX</h2>
+        <div id="ev-status-container">
+            <span class="ord-status-badge status-shipped">SHIPPED</span>
+        </div>
+      </div>
+
+      <div id="ev-content-inbound" style="display: none;">
+          <div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+              <h4 style="margin-top:0; color: #0284c7;"><i class='bx bxs-info-circle'></i> Receiving Log</h4>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
+                  <div>
+                      <strong>Received By:</strong> <span id="ev-inb-user">--</span>
+                  </div>
+                  <div>
+                      <strong>Date:</strong> <span id="ev-inb-date">--</span>
+                  </div>
+                  <div style="grid-column: span 2;">
+                      <strong>Notes:</strong> 
+                      <p id="ev-inb-notes" style="margin: 5px 0 0 0; font-style: italic; color: #555;">--</p>
+                  </div>
+              </div>
+          </div>
+          <div>
+              <h4 style="margin-bottom: 1rem"><i class="bx bxs-image"></i> Arrival Photos</h4>
+              <div id="ev-inb-photo-grid" class="ord-product-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))"></div>
+          </div>
+      </div>
+
+      <div id="ev-content-outbound">
+          <div
+            style="
+              background: var(--color-bg);
+              padding: 1.5rem;
+              border-radius: 8px;
+              border: 1px solid var(--color-border);
+              margin-bottom: 2rem;
+            "
+          >
+            <h4
+              style="
+                border-bottom: 1px solid var(--color-border);
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+              "
+            >
+              <i class="bx bxs-truck"></i> Transport Details
+            </h4>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1rem;
+                font-size: 0.9rem;
+              "
+            >
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-weight: 600;
+                    color: var(--color-text-secondary);
+                  "
+                  >Trailer / Unit</label
+                >
+                <span id="ev-trans-unit" style="font-size: 1.1rem; font-weight: 600"
+                  >--</span
+                >
+              </div>
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-weight: 600;
+                    color: var(--color-text-secondary);
+                  "
+                  >Container / Plates</label
+                >
+                <span
+                  id="ev-trans-plate"
+                  style="font-size: 1.1rem; font-weight: 600"
+                  >--</span
+                >
+              </div>
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-weight: 600;
+                    color: var(--color-text-secondary);
+                  "
+                  >Seals</label
+                >
+                <span
+                  id="ev-trans-seals"
+                  style="font-size: 1.1rem; font-weight: 600"
+                  >--</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="margin-bottom: 1rem">
+              <i class="bx bxs-image"></i> Loading Photos
+            </h4>
+            <div
+              id="ev-photo-grid"
+              class="ord-product-grid"
+              style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))"
+            ></div>
+          </div>
+      </div>
+
+    </div>
+    <div class="ord-modal-footer" style="justify-content: space-between">
+      <button
+        type="button"
+        class="btn-ord-secondary"
+        id="btnCloseEvidenceFooter"
+      >
+        Close
+      </button>
+      <button type="button" class="btn-ord-primary" id="btn-link-to-docs">
+        View BOL Document <i class="bx bx-right-arrow-alt"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="ordBolPreviewModal" class="ord-modal-overlay" style="z-index: 2100">
+  <div class="ord-modal ord-modal-lg">
+    <div class="ord-modal-header" style="background: #525659; color: white">
+      <h3 style="color: white !important">
+        <i class="bx bxs-file-pdf"></i> Bill Of Lading (BOL)
+      </h3>
+      <button class="ord-modal-close" id="closeBolPreview" style="color: white">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+
+    <div class="ord-modal-body">
+      <div id="ord-bol-render-container">Generating BOL...</div>
+    </div>
+
+    <div class="ord-modal-footer" style="justify-content: space-between">
+      <button type="button" class="btn-ord-primary" id="btn-link-to-evidence">
+        <i class="bx bx-left-arrow-alt"></i> View Evidence (Photos)
+      </button>
+
+      <div style="display: flex; gap: 1rem">
+        <button
+          type="button"
+          class="btn-ord-secondary"
+          id="btn-bol-modal-close"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn-ord-primary"
+          id="btn-bol-modal-print"
+          style="display: none"
+        >
+          <i class="bx bx-printer"></i> Print
+        </button>
+        <button
+          type="button"
+          class="btn-ord-secondary"
+          id="btn-bol-modal-download"
+          style="background: #dc2626; color: white; border-color: #dc2626"
+        >
+          <i class="bx bxs-download"></i> Download PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  id="ordImageViewerModal"
+  class="ord-modal-overlay"
+  style="z-index: 2200; background: rgba(0, 0, 0, 0.9)"
+>
+  <div style="position: relative; max-width: 90%; max-height: 90%">
+    <button
+      id="closeImageViewer"
+      style="
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+      "
+    >
+      <i class="bx bx-x"></i>
+    </button>
+    <img
+      id="ord-lightbox-img"
+      src=""
+      style="
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 4px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      "
+    />
+    <div style="text-align: center; margin-top: 1rem">
+      <a
+        id="ord-lightbox-download"
+        href="#"
+        download
+        class="btn-ord-secondary"
+        style="background: white; color: black; display: inline-flex"
+      >
+        <i class="bx bxs-download"></i> Download Original
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="newOrderModal" class="ord-modal-overlay">
+  <div class="ord-modal ord-modal-lg">
+    <div class="ord-modal-header">
+      <h3><i class="bx bxs-cart-add"></i> Create New Order</h3>
+      <button class="ord-modal-close" id="closeNewOrderModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      <div
+        style="
+          background: var(--color-bg);
+          padding: 1rem;
+          border: 1px solid var(--color-border);
+          border-radius: 8px;
+          margin-bottom: 1.5rem;
+        "
+      >
+        <h4
+          style="
+            margin: 0 0 1rem 0;
+            color: var(--goldmex-primary-color);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 0.5rem;
+          "
+        >
+          <i class="bx bxs-truck"></i> Inbound Appointment (Material Arrival)
+        </h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+          <div class="ord-form-group">
+            <label for="ord-arrival-date">Estimated Arrival Date (ETA)</label>
+            <input type="date" id="ord-arrival-date" required />
+          </div>
+          <div class="ord-form-group">
+            <label for="ord-arrival-slot">Preferred Time Slot</label>
+            <select id="ord-arrival-slot" required>
+              <option value="morning">Morning (8:00 AM - 12:00 PM)</option>
+              <option value="midday">Midday (12:00 PM - 2:00 PM)</option>
+              <option value="afternoon">Afternoon (2:00 PM - 5:00 PM)</option>
+            </select>
+          </div>
+        </div>
+        <small
+          style="
+            color: var(--color-text-secondary);
+            display: block;
+            margin-top: -10px;
+          "
+        >
+          * Please specify when your provider will deliver the material.
+        </small>
+      </div>
+
+      <div
+        style="
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid var(--color-border);
+        "
+      >
+        <div class="ord-form-group">
+          <label for="ord-delivery-date"
+            >Requested Outbound Date (Finished Goods)</label
+          >
+          <input type="date" id="ord-delivery-date" required />
+        </div>
+        <div class="ord-form-group">
+          <label for="ord-attachment">Attach PO / PDF (Global Optional)</label>
+          <input type="file" id="ord-attachment" accept=".pdf,.jpg,.png" />
+        </div>
+      </div>
+
+      <div class="ord-items-section">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+          "
+        >
+          <h4 style="margin-bottom: 0; color: var(--color-text-primary)">
+            Order Items
+          </h4>
+          <button
+            type="button"
+            class="btn-ord-secondary"
+            id="btn-open-product-selector"
+          >
+            <i class="bx bx-plus"></i> Add Product
+          </button>
+        </div>
+        <div
+          class="ord-table-wrapper"
+          style="box-shadow: none; border: 1px solid var(--color-border)"
+        >
+          <table
+            id="ord-new-items-table"
+            style="width: 100%; border-collapse: collapse"
+          >
+            <thead
+              style="background: var(--color-bg); position: sticky; top: 0"
+            >
+              <tr
+                style="
+                  text-align: left;
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                "
+              >
+                <th style="padding: 0.8rem">Product</th>
+                <th style="padding: 0.8rem">Quantity</th>
+                <th style="padding: 0.8rem">Cases</th>
+                <th style="padding: 0.8rem">Units/Pcs</th>
+                <th style="padding: 0.8rem">Pallets</th>
+                <th style="padding: 0.8rem">Weight (Lbs)</th>
+                <th style="padding: 0.8rem; text-align: center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="ord-new-items-list">
+              <tr>
+                <td
+                  colspan="7"
+                  style="
+                    text-align: center;
+                    padding: 2rem;
+                    color: var(--color-text-secondary);
+                  "
+                >
+                  No items added yet. Click "Add Product" to begin.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ord-modal-footer">
+      <button type="button" class="btn-ord-secondary" id="cancelNewOrderBtn">
+        Cancel
+      </button>
+      <button type="button" class="btn-ord-primary" id="submitNewOrderBtn">
+        Submit Order
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="editOrderModal" class="ord-modal-overlay">
+  <div class="ord-modal">
+    <div class="ord-modal-header">
+      <h3><i class="bx bx-pencil"></i> Edit Order</h3>
+      <button class="ord-modal-close" id="closeEditOrderModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      <form id="editOrderForm">
+        <div class="ord-form-group">
+          <label>Product (Read Only)</label>
+          <input
+            type="text"
+            id="edit-ord-product-name"
+            class="ord-field-readonly"
+            readonly
+          />
+          <input type="hidden" id="edit-ord-product-id" />
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem">
+          <div class="ord-form-group">
+            <label for="edit-ord-qty">Quantity</label>
+            <input type="number" id="edit-ord-qty" min="1" required />
+          </div>
+          <div class="ord-form-group">
+            <label for="edit-ord-unit">Unit Type</label>
+            <select id="edit-ord-unit" required>
+              <option value="cases">Cases</option>
+              <option value="units">Pieces (Units)</option>
+              <option value="pallets">Pallets</option>
+            </select>
+          </div>
+        </div>
+        <div class="ord-form-group">
+          <label>New Estimate</label>
+          <input
+            type="text"
+            id="edit-ord-calc"
+            class="ord-field-readonly"
+            readonly
+          />
+        </div>
+        <div class="ord-form-group">
+          <label for="edit-ord-date">Requested Delivery Date</label>
+          <input type="date" id="edit-ord-date" required />
+        </div>
+      </form>
+    </div>
+    <div class="ord-modal-footer">
+      <button type="button" class="btn-ord-secondary" id="cancelEditOrderBtn">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        form="editOrderForm"
+        class="btn-ord-primary"
+        id="submitEditOrderBtn"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="viewOrderModal" class="ord-modal-overlay" style="z-index: 2150;">
+  <div class="ord-modal">
+    <div class="ord-modal-header">
+      <h3><i class="bx bx-file"></i> Order Details</h3>
+      <button class="ord-modal-close" id="closeViewOrderModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+          background: var(--color-bg);
+          padding: 1rem;
+          border-radius: 8px;
+        "
+      >
+        <div>
+          <span
+            style="
+              font-size: 0.85rem;
+              color: var(--color-text-secondary);
+              display: block;
+            "
+            >Order Code</span
+          >
+          <strong
+            id="view-code"
+            style="font-size: 1.2rem; color: var(--goldmex-primary-color)"
+            >--</strong
+          >
+        </div>
+        <div style="text-align: right">
+          <span
+            style="
+              font-size: 0.85rem;
+              color: var(--color-text-secondary);
+              display: block;
+            "
+            >Outbound Date</span
+          >
+          <strong id="view-date" style="font-size: 1rem">--</strong>
+        </div>
+      </div>
+
+      <div
+        style="
+          background: #f0f9ff;
+          border: 1px solid #bae6fd;
+          padding: 0.8rem;
+          border-radius: 6px;
+          margin-bottom: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div>
+          <span
+            style="
+              font-size: 0.8rem;
+              color: #0369a1;
+              display: block;
+              font-weight: 600;
+            "
+            >Inbound Material Status</span
+          >
+          <div
+            id="view-inbound-status"
+            style="font-weight: bold; color: #0c4a6e"
+          >
+            Waiting Arrival
+          </div>
+        </div>
+        <button
+          id="btn-view-inbound-pass"
+          class="btn-ord-secondary"
+          style="
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            background: #e0f2fe;
+            color: #0284c7;
+            border: 1px solid #bae6fd;
+          "
+        >
+          <i class="bx bx-qr-scan"></i> View Entry Pass
+        </button>
+      </div>
+
+      <div id="view-status" style="margin-bottom: 1.5rem"></div>
+      <div id="view-dynamic-content"></div>
+      <hr
+        style="
+          border: 0;
+          border-top: 1px solid var(--color-border);
+          margin: 1.5rem 0;
+        "
+      />
+      <div class="ord-form-group">
+        <label>Documents</label>
+        <div
+          id="view-docs"
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-weight: 600;
+          "
+        >
+          --
+        </div>
+      </div>
+    </div>
+    <div class="ord-modal-footer">
+      <button type="button" class="btn-ord-secondary" id="btnCloseViewFooter">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="inboundPassModal" class="ord-modal-overlay" style="z-index: 2200">
+  <div class="ord-modal" style="max-width: 400px; text-align: center">
+    <div
+      class="ord-modal-header"
+      style="justify-content: center; background: #000; color: white"
+    >
+      <h3 style="color: white !important; margin: 0">PROVIDER ENTRY PASS</h3>
+      <button
+        class="ord-modal-close"
+        id="closeInboundPassModal"
+        style="position: absolute; right: 15px; top: 15px; color: white"
+      >
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body" style="padding: 2rem 1.5rem">
+      <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem">
+        Share this pass with your driver for warehouse entry.
+      </p>
+
+      <div
+        id="inbound-pass-card"
+        style="background: white; padding: 10px; border-radius: 8px"
+      >
+        <div
+          id="inbound-qr-container"
+          style="
+            background: white;
+            padding: 1rem;
+            display: inline-block;
+            border: 2px solid #000;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+          "
+        >
+          <div
+            id="inbound-qr-placeholder"
+            style="
+              width: 200px;
+              height: 200px;
+              background: #eee;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            Loading QR...
+          </div>
+        </div>
+
+        <h2
+          id="inbound-ref-code"
+          style="
+            font-family: monospace;
+            letter-spacing: 2px;
+            font-size: 2rem;
+            margin: 0.5rem 0;
+          "
+        >
+          INB-XXXX
+        </h2>
+
+        <div
+          style="
+            background: #f3f4f6;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 1rem;
+            text-align: left;
+            font-size: 0.9rem;
+          "
+        >
+          <div>
+            <strong>Arrival:</strong> <span id="inbound-pass-date">--</span>
+          </div>
+          <div>
+            <strong>Slot:</strong> <span id="inbound-pass-slot">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ord-modal-footer" style="justify-content: center">
+      <button
+        type="button"
+        class="btn-ord-primary"
+        id="btn-download-pass"
+        style="width: 100%"
+      >
+        <i class="bx bxs-download"></i> Download Pass Image
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="productSelectorModal" class="ord-modal-overlay">
+  <div class="ord-modal">
+    <div class="ord-modal-header">
+      <h3><i class="bx bx-grid-alt"></i> Select Product</h3>
+      <button class="ord-modal-close" id="closeProductSelector">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      <div class="ord-search-bar">
+        <i class="bx bx-search"></i>
+        <input
+          type="text"
+          id="ord-product-search"
+          placeholder="Search product name or SKU..."
+          autofocus
+        />
+      </div>
+      <div class="ord-product-grid" id="ord-product-grid-container"></div>
+    </div>
+  </div>
+</div>
+
+<div id="historyModal" class="ord-modal-overlay">
+  <div class="ord-modal ord-modal-lg">
+    <div class="ord-modal-header">
+      <h3><i class="bx bx-history"></i> Order History</h3>
+      <button class="ord-modal-close" id="closeHistoryModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      <div class="ord-history-controls">
+        <div class="ord-filter-group">
+          <label>Month</label>
+          <select id="hist-month">
+            <option value="">All Months</option>
+          </select>
+        </div>
+        <div class="ord-filter-group">
+          <label>Year</label>
+          <select id="hist-year">
+            <option value="">All Years</option>
+          </select>
+        </div>
+        <div class="ord-filter-group">
+          <label>Product Description / SKU</label>
+          <input
+            type="text"
+            id="hist-search"
+            placeholder="Search in history..."
+          />
+        </div>
+        <div class="ord-filter-group">
+          <button id="btn-filter-history">
+            <i class="bx bx-filter"></i> Filter
+          </button>
+        </div>
+      </div>
+      <div class="ord-table-wrapper">
+        <table
+          id="orderHistoryTable"
+          class="display nowrap"
+          style="width: 100%"
+        >
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Product</th>
+              <th>Status</th>
+              <th>Docs</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ordItemConfigModal" class="ord-modal-overlay" style="z-index: 2100">
+  <div class="ord-modal" style="max-width: 450px">
+    <div class="ord-modal-header">
+      <h3><i class="bx bx-slider"></i> Configure Item</h3>
+      <button class="ord-modal-close" id="closeItemConfigModal">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="ord-modal-body">
+      <div class="ord-form-group">
+        <label>Product</label>
+        <input
+          type="text"
+          id="conf-item-name"
+          class="ord-field-readonly"
+          readonly
+        />
+        <input type="hidden" id="conf-item-id" />
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+        <div class="ord-form-group">
+          <label for="conf-item-qty">Quantity</label>
+          <input type="number" id="conf-item-qty" min="1" value="1" />
+        </div>
+        <div class="ord-form-group">
+          <label for="conf-item-unit">Unit Type</label>
+          <select id="conf-item-unit">
+            <option value="cases">Cases</option>
+            <option value="units">Pieces (Units)</option>
+            <option value="pallets" selected>Pallets</option>
+          </select>
+        </div>
+      </div>
+      <div class="ord-form-group">
+        <label>Conversion Estimate</label>
+        <input
+          type="text"
+          id="conf-item-calc"
+          class="ord-field-readonly"
+          value="0 Cases / 0 Pallets"
+          readonly
+        />
+      </div>
+    </div>
+    <div class="ord-modal-footer">
+      <button type="button" class="btn-ord-secondary" id="cancelItemConfigBtn">
+        Back
+      </button>
+      <button type="button" class="btn-ord-primary" id="confirmAddItemBtn">
+        <i class="bx bx-check"></i>
+        <span id="btn-confirm-text">Add to Order</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="css/orders-portal.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/orders-portal.js"></script>

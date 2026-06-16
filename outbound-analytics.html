@@ -1,0 +1,428 @@
+<div class="out-analytics-container">
+  <div class="oa-header">
+    <div class="oa-title-area">
+      <h2><i class="bx bxs-pie-chart-alt-2"></i> Outbound Analytics</h2>
+      <p>Shipping Control Tower & Historical Data</p>
+    </div>
+
+    <div class="oa-tabs">
+      <button class="oa-tab-button active" data-tab="oa-tab-dashboard">
+        <i class="bx bxs-dashboard"></i> Dashboard
+      </button>
+      <button class="oa-tab-button" data-tab="oa-tab-history">
+        <i class="bx bx-history"></i> Master History
+      </button>
+      <button class="oa-tab-button" data-tab="oa-tab-team">
+        <i class="bx bxs-trophy"></i> Team Ranking
+      </button>
+    </div>
+
+    <div class="oa-header-actions">
+      <button id="oa-refresh-btn" class="btn-oa-secondary" title="Force Sync">
+        <i class="bx bx-refresh"></i> Refresh
+      </button>
+    </div>
+  </div>
+
+  <div class="oa-content-wrapper">
+    <div id="oa-tab-dashboard" class="oa-tab-content active">
+      <div class="oa-kpi-grid">
+        <div class="oa-card kpi-card">
+          <div class="kpi-icon blue">
+            <i class="bx bxs-truck"></i>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Total Shipped Orders</span>
+            <h3 id="oa-kpi-orders">0</h3>
+            <small class="kpi-sub" id="oa-sub-orders">Last 30 Days</small>
+          </div>
+        </div>
+
+        <div class="oa-card kpi-card">
+          <div class="kpi-icon gold">
+            <i class="bx bxs-package"></i>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Total Pallets</span>
+            <h3 id="oa-kpi-pallets">0</h3>
+            <small class="kpi-sub">Last 30 Days</small>
+          </div>
+        </div>
+
+        <div class="oa-card kpi-card">
+          <div class="kpi-icon green">
+            <i class="bx bx-dumbbell"></i>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Total Weight (Lbs)</span>
+            <h3 id="oa-kpi-weight">0</h3>
+            <small class="kpi-sub">Estimated</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="oa-charts-grid">
+        <div class="oa-card chart-container main-chart">
+          <div class="chart-header">
+            <h4>
+              <i class="bx bx-bar-chart-alt-2"></i> Shipment Volume (Pallets)
+            </h4>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="oaShipmentChart"></canvas>
+          </div>
+        </div>
+
+        <div class="oa-charts-sidebar">
+          <div class="oa-card chart-container small-chart">
+            <div class="chart-header">
+              <h4><i class="bx bxs-pie-chart-alt"></i> Status Split</h4>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="oaStatusChart"></canvas>
+            </div>
+          </div>
+
+          <div class="oa-card chart-container small-chart">
+            <div class="chart-header">
+              <h4><i class="bx bx-line-chart"></i> Avg. Time (Mins)</h4>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="oaEfficiencyChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="oa-tab-history" class="oa-tab-content">
+      <div class="oa-controls-toolbar">
+        <div class="oa-filter-group">
+          <label><i class="bx bx-calendar"></i> Date Range</label>
+          <div class="date-inputs">
+            <input type="date" id="oa-date-start" />
+            <span>to</span>
+            <input type="date" id="oa-date-end" />
+          </div>
+        </div>
+
+        <div class="oa-filter-group flex-grow">
+          <label><i class="bx bx-search"></i> Search History</label>
+          <div class="search-box-wrapper">
+            <input
+              type="text"
+              id="oa-history-search"
+              placeholder="Search Order #, Client, or User..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <div class="oa-filter-group actions-group">
+          <label>&nbsp;</label>
+          <div style="display: flex; gap: 0.5rem">
+            <button id="oa-apply-filters" class="btn-oa-primary">
+              <i class="bx bx-filter"></i> Filter
+            </button>
+            <button
+              id="oa-export-csv"
+              class="btn-oa-export"
+              title="Download Detailed CSV Report"
+            >
+              <i class="bx bxs-file-export"></i> Export Report
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="oa-table-wrapper">
+        <table id="oaHistoryTable" class="display nowrap" style="width: 100%">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Finish Date</th>
+              <th>Duration</th>
+              <th>Client</th>
+              <th>Items</th>
+              <th>Pallets</th>
+              <th>User</th>
+              <th>Status</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="oa-tab-team" class="oa-tab-content">
+      <div
+        class="oa-team-layout"
+        style="height: 100%; display: flex; flex-direction: column"
+      >
+        <div
+          class="oa-card full-width"
+          style="
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+          "
+        >
+          <div class="chart-header">
+            <h4>
+              <i class="bx bxs-trophy" style="color: var(--oa-gold)"></i>
+              Operator Leaderboard
+            </h4>
+            <p style="color: #666; font-size: 0.9rem; margin: 0">
+              Top performers by volume (Last 30 Days)
+            </p>
+          </div>
+          <div class="oa-table-wrapper" style="border: none; box-shadow: none">
+            <table id="oaTeamTable" class="display nowrap" style="width: 100%">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Operator / User</th>
+                  <th>Orders Processed</th>
+                  <th>Total Pallets</th>
+                  <th>Last Active</th>
+                  <th>Performance Rating</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="oaEvidenceModal" class="oa-modal-overlay">
+  <div class="oa-modal oa-modal-lg">
+    <div
+      class="oa-modal-header"
+      style="background: var(--oa-primary); color: #ffffff"
+    >
+      <h3 style="color: #ffffff !important">
+        <i class="bx bxs-camera"></i> Shipment Evidence
+      </h3>
+      <button
+        class="oa-close-modal"
+        id="oaCloseEvidenceModal"
+        style="color: #ffffff"
+      >
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="oa-modal-body">
+      <div style="text-align: center; margin-bottom: 2rem">
+        <h2 id="oa-ev-order-code" style="margin-bottom: 0.5rem">ORD-XXXX</h2>
+        <span id="oa-ev-status-badge"></span>
+      </div>
+
+      <div
+        style="
+          background: var(--oa-bg);
+          padding: 1.5rem;
+          border-radius: 8px;
+          border: 1px solid var(--oa-border);
+          margin-bottom: 2rem;
+        "
+      >
+        <h4
+          style="
+            border-bottom: 1px solid var(--oa-border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+          "
+        >
+          <i class="bx bxs-truck"></i> Transport Details
+        </h4>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            font-size: 0.9rem;
+          "
+        >
+          <div>
+            <label
+              style="
+                display: block;
+                font-weight: 600;
+                color: var(--oa-text-light);
+              "
+              >Trailer / Unit</label
+            >
+            <span
+              id="oa-ev-trans-unit"
+              style="font-size: 1.1rem; font-weight: 600"
+              >--</span
+            >
+          </div>
+          <div>
+            <label
+              style="
+                display: block;
+                font-weight: 600;
+                color: var(--oa-text-light);
+              "
+              >Container / Plates</label
+            >
+            <span
+              id="oa-ev-trans-plate"
+              style="font-size: 1.1rem; font-weight: 600"
+              >--</span
+            >
+          </div>
+          <div>
+            <label
+              style="
+                display: block;
+                font-weight: 600;
+                color: var(--oa-text-light);
+              "
+              >Seals</label
+            >
+            <span
+              id="oa-ev-trans-seals"
+              style="font-size: 1.1rem; font-weight: 600"
+              >--</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="margin-bottom: 1rem">
+          <i class="bx bxs-image"></i> Loading Photos
+        </h4>
+        <div
+          id="oa-ev-photo-grid"
+          class="oa-photo-gallery"
+          style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))"
+        ></div>
+      </div>
+    </div>
+    <div class="oa-modal-footer" style="justify-content: space-between">
+      <button type="button" class="btn-oa-secondary" id="oaCloseEvidenceFooter">
+        Close
+      </button>
+      <button type="button" class="btn-oa-primary" id="oa-btn-link-to-docs">
+        View BOL Document <i class="bx bx-right-arrow-alt"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="oaBolPreviewModal" class="oa-modal-overlay">
+  <div class="oa-modal oa-modal-lg">
+    <div class="oa-modal-header" style="background: #525659; color: white">
+      <h3 style="color: white !important">
+        <i class="bx bxs-file-pdf"></i> Bill Of Lading (BOL)
+      </h3>
+      <button
+        class="oa-close-modal"
+        id="oaCloseBolPreview"
+        style="color: white"
+      >
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+
+    <div
+      class="oa-modal-body"
+      style="
+        background-color: #525659;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+      "
+    >
+      <div id="oa-bol-render-container">Generating BOL...</div>
+    </div>
+
+    <div class="oa-modal-footer" style="justify-content: space-between">
+      <button type="button" class="btn-oa-primary" id="oa-btn-link-to-evidence">
+        <i class="bx bx-left-arrow-alt"></i> View Evidence (Photos)
+      </button>
+
+      <div style="display: flex; gap: 1rem">
+        <button
+          type="button"
+          class="btn-oa-secondary"
+          id="oa-btn-bol-modal-close"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn-oa-primary"
+          id="oa-btn-bol-modal-print"
+        >
+          <i class="bx bx-printer"></i> Print
+        </button>
+        <button
+          type="button"
+          class="btn-oa-secondary"
+          id="oa-btn-bol-modal-download"
+          style="background: #dc2626; color: white; border-color: #dc2626"
+        >
+          <i class="bx bxs-download"></i> Download PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  id="oaImageViewerModal"
+  class="oa-modal-overlay"
+  style="z-index: 2200; background: rgba(0, 0, 0, 0.9)"
+>
+  <div style="position: relative; max-width: 90%; max-height: 90%">
+    <button
+      id="oaCloseImageViewer"
+      style="
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+      "
+    >
+      <i class="bx bx-x"></i>
+    </button>
+    <img
+      id="oa-lightbox-img"
+      src=""
+      style="
+        max-width: 100%;
+        max-height: 85vh;
+        border-radius: 4px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      "
+    />
+    <div style="text-align: center; margin-top: 1rem">
+      <a
+        id="oa-lightbox-download"
+        href="#"
+        download
+        class="btn-oa-secondary"
+        style="background: white; color: black; display: inline-flex"
+      >
+        <i class="bx bxs-download"></i> Download Original
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="js/outbound-analytics.js"></script>

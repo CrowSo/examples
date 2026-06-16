@@ -1,0 +1,326 @@
+<div class="iop-container">
+    <div class="iop-header">
+        <h2><i class='bx bxs-truck'></i> Import Operations</h2>
+        <div class="iop-header-actions">
+            <button id="iop-resources-btn" class="btn-goldmex-info">
+                <i class='bx bx-layer-plus'></i> Add Resources
+            </button>
+            <button id="iop-history-btn" class="btn-goldmex-secondary">
+                <i class='bx bx-history'></i> History
+            </button>
+            <button id="iop-ledger-management-btn" class="btn-goldmex-primary">
+                <i class='bx bxs-wallet'></i> Client Ledgers
+            </button>
+        </div>
+    </div>
+
+    <div class="iop-dashboard-summary">
+        <div class="iop-scorecard new-requests">
+            <div class="iop-scorecard-icon"><i class='bx bx-log-in-circle'></i></div>
+            <div class="iop-scorecard-info">
+                <h4>New Requests for Review</h4>
+                <p id="iop-db-new-requests">0</p>
+            </div>
+        </div>
+        <div class="iop-scorecard pending-client">
+            <div class="iop-scorecard-icon"><i class='bx bx-user-voice'></i></div>
+            <div class="iop-scorecard-info">
+                <h4>Pending Client Action</h4>
+                <p id="iop-db-pending-client">0</p>
+            </div>
+        </div>
+        <div class="iop-scorecard in-progress">
+            <div class="iop-scorecard-icon"><i class='bx bx-loader-alt'></i></div>
+            <div class="iop-scorecard-info">
+                <h4>Approved & In Progress</h4>
+                <p id="iop-db-in-progress">0</p>
+            </div>
+        </div>
+        <div class="iop-scorecard completed">
+            <div class="iop-scorecard-icon"><i class='bx bx-check-shield'></i></div>
+            <div class="iop-scorecard-info">
+                <h4>Completed (Last 7 Days)</h4>
+                <p id="iop-db-completed">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="iop-table-container">
+        <h3><i class='bx bx-list-ul'></i> Active Shipments</h3>
+        <table id="iopActiveShipmentsTable" class="display responsive nowrap" style="width: 100%"></table>
+    </div>
+</div>
+
+<div id="iop-workspace-modal" class="iop-modal">
+    <div class="iop-modal-content iop-modal-fullscreen">
+        <div class="iop-modal-header">
+            <h3 id="iop-workspace-title">Processing Shipment #SHP-XXXXXX</h3>
+            <button class="iop-close-button" id="iop-close-workspace-btn">&times;</button>
+        </div>
+
+        <div class="iop-workspace-stepper">
+            <div id="iop-step-1" class="iop-step active" data-step="1">1. Review</div>
+            <div id="iop-step-2" class="iop-step" data-step="2">2. Quoting</div>
+            <div id="iop-step-3" class="iop-step" data-step="3">3. Final Delivery</div>
+        </div>
+
+        <div class="iop-modal-body iop-workspace-body">
+            <div id="iop-step-content-1" class="iop-step-content active">
+                <div class="iop-workspace-grid">
+                    <div class="iop-workspace-column" id="iop-client-info-column">
+                        <div class="iop-section">
+                            <h4 class="iop-section-title"><i class='bx bx-user-detail'></i> Client & Shipment Details
+                            </h4>
+                            <div id="iop-shipment-details-container">
+                                <p>Loading details...</p>
+                            </div>
+                        </div>
+                        <div class="iop-section">
+                            <h4 class="iop-section-title"><i class='bx bxs-file-archive'></i> Client Documents</h4>
+                            <div id="iop-client-documents-container">
+                                <p>Loading documents...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="iop-workspace-column" id="iop-operator-form-column-step1">
+                        <div class="iop-section">
+                            <h4 class="iop-section-title"><i class='bx bx-message-rounded-dots'></i> Communication</h4>
+                            <div class="iop-form-group">
+                                <label for="iop-rfi-details">Request for Information (RFI) / Notes for Client</label>
+                                <textarea id="iop-rfi-details" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="iop-step-content-2" class="iop-step-content">
+                <div class="iop-section">
+                    <h4 class="iop-section-title"><i class='bx bx-calculator'></i> Duties & Fees Calculation</h4>
+                    <div id="iop-charges-container">
+                    </div>
+                    <button type="button" id="iop-add-charge-btn" class="btn-goldmex-secondary btn-sm"><i
+                            class='bx bx-plus'></i> Add Charge</button>
+                    <hr class="iop-divider">
+                    <div class="iop-form-group">
+                        <label class="iop-checkbox-label">
+                            <input type="checkbox" id="iop-confirm-charges-checkbox">
+                            <span>I confirm that all charges have been added and are correct.</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="iop-step-content-3" class="iop-step-content">
+                <div class="iop-section">
+                    <h4 class="iop-section-title"><i class='bx bx-cloud-upload'></i> Upload Final Documents</h4>
+                    <div class="iop-form-group">
+                        <label for="iop-final-doc-input">Attach Files:</label>
+                        <input type="file" id="iop-final-doc-input" multiple>
+                    </div>
+                    <div id="iop-final-doc-list" class="iop-file-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="iop-modal-footer">
+            <div class="iop-footer-left">
+                <label for="iop-status-select">Shipment Status:</label>
+                <select id="iop-status-select" disabled>
+                    <option value="Submitted">Submitted</option>
+                    <option value="In Review">In Review</option>
+                    <option value="Info Needed">Info Needed</option>
+                    <option value="Client Reply">Client Reply</option>
+                    <option value="Docs OK">Docs OK</option>
+                    <option value="Quote Sent">Quote Sent</option>
+                    <option value="Clarification">Clarification</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <div class="iop-footer-right">
+                <div id="iop-footer-step-1" class="iop-footer-step active">
+                    <button type="button" id="iop-send-rfi-btn" class="btn-goldmex-secondary">Send RFI</button>
+                    <button type="button" id="iop-docs-ok-btn" class="btn-goldmex-primary">Documents OK &
+                        Continue</button>
+                </div>
+                <div id="iop-footer-step-2" class="iop-footer-step">
+                    <button type="button" id="iop-process-payment-btn" class="btn-goldmex-primary"
+                        style="display: none;">Process Payment</button>
+                    <button type="button" id="iop-preview-report-btn" class="btn-goldmex-primary">Preview & Send
+                        Quote</button>
+                </div>
+                <div id="iop-footer-step-3" class="iop-footer-step">
+                    <button type="button" id="iop-save-final-docs-btn" class="btn-goldmex-primary">Save Final Docs &
+                        Notify</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="iop-ledger-modal" class="iop-modal">
+    <div class="iop-modal-content iop-modal-xlarge">
+        <div class="iop-modal-header">
+            <h3 id="iop-ledger-title"><i class='bx bxs-wallet'></i> Client Ledger Management</h3>
+            <button class="iop-close-button" id="iop-close-ledger-btn">&times;</button>
+        </div>
+        <div class="iop-modal-body">
+            <div class="iop-ledger-toolbar">
+                <div class="iop-form-group iop-ledger-client-group">
+                    <label for="iop-client-select-ledger">
+                        Client <small class="iop-balance-badge">(Bal: <span id="iop-ledger-current-balance">$0.00</span>)</small>
+                    </label>
+                    <select id="iop-client-select-ledger">
+                        <option value="">Loading clients...</option>
+                    </select>
+                </div>
+
+                <form id="iop-add-deposit-form" class="iop-ledger-form-inline">
+                    <div class="iop-form-group iop-ledger-amount-group">
+                        <label for="iop-deposit-amount">Amount (USD)</label>
+                        <input type="number" id="iop-deposit-amount" step="0.01" required placeholder="0.00">
+                    </div>
+                    <div class="iop-form-group iop-ledger-ref-group">
+                        <label for="iop-deposit-reference">Reference / Note</label>
+                        <input type="text" id="iop-deposit-reference" placeholder="e.g. Transfer #123">
+                    </div>
+                    <button type="submit" class="btn-goldmex-primary iop-ledger-add-btn">
+                        <i class='bx bx-plus'></i> Add
+                    </button>
+                </form>
+            </div>
+
+            <div class="iop-table-container">
+                <table id="iop-transaction-history-table" class="display responsive nowrap" style="width: 100%"></table>
+            </div>
+        </div>
+        <div class="iop-modal-footer">
+            <button type="button" id="iop-ledger-close-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="iop-history-modal" class="iop-modal">
+    <div class="iop-modal-content iop-modal-xlarge">
+        <div class="iop-modal-header">
+            <h3><i class='bx bx-history'></i> Shipments History</h3>
+            <button class="iop-close-button" id="iop-close-history-modal-btn">&times;</button>
+        </div>
+        <div class="iop-modal-body">
+            <div class="iop-history-filters">
+                <div class="iop-form-group">
+                    <label for="iop-hist-month">Month</label>
+                    <select id="iop-hist-month"></select>
+                </div>
+                <div class="iop-form-group">
+                    <label for="iop-hist-year">Year</label>
+                    <select id="iop-hist-year"></select>
+                </div>
+                <div class="iop-form-group">
+                    <label for="iop-hist-search">Client or Shipment ID</label>
+                    <input type="text" id="iop-hist-search" placeholder="Search...">
+                </div>
+                <button id="iop-apply-filters-btn" class="btn-goldmex-primary">
+                    <i class='bx bx-filter-alt'></i> Filter
+                </button>
+            </div>
+            <div class="iop-table-container">
+                <table id="iop-history-table" class="display responsive nowrap" style="width:100%"></table>
+            </div>
+        </div>
+        <div class="iop-modal-footer">
+            <button type="button" id="iop-close-history-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="iop-view-report-modal" class="iop-modal">
+    <div class="iop-modal-content iop-report-modal-content">
+        <div class="iop-modal-header">
+            <h3 id="iop-report-title">Import Operations Report</h3>
+            <button class="iop-close-button" id="iop-close-report-modal-btn">&times;</button>
+        </div>
+        <div id="iop-report-body" class="iop-report-body">
+        </div>
+        <div class="iop-modal-footer" style="justify-content: space-between;">
+            <button type="button" id="iop-download-report-pdf-btn" class="btn-goldmex-secondary">
+                <i class='bx bxs-file-pdf'></i> Download PDF
+            </button>
+            <div>
+                <button type="button" id="iop-close-report-footer-btn" class="btn-goldmex-secondary">Close</button>
+                <button type="button" id="iop-send-report-btn" class="btn-goldmex-primary">Send to Client</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="iop-quote-viewer-modal" class="iop-modal">
+    <div class="iop-modal-content iop-report-modal-content">
+        <div class="iop-modal-header">
+            <h3 id="iop-quote-viewer-title">View Quote</h3>
+            <button class="iop-close-button" id="iop-close-quote-viewer-btn">&times;</button>
+        </div>
+        <div id="iop-quote-viewer-body" class="iop-report-body">
+        </div>
+        <div class="iop-modal-footer" style="justify-content: flex-end;">
+            <button type="button" id="iop-download-quote-viewer-pdf-btn" class="btn-goldmex-secondary">
+                <i class='bx bxs-file-pdf'></i> Download PDF
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="iop-docs-viewer-modal" class="iop-modal">
+    <div class="iop-modal-content iop-modal-large">
+        <div class="iop-modal-header">
+            <h3 id="iop-docs-viewer-title">Shipment Documents</h3>
+            <button class="iop-close-button" id="iop-close-docs-viewer-btn">&times;</button>
+        </div>
+        <div class="iop-modal-body">
+            <div class="iop-docs-viewer-columns">
+                <div class="iop-docs-viewer-col">
+                    <h4><i class='bx bx-user'></i> Client Documents</h4>
+                    <div id="iop-client-docs-col" class="iop-docs-viewer-list">
+                    </div>
+                </div>
+                <div class="iop-docs-viewer-col">
+                    <h4><i class='bx bxs-truck'></i> Final Documents</h4>
+                    <div id="iop-final-docs-col" class="iop-docs-viewer-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="iop-resources-modal" class="iop-modal">
+    <div class="iop-modal-content iop-modal-xlarge">
+        <div class="iop-modal-header">
+            <h3><i class='bx bx-library'></i> Manage Resources</h3>
+            <button class="iop-close-button" id="iop-close-resources-btn">&times;</button>
+        </div>
+        <div class="iop-modal-body">
+            <div class="iop-resources-controls">
+                <div class="iop-resources-uploader">
+                    <input type="file" id="iop-resource-file-input" style="display: none;">
+                    <button id="iop-resource-select-file-btn" class="btn-goldmex-secondary"><i class='bx bx-paperclip'></i> Select File</button>
+                    <span id="iop-resource-selected-file-name">No file selected</span>
+                    <button id="iop-resource-upload-btn" class="btn-goldmex-primary" disabled><i class='bx bx-upload'></i> Upload</button>
+                </div>
+                <div class="iop-resources-search">
+                    <i class='bx bx-search'></i>
+                    <input type="search" id="iop-resource-search-input" placeholder="Search resources by name...">
+                </div>
+            </div>
+            <div id="iop-resources-list-container">
+                </div>
+        </div>
+        <div class="iop-modal-footer">
+            <button type="button" id="iop-resources-close-footer-btn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/import-operations.js"></script>

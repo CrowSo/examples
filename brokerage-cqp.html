@@ -1,0 +1,368 @@
+<div class="cqp-container">
+    <div class="cqp-header">
+        <h2><i class='bx bx-file-find'></i> My Classification Requests</h2>
+        <div class="cqp-header-actions">
+            <button id="cqpOpenHistoryModalBtn" class="btn-goldmex-secondary">
+                <i class='bx bx-history'></i> History
+            </button>
+            <button id="cqp-new-request-btn" class="btn-goldmex-primary">
+                <i class='bx bx-plus-circle'></i> New Request
+            </button>
+        </div>
+    </div>
+
+    <div class="cqp-dashboard-summary">
+        <div class="cqp-scorecard action-required">
+            <div class="cqp-scorecard-icon">
+                <i class='bx bx-error-circle'></i>
+            </div>
+            <div class="cqp-scorecard-info">
+                <h4>Action Required</h4>
+                <p id="db-action-required">0</p>
+                <div class="cqp-scorecard-footer">Awaiting your documents/info</div>
+            </div>
+        </div>
+        <div class="cqp-scorecard">
+            <div class="cqp-scorecard-icon in-progress">
+                <i class='bx bx-loader-circle'></i>
+            </div>
+            <div class="cqp-scorecard-info">
+                <h4>Under Review by Goldmex</h4>
+                <p id="db-under-review">0</p>
+                <div id="db-oldest-active" class="cqp-scorecard-footer">Oldest: -</div>
+            </div>
+        </div>
+        <div class="cqp-scorecard">
+            <div class="cqp-scorecard-icon completed">
+                <i class='bx bx-check-double'></i>
+            </div>
+            <div class="cqp-scorecard-info">
+                <h4>Completed (Last 30 days)</h4>
+                <p id="db-completed-30-days">0</p>
+                <div class="cqp-scorecard-footer">Successfully processed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cqp-tabs">
+        <button class="cqp-tab-button active" data-tab="active-requests">
+            <i class='bx bx-list-ul'></i> Active Requests
+        </button>
+    </div>
+
+    <div id="active-requests-content" class="cqp-tab-content active">
+        <div class="cqp-table-container">
+            <table id="clientCqpActiveTable" class="display nowrap" style="width:100%">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="cqpRequestModal" class="cqp-modal">
+    <div class="cqp-modal-content cqp-modal-xlarge">
+        <div class="cqp-modal-header">
+            <h3 id="cqpModalTitle"><i class='bx bx-file-find'></i> New Classification Request</h3>
+            <button class="cqp-close-button" id="cqpCloseModalBtn">&times;</button>
+        </div>
+        <form id="cqpRequestForm" class="cqp-modal-body">
+            <input type="hidden" id="cqp-request-id">
+            <div class="cqp-form-stepper">
+                <div class="cqp-step active" data-step="1"><span>1</span> Product Info</div>
+                <div class="cqp-step" data-step="2"><span>2</span> Commercial Data</div>
+                <div class="cqp-step" data-step="3"><span>3</span> Origin & Agencies</div>
+                <div class="cqp-step" data-step="4"><span>4</span> Documents</div>
+            </div>
+
+            <div class="cqp-form-step-content active" data-step-content="1">
+                <div class="cqp-form-grid">
+                    <div class="cqp-form-group cqp-grid-full">
+                        <label for="cqp-product-description">Complete and Technical Description <span
+                                class="cqp-required">*</span></label>
+                        <textarea id="cqp-product-description" rows="3" required
+                            placeholder="Provide a detailed description of the item..."></textarea>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-product-materials">Materials / Exact Composition (%) <span
+                                class="cqp-required">*</span></label>
+                        <input type="text" id="cqp-product-materials" placeholder="e.g., 80% cotton, 20% polyester"
+                            required>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-product-usage">Main Use in the U.S. <span class="cqp-required">*</span></label>
+                        <input type="text" id="cqp-product-usage" placeholder="e.g., For automotive industry assembly"
+                            required>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-mfg-method">Manufacturing Method</label>
+                        <input type="text" id="cqp-mfg-method" placeholder="e.g., Weaving, injection molding, assembly">
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-packaging">Presentation and Packaging</label>
+                        <input type="text" id="cqp-packaging" placeholder="e.g., Retail box, bulk, kits">
+                    </div>
+                </div>
+            </div>
+            <div class="cqp-form-step-content" data-step-content="2">
+                <div class="cqp-form-grid">
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-value">Commercial Unit Value <span class="cqp-required">*</span></label>
+                        <input type="number" id="cqp-comm-value" step="0.01" placeholder="e.g., 15.50" required>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-currency">Currency <span class="cqp-required">*</span></label>
+                        <select id="cqp-comm-currency" required>
+                            <option value="USD" selected>USD</option>
+                            <option value="MXN">MXN</option>
+                            <option value="EUR">EUR</option>
+                            <option value="CAD">CAD</option>
+                        </select>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-incoterm">Incoterm</label>
+                        <input type="text" id="cqp-comm-incoterm" placeholder="e.g., FOB, EXW">
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-quantity">Quantity <span class="cqp-required">*</span></label>
+                        <input type="number" id="cqp-comm-quantity" placeholder="e.g., 1000" required>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-uom">Unit of Measure</label>
+                        <input type="text" id="cqp-comm-uom" placeholder="e.g., Pieces, KG, Sets">
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-weight">Weight (Customs Unit)</label>
+                        <input type="text" id="cqp-comm-weight" placeholder="e.g., 1.2 KG">
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-comm-dimensions">Dimensions (Commercial Unit)</label>
+                        <input type="text" id="cqp-comm-dimensions" placeholder="e.g., 30x20x15 cm">
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-freight-cost">Freight Cost to Port of Entry</label>
+                        <input type="number" id="cqp-freight-cost" step="0.01" placeholder="e.g., 350.00">
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-insurance-cost">Insurance Cost</label>
+                        <input type="number" id="cqp-insurance-cost" step="0.01" placeholder="e.g., 50.00">
+                    </div>
+                </div>
+            </div>
+            <div class="cqp-form-step-content" data-step-content="3">
+                <div class="cqp-form-grid">
+                    <div class="cqp-form-group">
+                        <label for="cqp-origin-country">Country of Origin <span class="cqp-required">*</span></label>
+                        <input type="text" id="cqp-origin-country"
+                            placeholder="Based on substantial transformation rules" required>
+                    </div>
+                    <div class="cqp-form-group">
+                        <label for="cqp-mfg-location">Place of Manufacture/Assembly</label>
+                        <input type="text" id="cqp-mfg-location" placeholder="e.g., Shanghai, China">
+                    </div>
+                    <div class="cqp-form-group cqp-grid-full">
+                        <label for="cqp-brand-model">Brand, Model, Part Number (if applicable)</label>
+                        <input type="text" id="cqp-brand-model">
+                    </div>
+                    <div class="cqp-form-group cqp-grid-full">
+                        <label>Partner Government Agency (PGA) Requirements (Mark if applicable)</label>
+                        <div class="cqp-pga-flags">
+                            <label><input type="checkbox" name="pga_flag" value="FDA"> FDA</label>
+                            <label><input type="checkbox" name="pga_flag" value="USDA/APHIS"> USDA/APHIS</label>
+                            <label><input type="checkbox" name="pga_flag" value="EPA"> EPA</label>
+                            <label><input type="checkbox" name="pga_flag" value="CPSC"> CPSC</label>
+                            <label><input type="checkbox" name="pga_flag" value="DOT/NHTSA"> DOT/NHTSA</label>
+                            <label><input type="checkbox" name="pga_flag" value="FCC"> FCC</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cqp-form-step-content" data-step-content="4">
+                <div id="cqp-existing-files-container" style="display: none;">
+                    <h4><i class='bx bxs-file-archive'></i> Existing Documents</h4>
+                    <div id="cqp-existing-files-list" class="cqp-file-list"></div>
+                    <hr class="cqp-divider">
+                </div>
+                <p class="cqp-modal-instructions">
+                    Upload any relevant support documents. You can add multiple files (e.g., Commercial Invoice, Packing
+                    List, MSDS, Certificates).
+                </p>
+                <div class="cqp-file-upload-area">
+                    <div class="cqp-form-group">
+                        <label for="cqp-file-input">Add New Files:</label>
+                        <input type="file" id="cqp-file-input" multiple>
+                    </div>
+                    <div id="cqp-file-list" class="cqp-file-list"></div>
+                </div>
+            </div>
+
+        </form>
+        <div class="cqp-modal-footer">
+            <button type="button" id="cqp-prev-step-btn" class="btn-goldmex-secondary"
+                style="display: none;">Previous</button>
+            <button type="button" id="cqp-next-step-btn" class="btn-goldmex-primary">Next</button>
+            <button type="submit" form="cqpRequestForm" id="cqp-submit-request-btn" class="btn-goldmex-primary"
+                style="display: none;">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqpHistoryModal" class="cqp-modal">
+    <div class="cqp-modal-content" style="max-width: 90vw; width: 1400px;">
+        <div class="cqp-modal-header">
+            <h3><i class='bx bx-history'></i> Requests History</h3>
+            <button class="cqp-close-button" id="cqpCloseHistoryModalBtn">&times;</button>
+        </div>
+        <div class="cqp-modal-body">
+            <div class="cqp-history-filters">
+                <div class="cqp-form-group">
+                    <label for="cqp-hist-month">Month</label>
+                    <select id="cqp-hist-month"></select>
+                </div>
+                <div class="cqp-form-group">
+                    <label for="cqp-hist-year">Year</label>
+                    <select id="cqp-hist-year"></select>
+                </div>
+                <div class="cqp-form-group">
+                    <label for="cqp-hist-search">Product Description</label>
+                    <input type="text" id="cqp-hist-search" placeholder="Search in description...">
+                </div>
+                <button id="cqp-apply-filters-btn" class="btn-goldmex-primary">
+                    <i class='bx bx-filter-alt'></i> Filter
+                </button>
+            </div>
+            <div class="cqp-table-container">
+                <table id="clientCqpHistoryTable" class="display nowrap" style="width:100%">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="cqp-modal-footer">
+            <button type="button" id="cqpCloseHistoryFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqpViewRequestModal" class="cqp-modal">
+    <div class="cqp-modal-content cqp-modal-xlarge">
+        <div class="cqp-modal-header">
+            <h3 id="cqpViewModalTitle"><i class='bx bx-show-alt'></i> Request Details</h3>
+            <button class="cqp-close-button" id="cqpCloseViewModalBtn">&times;</button>
+        </div>
+        <div id="cqpViewModalBody" class="cqp-modal-body">
+            <p>Loading details...</p>
+        </div>
+        <div class="cqp-modal-footer">
+            <button type="button" id="cqpCloseViewFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqpCustomConfirmModal" class="cqp-modal">
+    <div class="cqp-modal-content" style="max-width: 450px;">
+        <div class="cqp-modal-header">
+            <h3 id="cqpConfirmTitle">Confirm Action</h3>
+            <button class="cqp-close-button" id="cqpConfirmCloseBtn">&times;</button>
+        </div>
+        <div class="cqp-modal-body">
+            <p id="cqpConfirmMessage" style="line-height: 1.6;"></p>
+        </div>
+        <div class="cqp-modal-footer" style="justify-content: flex-end;">
+            <button type="button" id="cqpConfirmCancelBtn" class="btn-goldmex-secondary">Cancel</button>
+            <button type="button" id="cqpConfirmOkBtn" class="btn-goldmex-primary">OK</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqpMissingInfoModal" class="cqp-modal">
+    <div class="cqp-modal-content" style="max-width: 800px;">
+        <div class="cqp-modal-header">
+            <h3 id="cqpMissingInfoTitle"><i class='bx bx-error-circle' style="color: #fd7e14;"></i> Action Required</h3>
+            <button class="cqp-close-button" id="cqpCloseMissingInfoModalBtn">&times;</button>
+        </div>
+        <div class="cqp-modal-body">
+            <p class="cqp-modal-instructions" style="border-left-color: #fd7e14;">
+                Our classification agent has reviewed your request and requires the following information/documents to
+                continue.
+            </p>
+            <div class="cqp-missing-info-grid">
+                <div class="cqp-missing-info-section">
+                    <h4><i class='bx bx-list-check'></i> Flagged Documents / Items</h4>
+                    <ul id="cqpMissingItemsList" class="cqp-check-list">
+                    </ul>
+                </div>
+                <div class="cqp-missing-info-section">
+                    <h4><i class='bx bx-message-dots'></i> Additional Comments from Agent</h4>
+                    <p id="cqpMissingDetails" class="cqp-agent-comments">
+                    </p>
+                </div>
+            </div>
+            <div class="cqp-upload-action-section">
+                <button id="cqpUploadMissingDocsBtn" class="btn-goldmex-primary"><i class='bx bx-cloud-upload'></i>
+                    Upload Required Documents</button>
+                <button id="cqpNotifyAgentBtn" class="btn-goldmex-secondary" disabled><i class='bx bx-paper-plane'></i>
+                    Notify Agent of new documents</button>
+            </div>
+        </div>
+        <div class="cqp-modal-footer" style="justify-content: flex-end;">
+            <button type="button" id="cqpCloseMissingInfoFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqpDocManagementModal" class="cqp-modal">
+    <div class="cqp-modal-content" style="max-width: 800px;">
+        <div class="cqp-modal-header">
+            <h2 id="cqpDocModalTitle"><i class='bx bx-folder-open'></i> Request Documents</h2>
+            <button class="cqp-close-button" id="cqpCloseDocModalBtn">&times;</button>
+        </div>
+        <div class="cqp-modal-body">
+            <div class="cqp-doc-upload-section">
+                <h4><i class='bx bx-cloud-upload'></i> Upload New Document</h4>
+                <div class="cqp-form-grid-upload">
+                    <div class="cqp-form-group">
+                        <label for="cqpDocFileInput">Select File:</label>
+                        <input type="file" id="cqpDocFileInput" class="cqp-file-input">
+                    </div>
+                    <div class="cqp-form-group-button">
+                        <button type="button" id="cqpUploadDocBtn" class="btn-goldmex-primary"><i
+                                class='bx bx-upload'></i> Upload</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cqp-doc-list-section">
+                <h4><i class='bx bx-list-ul'></i> Uploaded Documents</h4>
+                <div id="cqpDocListContainer" class="cqp-doc-list-container">
+                    <p id="cqpNoDocsMessage" class="cqp-no-docs-message" style="display:none;">No documents uploaded for
+                        this request yet.</p>
+                </div>
+            </div>
+        </div>
+        <div class="cqp-modal-footer">
+            <button type="button" class="btn-goldmex-secondary" id="cqpCloseDocModalFooterBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="cqpViewReportModal" class="cqp-modal">
+    <div class="cqp-modal-content cq-report-modal-content">
+        <div class="cqp-modal-header">
+            <h3 id="cqpReportTitle">Classification & Quoting Report</h3>
+            <button class="cqp-close-button" id="cqpCloseReportModalBtn">&times;</button>
+        </div>
+        <div id="cqp-report-body" class="cq-report-body">
+        </div>
+        <div class="cqp-modal-footer" style="justify-content: space-between;">
+            <button type="button" id="cqpDownloadReportPdfBtn" class="btn-goldmex-secondary">
+                <i class='bx bxs-file-pdf'></i> Download PDF
+            </button>
+            <button type="button" id="cqpCloseReportFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="customNotificationContainerCQP" class="custom-notification-cqp-container"></div>
+
+<script src="js/brokerage-cqp.js"></script>

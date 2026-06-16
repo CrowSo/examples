@@ -1,0 +1,48 @@
+<div class="wst-ranking-container">
+
+    <div class="wst-rank-header">
+        <div class="wst-rank-title">
+            <h2>GMX <span>Performance Board</span></h2>
+            <p style="margin:0; color:var(--rank-text-muted); font-size:0.9rem;">Real-time Production Leaderboard</p>
+        </div>
+        
+        <div class="live-indicator">
+            <div class="live-dot"></div>
+            LIVE UPDATE
+        </div>
+    </div>
+
+    <div class="wst-rank-summary">
+        <div class="summary-card">
+            <div class="sum-icon">
+                <i class='bx bxs-package'></i>
+            </div>
+            <div class="sum-data">
+                <span class="sum-label">Plant Total Output</span>
+                <span class="sum-value" id="wst-rank-total-pallets">0</span>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="sum-icon" style="background: rgba(14, 44, 76, 0.1); color: var(--rank-blue);">
+                <i class='bx bxs-watch'></i>
+            </div>
+            <div class="sum-data">
+                <span class="sum-label">Global Efficiency</span>
+                <span class="sum-value" id="wst-rank-global-time">--</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="wst-leaderboard" id="wst-rank-list">
+        
+        <div style="text-align:center; padding: 4rem; color: var(--rank-text-muted);">
+            <i class='bx bx-loader-alt bx-spin' style="font-size: 3rem; margin-bottom: 1rem;"></i>
+            <p>Synchronizing Live Data...</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/wst-ranking.js"></script>

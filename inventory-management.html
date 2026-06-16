@@ -1,0 +1,483 @@
+<div class="inventory-container">
+    <div class="inv-header">
+        <div class="inv-header-title">
+            <h2><i class='bx bxs-box'></i> Inventory Manager</h2>
+        </div>
+        
+        <div class="inv-tabs">
+            <button class="inv-tab-button active" data-tab="inv-tab-raw">
+                <i class='bx bxs-component'></i> Production Planning (Raw)
+            </button>
+            <button class="inv-tab-button" data-tab="inv-tab-onhand">
+                <i class='bx bxs-package'></i> Finished Goods
+            </button>
+            <button class="inv-tab-button" data-tab="inv-tab-kardex">
+                <i class='bx bx-history'></i> SKU Kardex
+            </button>
+        </div>
+
+        <div class="inv-header-actions">
+            <div id="headerKardexSearchWidget" style="display:none; align-items:center; gap:0.5rem; margin-right: 1rem;">
+                <div class="kardex-header-input-wrapper">
+                    <i class='bx bx-search'></i>
+                    <input type="text" id="kardexSkuInput" placeholder="SKU Search (e.g. GMX0045)..." autocomplete="off">
+                    <button id="kardexClearBtn" class="btn-input-clear" title="Clear Search">&times;</button>
+                </div>
+                <button id="kardexSearchBtn" class="btn-goldmex-primary">Search</button>
+            </div>
+
+            <button id="inv-export-btn" class="btn-goldmex-secondary global-action-btn">
+                <i class='bx bxs-download'></i> Export
+            </button>
+            <button id="inv-refresh-btn" class="btn-goldmex-primary global-action-btn">
+                <i class='bx bx-refresh'></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="inv-tab-raw" class="inv-tab-content active">
+        <div class="inv-dashboard-summary">
+            <div class="inv-scorecard" style="border-left-color: #6366f1;">
+                <div class="inv-scorecard-icon" style="color: #6366f1; background: rgba(99, 102, 241, 0.1);">
+                    <i class='bx bxs-layer'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Raw Lots Available</h4>
+                    <p id="inv-raw-total-count">0</p>
+                </div>
+            </div>
+            <div class="inv-scorecard" style="border-left-color: #f59e0b;">
+                <div class="inv-scorecard-icon" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);">
+                    <i class='bx bx-loader-circle'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Orders In Production</h4>
+                    <p id="inv-raw-pending-count">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="inv-controls-bar">
+            <div class="inv-filters" style="display: flex; gap: 1rem; align-items: flex-end; width: 100%;">
+                
+                <div class="inv-filter-group search-group" style="flex: 2;">
+                    <label>Search Raw Material:</label>
+                    <input type="text" id="rawFilterSearch" placeholder="Search SKU, Order #...">
+                </div>
+
+                <div class="inv-filter-group" style="flex: 1; min-width: 150px;">
+                    <label>Client:</label>
+                    <select id="rawFilterClient">
+                        <option value="all">All Clients</option>
+                    </select>
+                </div>
+
+                <div class="inv-filter-group" style="flex: 1; min-width: 150px;">
+                    <label>Product:</label>
+                    <select id="rawFilterProduct">
+                        <option value="all">All Products</option>
+                    </select>
+                </div>
+
+                <div class="inv-filter-group" style="flex: 1; min-width: 140px;">
+                    <label>Planning Status:</label>
+                    <select id="rawFilterStatus">
+                        <option value="all">All Active</option>
+                        <option value="pending">Pending Start</option>
+                        <option value="production">In Production</option>
+                    </select>
+                </div>
+
+                <div class="inv-filter-actions-group">
+                    <button id="rawApplyFiltersBtn" class="btn-goldmex-secondary">
+                        <i class='bx bx-filter-alt'></i> Filter
+                    </button>
+                    <button id="btnOpenRawHistory" class="btn-goldmex-secondary" style="margin-left: 10px; border-color: var(--color-border); color: var(--color-text-secondary);">
+                        <i class='bx bx-history'></i> History
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="inv-table-container">
+            <table id="rawInventoryTable" class="display responsive nowrap" style="width:100%">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="inv-tab-onhand" class="inv-tab-content">
+        <div class="inv-dashboard-summary">
+            <div class="inv-scorecard">
+                <div class="inv-scorecard-icon total">
+                    <i class='bx bxs-cuboid'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Total Pallets On-Hand</h4>
+                    <p id="inv-db-total-pallets">0</p>
+                </div>
+            </div>
+            <div class="inv-scorecard">
+                <div class="inv-scorecard-icon items">
+                    <i class='bx bxs-purchase-tag'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Unique Products</h4>
+                    <p id="inv-db-unique-products">0</p>
+                </div>
+            </div>
+            <div class="inv-scorecard">
+                <div class="inv-scorecard-icon recent">
+                    <i class='bx bxs-time-five'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Received Today</h4>
+                    <p id="inv-db-received-today">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="inv-controls-bar">
+            <div class="inv-filters">
+                <div class="inv-filter-group search-group">
+                    <label for="invFilterSearch">Search (QR / Product):</label>
+                    <input type="text" id="invFilterSearch" placeholder="Scan QR...">
+                </div>
+                <div class="inv-filter-group sku-group">
+                    <label for="invFilterSku">SKU / Part #:</label>
+                    <input type="text" id="invFilterSku" placeholder="GMX...">
+                </div>
+                <div class="inv-filter-group date-group">
+                    <label for="invFilterStart">From:</label>
+                    <input type="date" id="invFilterStart">
+                </div>
+                <div class="inv-filter-group date-group">
+                    <label for="invFilterEnd">To:</label>
+                    <input type="date" id="invFilterEnd">
+                </div>
+                <div class="inv-filter-actions-group">
+                    <button id="invApplyFiltersBtn" class="btn-goldmex-secondary">
+                        <i class='bx bx-filter-alt'></i> Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="inv-table-container">
+            <table id="inventoryTable" class="display responsive nowrap" style="width:100%">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="inv-tab-kardex" class="inv-tab-content">
+        
+        <div id="kardexProductInfo" class="kardex-product-info" style="display:none; margin-top:1rem;">
+            <h3 id="kardexProductName">Product Name</h3>
+            <span class="kardex-sku-tag" id="kardexProductSku">SKU</span>
+        </div>
+
+        <div class="inv-dashboard-summary" id="kardexDashboard" style="display:none;">
+            <div class="inv-scorecard" style="border-left-color: #28a745;">
+                <div class="inv-scorecard-icon" style="color:#28a745; background:rgba(40,167,69,0.1);">
+                    <i class='bx bx-log-in-circle'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Total Inbound (Range)</h4>
+                    <p id="kardex-db-in">0</p>
+                </div>
+            </div>
+            <div class="inv-scorecard" style="border-left-color: #dc3545;">
+                <div class="inv-scorecard-icon" style="color:#dc3545; background:rgba(220,53,69,0.1);">
+                    <i class='bx bx-log-out-circle'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Total Outbound (Range)</h4>
+                    <p id="kardex-db-out">0</p>
+                </div>
+            </div>
+            <div class="inv-scorecard" style="border-left-color: #0e2c4c;">
+                <div class="inv-scorecard-icon" style="color:#0e2c4c; background:rgba(14,44,76,0.1);">
+                    <i class='bx bxs-package'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>Current REAL Balance</h4>
+                    <p id="kardex-db-balance">0</p>
+                </div>
+            </div>
+            <div class="inv-scorecard" style="border-left-color: #f59e0b;">
+                <div class="inv-scorecard-icon" style="color:#f59e0b; background:rgba(245,158,11,0.1);">
+                    <i class='bx bxs-traffic'></i>
+                </div>
+                <div class="inv-scorecard-info">
+                    <h4>In Transit</h4>
+                    <p id="kardex-db-transit">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="kardexTableSection" class="inv-table-section" style="display:none; flex:1; flex-direction:column; min-height:0;">
+            <div class="inv-controls-bar">
+                <div class="inv-filters">
+                    <div class="inv-filter-group">
+                        <label>From:</label>
+                        <input type="date" id="kardexFilterStart">
+                    </div>
+                    <div class="inv-filter-group">
+                        <label>To:</label>
+                        <input type="date" id="kardexFilterEnd">
+                    </div>
+                    <div class="inv-filter-actions-group">
+                         <button id="kardexApplyFilter" class="btn-goldmex-secondary"><i class='bx bx-filter'></i> Apply</button>
+                         <button id="kardexExportBtn" class="btn-goldmex-secondary"><i class='bx bxs-file-export'></i> Export</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inv-table-container">
+                <table id="kardexTable" class="display responsive nowrap" style="width:100%">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="kardexEmptyState" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; opacity:0.5;">
+            <i class='bx bx-search-alt' style="font-size:4rem;"></i>
+            <p style="font-size:1.2rem;">Use the search bar in the top right corner.</p>
+        </div>
+    </div>
+</div>
+
+<div id="jobTicketModal" class="inv-modal">
+    <div class="inv-modal-content" style="max-width: 700px;">
+        <div class="inv-modal-header">
+            <h3><i class='bx bxs-coupon'></i> Production Planning (Job Tickets)</h3>
+            <button class="inv-close-button" id="closeJobTicketBtn">&times;</button>
+        </div>
+        <div class="inv-modal-body" style="background-color: #f8fafc;">
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">
+                <div>
+                    <h4 id="ticket-product-name" style="margin:0; color:var(--color-text-main);">Product Name</h4>
+                    <small id="ticket-product-sku" style="font-weight:700; color:var(--goldmex-primary-color);">SKU</small>
+                </div>
+                <div style="text-align:right;">
+                    <h4 id="ticket-order-ref" style="margin:0; color:var(--color-text-main);">ORD-XXX</h4>
+                    <small id="ticket-client-name" style="color:var(--color-text-secondary);">Client Name</small>
+                </div>
+            </div>
+
+            <div class="inv-pcp-dashboard">
+                <div class="pcp-card">
+                    <span class="pcp-label">Total Order</span>
+                    <span class="pcp-value" id="pcp-total-order">0</span>
+                    <small>Pallets</small>
+                </div>
+                <div class="pcp-card">
+                    <span class="pcp-label">Assigned (WIP)</span>
+                    <span class="pcp-value" id="pcp-assigned">0</span>
+                    <small>Pallets</small>
+                </div>
+                <div class="pcp-card highlight" id="pcp-card-remaining">
+                    <span class="pcp-label">Remaining to Plan</span>
+                    <span class="pcp-value" id="pcp-remaining">0</span>
+                    <small>Pallets</small>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 1.2rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <h5 style="margin:0 0 1rem 0; color:var(--goldmex-primary-color);"><i class='bx bx-plus-circle'></i> Create New Job Ticket</h5>
+                <form id="jobTicketForm" style="display:grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+                    <input type="hidden" id="ticket-raw-id">
+                    
+                    <div class="inv-form-group" style="margin:0;">
+                        <label for="ticket-line-select">Assign Line</label>
+                        <select id="ticket-line-select" required>
+                            <option value="">-- Select Line --</option>
+                            </select>
+                    </div>
+
+                    <div class="inv-form-group" style="margin:0;">
+                        <label for="ticket-target-pallets">Quantity to Assign</label>
+                        <input type="number" id="ticket-target-pallets" min="1" required placeholder="0">
+                    </div>
+
+                    <button type="submit" class="btn-goldmex-primary" style="height: 42px;">
+                        <i class='bx bxs-printer'></i> Generate
+                    </button>
+                </form>
+            </div>
+
+            <div class="inv-ticket-history">
+                <h5 style="margin:0 0 0.5rem 0; color:var(--color-text-secondary); font-size:0.9rem;">
+                    <i class='bx bx-history'></i> Active Tickets for this Order
+                </h5>
+                <div class="inv-table-container" style="max-height: 150px; min-height: 100px; box-shadow:none;">
+                    <table style="width:100%; border-collapse: collapse; font-size: 0.85rem;">
+                        <thead style="background: #f1f5f9; position: sticky; top:0;">
+                            <tr>
+                                <th style="padding:8px; text-align:left;">Ticket ID</th>
+                                <th style="padding:8px; text-align:left;">Line</th>
+                                <th style="padding:8px; text-align:center;">Target</th>
+                                <th style="padding:8px; text-align:center;">Status</th>
+                                <th style="padding:8px; text-align:center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketHistoryTable">
+                            <tr><td colspan="5" style="text-align:center; padding:1rem; color:#999;">No tickets generated yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="inv-modal-footer">
+            <button type="button" id="cancelJobTicketBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="invDetailsModal" class="inv-modal">
+    <div class="inv-modal-content inv-modal-large">
+        <div class="inv-modal-header">
+            <h3 id="invDetailsTitle"><i class='bx bx-barcode'></i> Pallet Details</h3>
+            <button class="inv-close-button" id="invCloseDetailsBtn">&times;</button>
+        </div>
+        <div class="inv-modal-body">
+            <div class="inv-details-grid">
+                <div class="inv-info-card">
+                    <h4><i class='bx bxs-cube'></i> Product Info</h4>
+                    <div class="inv-detail-row">
+                        <span class="label">Product Name:</span>
+                        <span class="value highlight" id="inv-det-product">--</span>
+                    </div>
+                    <div class="inv-detail-row">
+                        <span class="label">SKU:</span>
+                        <span class="value" id="inv-det-sku" style="font-family:monospace; color:var(--goldmex-primary-color); font-weight:700;">--</span>
+                    </div>
+                    <div class="inv-detail-row">
+                        <span class="label">QR ID:</span>
+                        <span class="value" id="inv-det-qr">--</span>
+                    </div>
+                    <div class="inv-detail-row">
+                        <span class="label">Config:</span>
+                        <span class="value" id="inv-det-config">--</span>
+                    </div>
+                </div>
+
+                <div class="inv-info-card">
+                    <h4><i class='bx bxs-factory'></i> Production Origin</h4>
+                    <div class="inv-detail-row">
+                        <span class="label">Line:</span>
+                        <span class="value" id="inv-det-line">--</span>
+                    </div>
+                    <div class="inv-detail-row">
+                        <span class="label">Produced By:</span>
+                        <span class="value" id="inv-det-operator">--</span>
+                    </div>
+                    <div class="inv-detail-row">
+                        <span class="label">Timestamp:</span>
+                        <span class="value" id="inv-det-date">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="inv-divider">
+            
+            <div class="inv-actions-section">
+                <h4><i class='bx bxs-cog'></i> Manual Actions</h4>
+                <div class="inv-action-buttons">
+                    <button id="inv-btn-kardex-shortcut" class="btn-goldmex-secondary">
+                        <i class='bx bx-history'></i> View SKU Kardex
+                    </button>
+                    <button id="inv-btn-print" class="btn-goldmex-secondary">
+                        <i class='bx bxs-printer'></i> Reprint Label
+                    </button>
+                    <button id="inv-btn-adjust" class="btn-goldmex-danger-outline">
+                        <i class='bx bxs-minus-circle'></i> Inventory Adjustment (Remove)
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="inv-modal-footer">
+            <button type="button" id="invCloseDetailsFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="invAdjustModal" class="inv-modal">
+    <div class="inv-modal-content">
+        <div class="inv-modal-header">
+            <h3><i class='bx bxs-minus-circle'></i> Confirm Adjustment</h3>
+            <button class="inv-close-button" id="invCloseAdjustBtn">&times;</button>
+        </div>
+        <div class="inv-modal-body">
+            <p class="inv-warning-text">
+                Are you sure you want to remove this pallet from "On-Hand" inventory? 
+                This action creates an adjustment record.
+            </p>
+            <form id="invAdjustForm">
+                <input type="hidden" id="inv-adjust-id">
+                <div class="inv-form-group">
+                    <label for="inv-adjust-reason">Reason for Removal <span class="inv-required">*</span></label>
+                    <select id="inv-adjust-reason" required>
+                        <option value="" disabled selected>Select a reason...</option>
+                        <option value="Damaged">Damaged / Merma</option>
+                        <option value="Quality Control">Quality Control / Sample</option>
+                        <option value="System Correction">System Correction (Ghost Pallet)</option>
+                        <option value="Manual Dispatch">Manual Dispatch (Outside System)</option>
+                    </select>
+                </div>
+                <div class="inv-form-group">
+                    <label for="inv-adjust-notes">Notes</label>
+                    <textarea id="inv-adjust-notes" rows="3" placeholder="Optional details..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="inv-modal-footer">
+            <button type="button" id="invCancelAdjustBtn" class="btn-goldmex-secondary">Cancel</button>
+            <button type="submit" form="invAdjustForm" id="invConfirmAdjustBtn" class="btn-goldmex-danger">
+                Confirm Removal
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="invRawHistoryModal" class="inv-modal">
+    <div class="inv-modal-content inv-modal-large">
+        <div class="inv-modal-header">
+            <h3><i class='bx bx-history'></i> Planning History (Completed / Consumed)</h3>
+            <button class="inv-close-button" id="closeRawHistoryBtn">&times;</button>
+        </div>
+        <div class="inv-modal-body">
+            <div style="margin-bottom: 1rem; display:flex; gap:10px;">
+                <input type="text" id="rawHistorySearch" placeholder="Search history..." style="padding:8px; border:1px solid #ccc; border-radius:4px; flex:1;">
+                <button id="btnRawHistoryRefresh" class="btn-goldmex-secondary"><i class='bx bx-refresh'></i></button>
+            </div>
+            
+            <div class="inv-table-container" style="max-height: 50vh;">
+                <table id="rawHistoryTable" class="display responsive nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Order Ref</th>
+                            <th>Product</th>
+                            <th>Status</th>
+                            <th>Date Rcvd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="inv-modal-footer">
+            <button type="button" id="closeRawHistoryFooterBtn" class="btn-goldmex-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/inventory-management.js"></script>

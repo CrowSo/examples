@@ -1,0 +1,260 @@
+<div class="wst-workstation-container">
+
+    <div id="wst-loading-state" class="wst-loading-overlay">
+        <div class="wst-spinner">
+            <i class='bx bx-loader-alt bx-spin'></i>
+            <p>Syncing with Cloud...</p>
+        </div>
+    </div>
+
+    <div id="wst-view-selection" class="wst-view hidden">
+        <div class="wst-selection-header">
+            <h2><i class='bx bxs-factory'></i> Workstation Hub</h2>
+            <p>Select a production line to begin your shift.</p>
+            <button class="btn-goldmex-secondary" id="wst-add-line-btn" style="margin-top: 1rem;">
+                <i class='bx bx-plus'></i> Create New Line
+            </button>
+        </div>
+
+        <div class="wst-lines-grid" id="wst-lines-grid-container">
+        </div>
+
+        <div id="wst-login-overlay" class="wst-overlay hidden">
+            <div class="wst-login-box">
+                <input type="hidden" id="wst-selected-line-id">
+                <h3>Assign Team to <span id="wst-selected-line-display">Line X</span></h3>
+
+                <div class="cm-form-group" style="display:flex; gap:0.5rem; margin-bottom: 0.5rem;">
+                    <input type="text" id="wst-operator-name-input" placeholder="Worker Name (e.g. Danna)"
+                        style="flex:1;" autofocus>
+                    <button class="btn-goldmex-secondary" id="wst-add-worker-btn"><i class='bx bx-plus'></i></button>
+                </div>
+
+                <div id="wst-worker-list"
+                    style="margin-bottom: 1rem; height: 150px; overflow-y: auto; background: var(--wst-bg); border-radius: 8px; border: 1px solid var(--wst-border);">
+                    <div
+                        style="padding:1rem; text-align:center; color:var(--wst-text-light); font-size:0.9rem; margin-top: 2rem;">
+                        No workers assigned yet.<br>Add at least one to start.
+                    </div>
+                </div>
+
+                <div
+                    style="margin-bottom:1.5rem; text-align:right; font-weight:bold; font-size:0.9rem; color: var(--wst-text-main);">
+                    Total Workers: <span id="wst-worker-count-display" style="color:var(--wst-primary);">0</span>
+                </div>
+
+                <div class="wst-login-actions">
+                    <button class="btn-goldmex-secondary" id="wst-cancel-login-btn">Cancel</button>
+                    <button class="btn-goldmex-primary" id="wst-confirm-login-btn">Start Shift</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wst-view-dashboard" class="wst-view hidden">
+
+        <div class="wst-dashboard-header">
+            <div class="wst-header-info">
+                <div class="wst-badge-line">
+                    <i class='bx bxs-cog'></i>
+                    <span id="wst-dashboard-line-title">LINE X</span>
+                </div>
+                <div class="wst-badge-op" id="wst-edit-team-trigger" style="cursor:pointer;" title="Click to Modify Crew">
+                    <i class='bx bxs-user'></i>
+                    <span id="wst-dashboard-operator">Operator</span>
+                    <i class='bx bxs-edit-alt' style="margin-left:5px; opacity:0.7;"></i>
+                </div>
+            </div>
+            <button class="btn-goldmex-secondary btn-sm" id="wst-release-line-btn">
+                <i class='bx bx-log-out'></i> End Shift
+            </button>
+        </div>
+
+        <div class="wst-main-layout">
+
+            <div class="wst-control-panel">
+
+                <div class="wst-top-dashboard">
+
+                    <div class="wst-selection-wrapper">
+                        <button id="wst-scan-ticket-btn" class="wst-select-btn">
+                            <div class="icon-box"><i class='bx bx-qr-scan'></i></div>
+                            <div class="text-box">
+                                <strong>Scan Ticket</strong>
+                                <span>Step 1</span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="wst-metrics-grid">
+                        <div class="wst-metric-card">
+                            <div class="metric-icon"><i class='bx bx-box'></i></div>
+                            <div class="metric-info">
+                                <span class="metric-label">Product</span>
+                                <strong id="wst-card-name" class="metric-value text-truncate">--</strong>
+                            </div>
+                        </div>
+
+                        <div class="wst-metric-card">
+                            <div class="metric-icon"><i class='bx bx-task'></i></div>
+                            <div class="metric-info">
+                                <span class="metric-label">Job Progress</span>
+                                <strong id="wst-card-progress" class="metric-value">0 / 0 Pallets</strong>
+                            </div>
+                        </div>
+
+                        <div class="wst-metric-card">
+                            <div class="metric-icon"><i class='bx bx-timer'></i></div>
+                            <div class="metric-info">
+                                <span class="metric-label">Standard Time</span>
+                                <strong id="wst-card-std-time" class="metric-value">0h 0m</strong>
+                            </div>
+                        </div>
+
+                        <div class="wst-metric-card highlight-card">
+                            <div class="metric-icon"><i class='bx bx-pulse'></i></div>
+                            <div class="metric-info">
+                                <span class="metric-label">Real Time</span>
+                                <strong id="wst-card-real-time" class="metric-value">00:00:00</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wst-actions-container">
+                    <div class="wst-status-bar">
+                        Current Status: <span id="wst-process-status">Idle - Waiting for ticket scan...</span>
+                    </div>
+
+                    <div class="wst-buttons-grid">
+                        <button id="wst-btn-start" class="wst-action-btn btn-start" disabled>
+                            <i class='bx bx-play-circle'></i>
+                            Start Process
+                        </button>
+
+                        <button id="wst-btn-finish" class="wst-action-btn btn-finish" disabled>
+                            <i class='bx bx-stop-circle'></i>
+                            Finish Process
+                        </button>
+
+                        <button id="wst-btn-print" class="wst-action-btn btn-print" disabled>
+                            <i class='bx bxs-printer'></i>
+                            Print Label
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="wst-sidebar">
+                <div class="sidebar-header">
+                    <h4><i class='bx bx-history'></i> Session Log</h4>
+                    <span class="badge" id="wst-session-count">0</span>
+                </div>
+
+                <div class="sidebar-content" id="wst-history-list">
+                    <div id="wst-empty-history" class="empty-message">
+                        <i class='bx bx-list-ul' style="font-size: 2rem; opacity: 0.5;"></i>
+                        <p>No pallets processed today.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div id="wst-ticket-modal" class="wst-modal hidden">
+    <div class="wst-login-box">
+        <h3><i class='bx bxs-coupon'></i> Scan Job Ticket</h3>
+        <p style="margin-bottom: 1.5rem; color: var(--wst-text-light);">Scan the QR code on the production paperwork to authorize the line.</p>
+
+        <div class="cm-form-group">
+            <div class="wst-search-bar">
+                <i class='bx bx-qr-scan'></i>
+                <input type="text" id="wst-ticket-input" placeholder="Click here & Scan QR..." autofocus autocomplete="off">
+            </div>
+            <p id="wst-ticket-error" style="color: var(--wst-danger); font-size: 0.85rem; margin-top: 0.5rem; display: none;"></p>
+        </div>
+
+        <div class="wst-login-actions">
+            <button class="btn-goldmex-secondary" id="wst-cancel-ticket-btn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="wst-confirm-modal" class="wst-modal hidden">
+    <div class="wst-confirm-box">
+        <div class="confirm-icon">
+            <i class='bx bx-question-mark'></i>
+        </div>
+        <h3>Finish Pallet?</h3>
+        <p>This will stop the timer and generate the label. Are you sure the pallet is complete?</p>
+        <div class="wst-login-actions">
+            <button class="btn-goldmex-secondary" id="wst-confirm-no">Cancel</button>
+            <button class="btn-goldmex-primary" id="wst-confirm-yes">Yes, Finish</button>
+        </div>
+    </div>
+</div>
+
+<div id="wst-end-shift-modal" class="wst-modal hidden">
+    <div class="wst-confirm-box">
+        <div class="confirm-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--wst-danger);">
+            <i class='bx bx-log-out'></i>
+        </div>
+        <h3>End Shift?</h3>
+        <p>This will release the line and log you out. Ensure no pallets are currently active.</p>
+        <div class="wst-login-actions">
+            <button class="btn-goldmex-secondary" id="wst-end-shift-no">Cancel</button>
+            <button class="btn-goldmex-primary" id="wst-end-shift-yes"
+                style="background-color: var(--wst-danger); border-color: var(--wst-danger);">
+                End Shift
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="wst-create-line-modal" class="wst-modal hidden">
+    <div class="wst-login-box">
+        <h3><i class='bx bxs-factory'></i> Create New Line</h3>
+        <p style="margin-bottom: 1.5rem; color: var(--wst-text-light);">Enter the name for the new production line.</p>
+
+        <div class="cm-form-group">
+            <label>Line Name</label>
+            <input type="text" id="wst-new-line-input" placeholder="e.g. Line 5" autofocus>
+        </div>
+
+        <div class="wst-login-actions">
+            <button class="btn-goldmex-secondary" id="wst-create-line-cancel">Cancel</button>
+            <button class="btn-goldmex-primary" id="wst-create-line-confirm">Create Line</button>
+        </div>
+    </div>
+</div>
+
+<div id="wst-live-crew-modal" class="wst-modal hidden">
+    <div class="wst-login-box">
+        <h3><i class='bx bxs-group'></i> Modify Active Crew</h3>
+        <p style="color:var(--wst-text-light); font-size:0.9rem; margin-bottom:1rem;">
+            Adding/Removing people will recalculate the remaining efficiency target automatically.
+        </p>
+
+        <div class="cm-form-group" style="display:flex; gap:0.5rem; margin-bottom: 0.5rem;">
+            <input type="text" id="wst-live-crew-input" placeholder="Worker Name" style="flex:1;">
+            <button class="btn-goldmex-secondary" id="wst-live-crew-add-btn"><i class='bx bx-plus'></i></button>
+        </div>
+
+        <div id="wst-live-crew-list"
+            style="margin-bottom: 1rem; height: 150px; overflow-y: auto; background: var(--wst-bg); border-radius: 8px; border: 1px solid var(--wst-border);">
+        </div>
+
+        <div class="wst-login-actions">
+            <button class="btn-goldmex-secondary" id="wst-live-crew-cancel">Cancel</button>
+            <button class="btn-goldmex-primary" id="wst-live-crew-save">
+                <i class='bx bx-save'></i> Apply & Recalculate
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="js/wst-workstation.js"></script>

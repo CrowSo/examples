@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | GoldMex System</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png" />
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
+    <link rel="stylesheet" href="css/login-style.css" />
+  </head>
+
+  <body>
+    <div
+      id="g_id_onload"
+      data-client_id="240983554572-i95nbaai0c04adfdvfnemh99lgei3lps.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="false"
+    ></div>
+
+    <div class="split-screen-container">
+      <div class="left-pane-form">
+        <div class="brand-header">
+          <div class="brand-logo-container">
+            <i class="bx bxs-package icon-placeholder"></i>
+          </div>
+          <span class="brand-name">GOLDMEX SYSTEM</span>
+        </div>
+
+        <div class="form-content-wrapper">
+          <div class="welcome-text">
+            <h1>Welcome back</h1>
+            <p>Enter your details to access your account.</p>
+          </div>
+
+          <form id="native-login-form">
+            <div class="input-group">
+              <label for="email-input">Email or Username</label>
+              <div class="input-wrapper">
+                <i class="bx bx-envelope input-icon"></i>
+                <input
+                  type="text"
+                  id="email-input"
+                  placeholder="user or user@goldmexintl.com"
+                  required
+                  autocomplete="username"
+                />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="password-input">Password</label>
+              <div class="input-wrapper">
+                <i class="bx bx-lock-alt input-icon"></i>
+                <input
+                  type="password"
+                  id="password-input"
+                  placeholder="Enter your password"
+                  required
+                  autocomplete="current-password"
+                />
+                <i
+                  class="bx bx-show toggle-password"
+                  id="toggle-password-btn"
+                ></i>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn-sign-in-main"
+              id="native-submit-btn"
+            >
+              Sign In
+            </button>
+          </form>
+
+          <div class="divider-container">
+            <span class="divider-text">Or login with</span>
+          </div>
+
+          <div class="social-buttons-container">
+            <div
+              class="g_id_signin"
+              data-type="standard"
+              data-shape="rectangular"
+              data-theme="outline"
+              data-text="signin_with"
+              data-size="large"
+              data-logo_alignment="left"
+              data-width="185"
+            ></div>
+
+            <button id="microsoft-signin-btn" class="btn-social btn-microsoft">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="21"
+                height="21"
+                viewBox="0 0 21 21"
+              >
+                <title>MS-SymbolLockup</title>
+                <rect x="1" y="1" width="9" height="9" fill="#f25022" />
+                <rect x="1" y="11" width="9" height="9" fill="#00a4ef" />
+                <rect x="11" y="1" width="9" height="9" fill="#7fba00" />
+                <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
+              </svg>
+              <span>Microsoft</span>
+            </button>
+          </div>
+
+          <div class="login-footer">
+            <p>© 2024 Goldmex International. Internal use only.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-pane-animated">
+        <div class="overlay-content">
+          <h2>Efficiency in Motion</h2>
+          <p>Manage your warehouse operations seamlessly.</p>
+        </div>
+
+        <ul class="animated-bg-flow">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // 1. CONFIGURATION
+      const SUPABASE_URL = "https://ogatafslnevidfopuvbp.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nYXRhZnNsbmV2aWRmb3B1dmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NDM0MTQsImV4cCI6MjA2MjMxOTQxNH0.Z4uAWCmyzbiFBVM51vLHwo7larVx6Y3wYK6vMzgj9j0";
+
+      let supabaseClient;
+      try {
+        if (window.supabase) {
+          supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+          );
+        }
+      } catch (e) {
+        console.error("Init Error", e);
+      }
+
+      // [MODIFIED] DOMAINS CONFIGURATION (Updated to include Internal Domain)
+      const CORPORATE_DOMAINS = ["@gmxecommerce.com", "@goldmexintl.com"];
+      const INTERNAL_DOMAIN = "@sys.goldmex.com"; 
+
+      // [MODIFIED] ACCESS CHECK FUNCTION (Replaces hardcoded lists with dynamic logic)
+      async function checkUserAccess(email) {
+        if (!email) return false;
+        const lowerEmail = email.toLowerCase();
+        const domain = lowerEmail.substring(lowerEmail.lastIndexOf("@"));
+        
+        // 1. Check Domains (Corporate & Internal)
+        if (CORPORATE_DOMAINS.includes(domain) || domain === INTERNAL_DOMAIN) {
+            return true;
+        }
+        
+        // 2. Check Profiles Table (Database)
+        const { data: profile } = await supabaseClient
+            .from("profiles")
+            .select("id")
+            .eq("email", email)
+            .maybeSingle();
+
+        if (profile) return true;
+
+        // 3. Check Exceptions Table (Database)
+        const { data: exception } = await supabaseClient
+            .from("allowed_exceptions")
+            .select("id")
+            .eq("email", email)
+            .maybeSingle();
+
+        if (exception) return true;
+
+        return false;
+      }
+
+      // 3. TOGGLE PASSWORD
+      const toggleBtn = document.getElementById("toggle-password-btn");
+      const passInput = document.getElementById("password-input");
+      if (toggleBtn && passInput) {
+        toggleBtn.addEventListener("click", () => {
+          const type =
+            passInput.getAttribute("type") === "password" ? "text" : "password";
+          passInput.setAttribute("type", type);
+          toggleBtn.classList.toggle("bx-show");
+          toggleBtn.classList.toggle("bx-hide");
+        });
+      }
+
+      // --- 4. NATIVE LOGIN LOGIC (Updated Loop) ---
+      const loginForm = document.getElementById("native-login-form");
+      const submitBtn = document.getElementById("native-submit-btn");
+
+      if (loginForm) {
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const rawInput = document.getElementById("email-input").value.trim();
+          const password = passInput.value.trim();
+
+          if (!rawInput || !password) return;
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Signing in...";
+
+          // [MODIFIED] Loop Logic to include Internal Domain
+          let emailsToTry = [];
+
+          if (rawInput.includes("@")) {
+            emailsToTry.push(rawInput);
+          } else {
+            // Priority: Internal -> Corporate 1 -> Corporate 2
+            emailsToTry.push(rawInput + INTERNAL_DOMAIN); 
+            emailsToTry.push(rawInput + CORPORATE_DOMAINS[0]); 
+            emailsToTry.push(rawInput + CORPORATE_DOMAINS[1]); 
+          }
+
+          let successData = null;
+
+          for (const emailTry of emailsToTry) {
+            console.log(`Trying login: ${emailTry}`);
+
+            try {
+              const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                  email: emailTry,
+                  password: password,
+                });
+
+              if (!error && data.user) {
+                successData = data;
+                break; 
+              } else {
+                console.warn(`Failed ${emailTry}:`, error.message);
+              }
+            } catch (err) {
+              console.error("Sys Error:", err);
+            }
+          }
+
+          if (successData) {
+            // [MODIFIED] Added Access Check AFTER successful authentication
+            const user = successData.user;
+            const emailUsed = user.email;
+
+            const isAllowed = await checkUserAccess(emailUsed);
+
+            if (!isAllowed) {
+                await supabaseClient.auth.signOut();
+                Swal.fire({
+                  icon: "error",
+                  title: "Access Denied",
+                  text: "Your account is not authorized for this system.",
+                  confirmButtonColor: "#ef4444",
+                });
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Sign In";
+                return;
+            }
+
+            const fallbackName =
+              user.user_metadata?.full_name || emailUsed.split("@")[0];
+
+            await supabaseClient.from("profiles").upsert(
+              {
+                id: user.id,
+                email: emailUsed,
+                full_name: fallbackName,
+                updated_at: new Date().toISOString(),
+              },
+              { onConflict: "id" }
+            );
+
+            window.location.href = "index.html";
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Authentication Failed",
+              text: "Invalid credentials.",
+              confirmButtonColor: "#1a365d",
+            });
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Sign In";
+          }
+        });
+      }
+
+      // 5. GOOGLE LOGIN
+      window.handleCredentialResponse = async function (response) {
+        if (!response.credential) return;
+
+        let decoded;
+        try {
+          decoded = jwt_decode(response.credential);
+        } catch (e) {
+          return Swal.fire("Error", "Invalid Google Token", "error");
+        }
+
+        const email = decoded.email;
+
+        // [MODIFIED] Use dynamic check instead of hardcoded lists
+        const isAllowed = await checkUserAccess(email);
+        
+        if (!isAllowed) {
+          return Swal.fire("Access Denied", "Unauthorized email.", "error");
+        }
+
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithIdToken({
+            provider: "google",
+            token: response.credential,
+          });
+
+          if (error) throw error;
+
+          const userId = data.user.id;
+          await supabaseClient.from("profiles").upsert(
+            {
+              id: userId,
+              full_name: decoded.name,
+              avatar_url: decoded.picture,
+              email: email,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "id" }
+          );
+
+          window.location.href = "index.html";
+        } catch (error) {
+          console.error("Google Login Error:", error);
+          Swal.fire("Error", "Authentication failed.", "error");
+        }
+      };
+
+      // 6. MICROSOFT LOGIN
+      const msBtn = document.getElementById("microsoft-signin-btn");
+      if (msBtn) {
+        msBtn.addEventListener("click", async () => {
+          await supabaseClient.auth.signInWithOAuth({
+            provider: "azure",
+            options: {
+              scopes: "email",
+              redirectTo: window.location.origin + "/index.html",
+            },
+          });
+        });
+      }
+
+      // 7. CHECK SESSION
+      (async () => {
+        if (!supabaseClient) return;
+        const {
+          data: { session },
+        } = await supabaseClient.auth.getSession();
+        
+        // [MODIFIED] Added checkUserAccess to session persistence check
+        if (session) {
+            const allowed = await checkUserAccess(session.user.email);
+            if(allowed) {
+                window.location.href = "index.html";
+            } else {
+                await supabaseClient.auth.signOut();
+            }
+        }
+      })();
+    </script>
+  </body>
+</html>
