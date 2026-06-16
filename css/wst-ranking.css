@@ -1,0 +1,497 @@
+/* ============================================================
+   GMX Performance Board (TV View) - FINAL LAYOUT V8
+   File: css/wst-ranking.css
+   ============================================================ */
+
+:root {
+    --rank-bg: #f8f9fa;
+    --rank-card-bg: #ffffff;
+    --rank-text: #1f2937;
+    --rank-text-muted: #6b7280;
+
+    /* Semantic Colors */
+    --rank-green: #059669;
+    --rank-yellow: #d97706;
+    --rank-red: #dc2626;
+    --rank-blue: #0e2c4c;
+    --rank-gold: #d4af37;
+
+    /* Pause Color */
+    --rank-paused: #f59e0b;
+}
+
+body.dark-mode {
+    --rank-bg: #0f172a;
+    --rank-card-bg: #1e293b;
+    --rank-text: #f3f4f6;
+    --rank-text-muted: #9ca3af;
+
+    --rank-green: #10b981;
+    --rank-yellow: #f59e0b;
+    --rank-red: #ef4444;
+    --rank-paused: #fbbf24;
+
+    --rank-blue: #60a5fa;
+}
+
+/* --- MAIN CONTAINER --- */
+.wst-ranking-container {
+    position: fixed;
+    top: 70px;
+    right: 0;
+    bottom: 0;
+    left: 15rem;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--rank-bg);
+    padding: 1.5rem;
+    gap: 1.5rem;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    z-index: 40;
+    transition: left 0.5s ease;
+}
+
+body.sidebar-minimize .wst-ranking-container,
+.sidebar.minimize~main .wst-ranking-container {
+    left: 4.94rem;
+}
+
+/* --- HEADER --- */
+.wst-rank-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--rank-card-bg);
+    padding: 1.2rem 2rem;
+    border-radius: 16px;
+    border-left: 6px solid var(--rank-gold);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.wst-rank-title h2 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--rank-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.wst-rank-title span {
+    color: var(--rank-gold);
+    font-weight: 800;
+}
+
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--rank-red);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.live-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--rank-red);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* --- SUMMARY (Global Header) --- */
+.wst-rank-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    flex-shrink: 0;
+}
+
+.summary-card {
+    background: var(--rank-card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sum-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--rank-gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.sum-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.sum-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--rank-text-muted);
+    font-weight: 600;
+}
+
+.sum-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--rank-text);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Space between Global Face and Global Pill */
+}
+
+/* Estilo especifico para el Global Efficiency en el header */
+.global-face-icon {
+    font-size: 2.2rem;
+}
+
+/* --- LIST CONTAINER --- */
+.wst-leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 2rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative;
+}
+
+.wst-leaderboard::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- CARD LAYOUT --- */
+.rank-card {
+    display: grid;
+    /* LAYOUT 7 COLUMNAS - Ajustado para expandirse a la izquierda
+       1. Pos (60px)
+       2. Info (1.2fr)
+       3. Product (2.2fr) - MÃ¡s espacio para nombre largo
+       4. Status (0.8fr)
+       5. Real Time (1fr)
+       6. Target Time (1fr)
+       7. Efficiency (1.3fr) - Espacio para Pill + Face
+    */
+    grid-template-columns: 60px 1.2fr 2.2fr 0.8fr 1fr 1fr 1.3fr;
+    align-items: center;
+    background: var(--rank-card-bg);
+    padding: 0.8rem 1.5rem;
+    /* Padding vertical reducido */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.5s ease-in-out, box-shadow 0.3s ease;
+    will-change: transform;
+    border-left: 6px solid transparent;
+    position: relative;
+    gap: 1.2rem;
+    height: 100px;
+    /* Altura fija compacta */
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rank-card:hover {
+    transform: scale(1.005);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+}
+
+/* Position Styles */
+.rank-pos {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--rank-text-muted);
+    opacity: 0.3;
+    font-style: italic;
+    text-align: center;
+}
+
+.rank-card.pos-1 .rank-pos {
+    color: var(--rank-gold);
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.rank-card.pos-2 .rank-pos {
+    color: #c0c0c0;
+    opacity: 0.8;
+}
+
+.rank-card.pos-3 .rank-pos {
+    color: #cd7f32;
+    opacity: 0.8;
+}
+
+/* Internal Card Layout */
+.rank-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
+}
+
+.line-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--rank-text);
+    white-space: nowrap;
+}
+
+.line-op {
+    font-size: 0.85rem;
+    color: var(--rank-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* PRODUCT NAME - MULTILINE STAIRS EFFECT */
+.current-item-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--rank-text);
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* MÃ¡ximo 2 lÃ­neas */
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    text-align: left;
+    height: 2.4em;
+    /* Forzar altura para 2 lÃ­neas */
+    display: flex;
+    align-items: center;
+}
+
+/* STATUS BADGE */
+.rank-status-badge {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.status-active {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--rank-green);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    animation: pulseBorder 2s infinite;
+}
+
+.status-paused {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--rank-paused);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-idle {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--rank-text-muted);
+}
+
+/* TIMERS & HEADERS */
+.rank-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.timer-header {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--rank-text-muted);
+    font-weight: 800;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    width: 100%;
+    text-align: center;
+}
+
+.live-timer-display,
+.target-time-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1.4rem;
+    /* TamaÃ±o grande */
+    font-weight: 900;
+    padding: 0.2rem 0;
+    border-radius: 4px;
+    width: 100%;
+    text-align: center;
+    line-height: 1;
+}
+
+.live-timer-display {
+    color: var(--rank-blue);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.target-time-display {
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+body.dark-mode .live-timer-display {
+    color: #60a5fa;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .target-time-display {
+    color: #818cf8;
+    background: rgba(129, 140, 248, 0.1);
+}
+
+/* EFFICIENCY COLUMN (Pill + Face) */
+.efficiency-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* Alineado a la derecha */
+    gap: 12px;
+    /* SeparaciÃ³n entre Pill y Cara */
+    width: 100%;
+}
+
+.time-diff {
+    font-family: 'Courier New', monospace;
+    font-weight: 900;
+    font-size: 1.2rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.diff-positive {
+    color: var(--rank-green);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.diff-neutral {
+    color: var(--rank-yellow);
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.diff-negative {
+    color: var(--rank-red);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.rank-face-icon {
+    font-size: 2.2rem;
+    /* Cara grande */
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* Borders based on status */
+.rank-card.status-good {
+    border-left-color: var(--rank-green);
+}
+
+.rank-card.status-warn {
+    border-left-color: var(--rank-yellow);
+}
+
+.rank-card.status-bad {
+    border-left-color: var(--rank-red);
+}
+
+.rank-card.status-active-pulse {
+    border-left-color: var(--rank-green);
+}
+
+@keyframes pulseBorder {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* HIDDEN PALLET COUNTER */
+.rank-stat-pallets {
+    display: none !important;
+}
+
+/* Media Queries */
+@media (max-width: 1400px) {
+    .rank-card {
+        /* Ajuste responsivo manteniendo proporciones */
+        grid-template-columns: 50px 1.2fr 2fr 0.8fr 1fr 1fr 1.3fr;
+        padding: 0.8rem;
+        gap: 0.8rem;
+    }
+
+    .live-timer-display,
+    .target-time-display {
+        font-size: 1.2rem;
+    }
+
+    .rank-face-icon {
+        font-size: 1.8rem;
+    }
+
+    .time-diff {
+        font-size: 1rem;
+    }
+}

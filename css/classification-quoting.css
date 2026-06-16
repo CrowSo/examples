@@ -1,0 +1,1296 @@
+/*
+ * ====================================================================
+ * == STYLES FOR CLASSIFICATION & QUOTING (CQ) MODULE (V14 - UNIVERSAL FIX) ==
+ * ====================================================================
+ */
+
+/* Main Container & Animations */
+.cq-container {
+    padding: 1rem;
+    background-color: var(--color-bg);
+    /* --- FULL HEIGHT LAYOUT --- */
+    height: 100vh;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.cq-container>.cq-header,
+.cq-container>.cq-dashboard-summary,
+.cq-container>.cq-table-container {
+    animation-name: fadeInSlideUp;
+    animation-duration: 0.6s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+}
+
+/* Header */
+.cq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #2e4975 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-primary-color-rgb), 0.2);
+    flex-shrink: 0;
+}
+
+body.dark-mode .cq-header {
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #25426c 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-white-color-rgb), 0.1);
+}
+
+.cq-header h2 {
+    color: var(--goldmex-white-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0;
+}
+
+.cq-header h2 .bx {
+    color: var(--goldmex-secondary-color);
+}
+
+/* --- BUTTONS --- */
+#cq-history-btn {
+    background-color: var(--goldmex-secondary-color);
+    border-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#cq-history-btn:hover {
+    background-color: #c5a030;
+    border-color: #c5a030;
+    transform: translateY(-2px);
+}
+
+body.dark-mode #cq-history-btn {
+    background-color: var(--goldmex-secondary-color);
+    border-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+}
+
+/* --- DATATABLE ACTIONS --- */
+.cq-container .btn-cq-process {
+    background-color: #28a745;
+    color: var(--goldmex-white-color);
+    border: 1px solid #28a745;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    padding: 6px 12px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+}
+
+.cq-container .btn-cq-process:hover {
+    background-color: var(--goldmex-secondary-color);
+    border-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+    transform: translateY(-2px);
+}
+
+.cq-table-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-cq-action-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+    background-color: var(--goldmex-primary-color);
+    color: white;
+    border: 1px solid var(--goldmex-primary-color);
+}
+
+.btn-cq-action-view:hover {
+    background-color: #142a49;
+    transform: translateY(-2px);
+}
+
+.btn-cq-view-quote,
+.btn-cq-download-pdf {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.btn-cq-view-quote {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.btn-cq-download-pdf {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.btn-cq-complete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0;
+    width: 34px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #28a745;
+    color: white;
+    border: 1px solid #28a745;
+}
+
+.btn-cq-view-quote:hover,
+.btn-cq-download-pdf:hover {
+    background-color: var(--active-hover-bg);
+    border-color: var(--active-hover-text);
+    transform: translateY(-2px);
+}
+
+.btn-cq-complete:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+.cq-table-actions button:disabled {
+    background-color: var(--color-border) !important;
+    border-color: var(--color-border) !important;
+    color: var(--color-text-secondary) !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* --- DASHBOARD CARDS --- */
+.cq-dashboard-summary {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.cq-scorecard {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    transition: all 0.3s ease;
+    border-top-width: 3px;
+    border-top-style: solid;
+}
+
+.cq-scorecard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.cq-scorecard-icon {
+    font-size: 2.2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.cq-scorecard.pending {
+    border-top-color: var(--goldmex-secondary-color);
+}
+
+.cq-scorecard.in-progress {
+    border-top-color: #17a2b8;
+}
+
+.cq-scorecard.completed {
+    border-top-color: #28a745;
+}
+
+.cq-scorecard.pending .cq-scorecard-icon {
+    color: var(--goldmex-secondary-color);
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.1);
+}
+
+.cq-scorecard.in-progress .cq-scorecard-icon {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+.cq-scorecard.completed .cq-scorecard-icon {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.cq-scorecard-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.cq-scorecard-info h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.cq-scorecard-info p {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.cq-scorecard-subtext {
+    display: flex;
+    gap: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.4rem;
+}
+
+.cq-scorecard-subtext b {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.cq-scorecard-footer {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+}
+
+.cq-comparison {
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.cq-comparison.positive {
+    color: #28a745;
+}
+
+.cq-comparison.negative {
+    color: var(--goldmex-accent-color);
+}
+
+.cq-comparison.neutral {
+    color: var(--color-text-secondary);
+}
+
+/* ====================================================================
+ * == MAIN TABLE CONTAINER (UNIVERSAL FLEX FIX) ==
+ * ====================================================================
+ */
+.cq-table-container {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    padding-bottom: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.cq-table-container h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+    display: none;
+}
+
+/* --- DATATABLES LAYOUT --- */
+/* Custom Header Wrapper */
+.wst-dt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0.8rem 0;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+/* Inputs & Selects */
+.wst-dt-header .dt-length select,
+.wst-dt-header .dt-search input,
+.dataTables_length select,
+.dataTables_filter input {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 0.85rem;
+    height: 32px;
+    transition: box-shadow 0.2s;
+}
+
+.wst-dt-header .dt-search input:focus,
+.wst-dt-header .dt-length select:focus,
+.dataTables_filter input:focus,
+.dataTables_length select:focus {
+    border-color: var(--goldmex-secondary-color);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* --- THE SCROLLABLE BODY FIX (SUPPORTS V1.x AND V2.x) --- */
+/* Wrapper generated by DataTables */
+.dt-scroll,
+.dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 6px 6px 0 0;
+}
+
+/* The Header */
+.dt-scroll-head,
+.dataTables_scrollHead {
+    flex-shrink: 0;
+    background-color: var(--color-bg);
+    overflow: hidden !important;
+    /* Ensure header doesn't cause scrollbars */
+}
+
+/* The Body (This is where the rows were disappearing) */
+.dt-scroll-body,
+.dataTables_scrollBody {
+    flex: 1 1 auto !important;
+    height: 10px !important;
+    /* Force browser to ignore JS calculated height */
+    max-height: none !important;
+    overflow-y: auto !important;
+    background-color: var(--color-surface);
+    width: 100% !important;
+    /* Ensure width fills container */
+}
+
+/* Custom Footer Wrapper */
+.wst-dt-footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+}
+
+/* Ensure dataTables wrapper fills height */
+.dt-container,
+.dataTables_wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* TABLE STYLING */
+table.dataTable {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+}
+
+table.dataTable thead th {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 12px !important;
+    border-bottom: 2px solid var(--color-border) !important;
+    white-space: nowrap;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+table.dataTable tbody td {
+    padding: 8px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    font-size: 0.85rem;
+    vertical-align: middle;
+    background-color: var(--color-surface);
+    height: 40px;
+    white-space: nowrap;
+}
+
+table.dataTable tbody tr:hover td {
+    background-color: var(--active-hover-bg);
+}
+
+table.dataTable .dt-center {
+    text-align: center;
+}
+
+/* --- MODAL FIXES --- */
+.cq-modal {
+    display: none;
+    position: fixed;
+    z-index: 1300;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    align-items: center;
+    justify-content: center;
+}
+
+.cq-modal.cq-modal-open {
+    display: flex;
+    opacity: 1;
+}
+
+.cq-modal-content {
+    background-color: rgba(var(--color-surface-rgb), 0.98);
+    border: 1px solid var(--color-border);
+    border-radius: 0.6rem;
+    width: 95vw;
+    max-width: 1800px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.cq-modal-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cq-modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.cq-close-button {
+    background: none;
+    border: none;
+    font-size: 1.9rem;
+    color: var(--goldmex-light-color);
+    cursor: pointer;
+}
+
+/* Workspace Specifics */
+#cqWorkspaceForm.cq-modal-body {
+    padding: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-workspace-stepper {
+    display: flex;
+    background-color: var(--color-bg);
+    padding: 0 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.cq-step {
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-bottom: 3px solid transparent;
+}
+
+.cq-step.active {
+    color: var(--goldmex-secondary-color);
+    font-weight: 600;
+    border-bottom-color: var(--goldmex-secondary-color);
+}
+
+.cq-workspace-stepper:not(.editable) .cq-step:not(.active) {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cq-workspace-stepper.editable .cq-step {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cq-workspace-stepper.editable .cq-step:not(.active):hover {
+    background-color: var(--active-hover-bg);
+}
+
+.cq-workspace {
+    flex-grow: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+.cq-workspace-view {
+    display: none;
+    height: 100%;
+}
+
+.cq-workspace-view.active {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.cq-column {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: var(--color-surface);
+}
+
+.cq-column-header {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    flex-shrink: 0;
+}
+
+.cq-column-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.cq-column-content {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.cq-client-data-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1.5rem;
+}
+
+.cq-column.client-data .le-detail-label {
+    color: var(--goldmex-secondary-color);
+    font-weight: 600;
+}
+
+.cq-client-attachments-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cq-client-attachments-list li {
+    background-color: var(--color-bg);
+    border-radius: 0.3rem;
+    padding: 0.5rem 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.download-btn {
+    background: none;
+    border: none;
+    color: var(--goldmex-secondary-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.cq-column.classification-form .cq-column-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-content: start;
+}
+
+.cq-form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-height: 0;
+    min-width: 0;
+}
+
+/* Forms */
+.cq-workspace input,
+.cq-workspace select,
+.cq-workspace textarea:not(#cqTextEditorTextarea) {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cq-workspace input:focus,
+.cq-workspace select:focus {
+    outline: none;
+    border-color: var(--goldmex-secondary-color);
+    box-shadow: 0 0 0 3px rgba(var(--goldmex-secondary-color-rgb), 0.2);
+}
+
+.cq-form-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-top: 3px solid var(--goldmex-secondary-color);
+}
+
+.cq-form-section h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.cq-form-section h6 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--goldmex-primary-color);
+    margin: -1.2rem -1.5rem 1.2rem -1.5rem;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cq-form-section h6 .bx {
+    color: var(--goldmex-secondary-color);
+    font-size: 1.3rem;
+}
+
+.cq-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.cq-form-group:last-child {
+    margin-bottom: 0;
+}
+
+.cq-form-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.cq-checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+.cq-checkbox-grid.pga-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+@media (min-width: 768px) {
+    .cq-checkbox-grid.pga-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.cq-checkbox-grid label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.cq-checkbox-grid input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+}
+
+.hidden-textarea {
+    display: none !important;
+}
+
+.text-editor-trigger {
+    position: relative;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    padding: 0.55rem 2.5rem 0.55rem 0.75rem;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.text-editor-trigger:hover {
+    border-color: var(--goldmex-secondary-color);
+}
+
+.text-editor-trigger .text-preview {
+    margin: 0;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    min-width: 0;
+    word-break: break-all;
+}
+
+.text-editor-trigger .btn-edit-text {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+/* Modal Footer */
+.cq-modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: var(--color-bg);
+}
+
+.cq-modal-footer #cq-status-select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.cq-modal-footer #cq-status-select:focus {
+    outline: none;
+    border-color: var(--goldmex-secondary-color);
+    box-shadow: 0 0 0 3px rgba(var(--goldmex-secondary-color-rgb), 0.2);
+}
+
+.cq-modal-footer .cq-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Quotation Grid */
+#cq-quotation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.cq-quotation-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.cq-summary-section {
+    background-color: var(--color-bg);
+    border-top-color: var(--goldmex-primary-color);
+}
+
+.cq-summary-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+
+.cq-summary-line span:last-child {
+    font-weight: 600;
+}
+
+.cq-summary-line.grand-total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--goldmex-primary-color);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--color-border);
+}
+
+body.dark-mode .cq-summary-line.grand-total {
+    color: var(--goldmex-secondary-color);
+}
+
+.cq-dynamic-duty-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cq-dynamic-duty-inputs input[data-duty-name] {
+    flex-basis: 60%;
+}
+
+.cq-dynamic-duty-inputs input[data-duty-rate] {
+    flex-basis: 40%;
+}
+
+.btn-cq-remove-duty {
+    flex-shrink: 0;
+    background-color: transparent;
+    border: 1px solid var(--goldmex-accent-color);
+    color: var(--goldmex-accent-color);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cq-remove-duty:hover {
+    background-color: var(--goldmex-accent-color);
+    color: white;
+}
+
+/* Status Badges */
+.cqp-status-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 1em;
+    color: white;
+}
+
+.status-pending {
+    background-color: #6c757d;
+}
+
+.status-awaiting-documents {
+    background-color: #fd7e14;
+}
+
+.status-documents-submitted {
+    background-color: #6f42c1;
+}
+
+.status-in-process {
+    background-color: #17a2b8;
+}
+
+.status-completed {
+    background-color: #28a745;
+}
+
+.status-cancelled {
+    background-color: #495057;
+}
+
+/* --- HISTORY MODAL SPECIFICS (FLEX FIX) --- */
+#cqHistoryModal .cq-modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+#cqHistoryModal .cq-modal-body {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.cqp-history-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+.cqp-history-filters .cqp-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.cqp-history-filters .cqp-form-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.cqp-table-container {
+    background-color: var(--color-surface);
+    padding: 0;
+    border-radius: 0.5rem;
+    border: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.cqp-table-container .dt-scroll,
+.cqp-table-container .dataTables_scroll {
+    border: 1px solid var(--color-border);
+    border-radius: 6px 6px 0 0;
+}
+
+.cqp-modal-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: var(--color-bg);
+}
+
+/* --- REPORT MODAL --- */
+.cq-report-modal-content {
+    background-color: #f8f9fa;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-size: 9pt;
+    border-radius: 0.5rem;
+    max-width: 900px;
+    width: 95%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.cq-report-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.cq-report-header {
+    text-align: center;
+    border-bottom: 2px solid var(--goldmex-primary-color);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.cq-report-header h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--goldmex-primary-color);
+}
+
+.cq-report-header p {
+    margin: 0.2rem 0 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.cq-report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.cq-report-section {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.4rem;
+    padding: 1rem;
+}
+
+.cq-report-section h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--goldmex-primary-color);
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cq-report-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.cq-report-item:last-child {
+    border-bottom: none;
+}
+
+.cq-report-label {
+    font-weight: bold;
+    color: #495057;
+    flex-shrink: 0;
+    margin-right: 1rem;
+}
+
+.cq-report-value {
+    color: #212529;
+    text-align: right;
+    word-break: break-word;
+}
+
+.cq-report-value.highlight {
+    font-weight: bold;
+    color: var(--goldmex-secondary-color);
+}
+
+.cq-report-section ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    padding-left: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.cq-report-section ul li {
+    padding-bottom: 0.2rem;
+}
+
+.cq-report-quote-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.cq-report-quote-table th,
+.cq-report-quote-table td {
+    padding: 0.5rem;
+    border: 1px solid #e9ecef;
+    text-align: right;
+}
+
+.cq-report-quote-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.cq-report-quote-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+.cq-report-quote-table .grand-total td {
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: #f1f3f5;
+    border-top: 2px solid #adb5bd;
+}
+
+.cq-report-full-width {
+    grid-column: 1 / -1;
+}
+
+.cq-report-notes {
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 0.3rem;
+    font-style: italic;
+    color: #495057;
+    text-align: left;
+    margin-top: 0.5rem;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- READ-ONLY & PDF --- */
+.read-only-mode .cq-modal-footer .cq-footer-left,
+.read-only-mode .cq-modal-footer .cq-footer-right {
+    display: none;
+}
+
+.read-only-mode .cq-workspace input,
+.read-only-mode .cq-workspace select,
+.read-only-mode .cq-workspace textarea,
+.read-only-mode .text-editor-trigger {
+    pointer-events: none;
+    cursor: default;
+}
+
+.read-only-mode .cq-workspace input:not([type="checkbox"]),
+.read-only-mode .cq-workspace select {
+    background-color: transparent;
+    border-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-left: 0;
+    color: var(--color-text-primary);
+}
+
+.read-only-mode .cq-workspace input[type="checkbox"] {
+    opacity: 0.7;
+    border-color: var(--color-border);
+}
+
+.read-only-mode .text-editor-trigger {
+    background-color: var(--color-bg);
+}
+
+.read-only-mode .btn-edit-text,
+.read-only-mode #cq-add-duty-btn,
+.read-only-mode .btn-cq-remove-duty {
+    display: none;
+}
+
+.cq-report-printable-area {
+    background-color: #ffffff;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+.pdf-render-mode .cq-report-printable-area {
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.pdf-render-mode .cq-report-header h3 {
+    font-size: 18pt;
+    margin-bottom: 4px;
+}
+
+.pdf-render-mode .cq-report-header p {
+    font-size: 9pt;
+}
+
+.pdf-render-mode .cq-report-section {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.pdf-render-mode .cq-report-section h4 {
+    font-size: 11pt;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.pdf-render-mode .cq-report-item {
+    padding: 0.25rem 0;
+    font-size: 9pt;
+}
+
+.pdf-render-mode .cq-report-notes {
+    padding: 0.6rem;
+    font-size: 8.5pt;
+}
+
+.pdf-render-mode .cq-report-quote-table th,
+.pdf-render-mode .cq-report-quote-table td {
+    padding: 0.35rem;
+    font-size: 8.5pt;
+}
+
+.pdf-render-mode .cq-report-quote-table .grand-total td {
+    font-size: 10pt;
+}

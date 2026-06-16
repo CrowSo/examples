@@ -1,0 +1,541 @@
+/* ============================================================
+   Super Admin Styles - V18 (Clean Layout + Password Modal)
+   File: css/super-admin.css
+   ============================================================ */
+
+/* --- 1. LAYOUT PRINCIPAL --- */
+#super-admin-module {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100vh;
+    max-height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: fadeInAdmin 0.4s ease-out;
+}
+
+@keyframes fadeInAdmin {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 2. HEADER DEL MODULO --- */
+#super-admin-module .module-header {
+    background: transparent;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    min-height: 50px;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0.5rem;
+}
+
+#super-admin-module .module-header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-text-primary);
+}
+
+#super-admin-module .module-header .header-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+}
+
+/* --- 3. TABS --- */
+#super-admin-module .admin-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+    min-height: 35px;
+}
+
+#super-admin-module .tab-link {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.3s ease;
+}
+
+#super-admin-module .tab-link:hover {
+    color: var(--goldmex-primary-color);
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.05);
+    border-radius: 4px 4px 0 0;
+}
+
+#super-admin-module .tab-link.active {
+    color: var(--goldmex-secondary-color);
+    font-weight: 700;
+    border-bottom: 2px solid var(--goldmex-secondary-color);
+}
+
+/* --- 4. ESTRUCTURA DE CONTENIDO --- */
+#super-admin-module .tab-pane {
+    display: none;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#super-admin-module .tab-pane.active {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+#super-admin-module .admin-widget {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    padding-bottom: 0;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+#super-admin-module .table-scroll-container,
+#super-admin-module .table-responsive,
+#super-admin-module .dt-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* --- DATATABLES CUSTOM LAYOUT --- */
+#super-admin-module .wst-dt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 0.8rem 0;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+#super-admin-module .dt-length select,
+#super-admin-module .dt-search input {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 0.85rem;
+    height: 32px;
+    transition: box-shadow 0.2s;
+}
+
+#super-admin-module .dt-search input:focus,
+#super-admin-module .dt-length select:focus {
+    border-color: var(--goldmex-secondary-color);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Cuerpo Scrollable DataTables */
+#super-admin-module .dt-scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 6px 6px 0 0;
+}
+
+#super-admin-module .dt-scroll-head {
+    flex-shrink: 0;
+    background-color: var(--color-bg);
+}
+
+#super-admin-module .dt-scroll-body {
+    flex: 1 1 auto !important;
+    height: 10px !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    background-color: var(--color-surface);
+}
+
+/* Footer DataTables */
+#super-admin-module .wst-dt-footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+}
+
+/* --- ESTILOS DE TABLA --- */
+#super-admin-module table.dataTable {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+}
+
+#super-admin-module table.dataTable thead th {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px 12px !important;
+    border-bottom: 2px solid var(--color-border) !important;
+    white-space: nowrap;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#super-admin-module table.dataTable tbody td {
+    padding: 8px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    font-size: 0.85rem;
+    vertical-align: middle;
+    background-color: var(--color-surface);
+    height: 40px;
+}
+
+#super-admin-module table.dataTable tbody tr:hover td {
+    background-color: var(--active-hover-bg, rgba(0,0,0,0.02));
+}
+
+/* --- BOTONES DE ACCIÓN (SOFT UI) --- */
+#super-admin-module .cqp-table-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#super-admin-module .btn-edit-user,
+#super-admin-module .btn-permissions-user,
+#super-admin-module .btn-delete-user,
+#super-admin-module .btn-delete-exception {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* EDITAR (Azul Suave) */
+#super-admin-module .btn-edit-user {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+#super-admin-module .btn-edit-user:hover:not(:disabled) {
+    background-color: #3b82f6;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+/* PERMISOS & PASSWORD (Naranja/Verde Suave) */
+#super-admin-module .btn-permissions-user {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+#super-admin-module .btn-permissions-user:hover:not(:disabled) {
+    /* El hover tomará el color base del botón si tiene estilo inline, o naranja por defecto */
+    filter: brightness(0.95);
+    transform: translateY(-2px);
+}
+
+/* BORRAR (Rojo Suave) */
+#super-admin-module .btn-delete-user,
+#super-admin-module .btn-delete-exception {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+#super-admin-module .btn-delete-user:hover:not(:disabled),
+#super-admin-module .btn-delete-exception:hover:not(:disabled) {
+    background-color: #ef4444;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+}
+
+/* Select de Rol */
+#super-admin-module .role-select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+}
+
+/* --- FORMULARIOS (Exceptions) --- */
+#super-admin-module .admin-form-inline {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 0.8rem;
+    align-items: end;
+    background-color: var(--color-bg);
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+#super-admin-module .admin-form-inline label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+}
+
+#super-admin-module .admin-form-inline input,
+#super-admin-module .admin-form-inline select {
+    width: 100%;
+    padding: 0 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    outline: none;
+    height: 34px;
+    font-size: 0.85rem;
+}
+
+#super-admin-module .btn-goldmex-secondary {
+    height: 34px;
+    padding: 0 1rem;
+    background-color: transparent;
+    border: 1px solid var(--goldmex-primary-color);
+    color: var(--goldmex-primary-color);
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+}
+
+#super-admin-module .btn-goldmex-secondary:hover {
+    background-color: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+}
+
+/* --- MODAL (General Overlay) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+
+.modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--color-surface);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay.visible .modal-content {
+    transform: scale(1);
+}
+
+/* Header Modal */
+.modal-header {
+    background-color: var(--goldmex-primary-color);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.modal-close-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.modal-body-scroll {
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: var(--color-bg);
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 1rem;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.btn-goldmex-primary {
+    height: 34px;
+    padding: 0 1.2rem;
+    background-color: var(--goldmex-primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-goldmex-primary:hover {
+    background-color: #2c4a78;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- ESTILOS ESPECÍFICOS: PERMISSIONS --- */
+.permission-group {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    cursor: pointer;
+    color: var(--color-text-primary);
+}
+
+.checkbox-container input {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--goldmex-secondary-color);
+}
+
+/* --- ESTILOS ESPECÍFICOS: PASSWORD MODAL --- */
+#password-modal .form-group {
+    position: relative;
+}
+
+#password-modal input[type="password"],
+#password-modal input[type="text"] {
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+#password-modal input:focus {
+    border-color: var(--goldmex-secondary-color) !important;
+    background-color: var(--color-surface) !important;
+}
+
+#toggle-password-visibility:hover {
+    color: var(--goldmex-primary-color) !important;
+}
+
+/* Scrollbar Styles */
+#super-admin-module ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+#super-admin-module ::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 3px;
+}
+
+body.dark-mode #super-admin-module ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+}
+
+@media (max-width: 768px) {
+    #super-admin-module .admin-form-inline {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,754 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+/* css/style.css */
+
+html {
+    /* El tamaño normal es 16px. 
+       Si ponemos 14px, equivale a un 87.5% de zoom. 
+       Si ponemos 13px, equivale a un 81% de zoom. 
+       Prueba con 13px o 14px para ese efecto de "90%" que buscas. */
+    font-size: 13.5px;
+    height: 100%;
+    overflow: hidden;
+    /* Evita scrollbars dobles en la ventana principal */
+}
+
+body {
+    font-size: 1rem;
+    /* Hereda el tamaño del html */
+    height: 100%;
+    overflow: hidden;
+}
+
+:root {
+    /* Goldmex Light Theme */
+    --goldmex-primary-color: #1a365d;
+    /* Dark Blue */
+    --goldmex-secondary-color: #d4af37;
+    /* Gold */
+    --goldmex-accent-color: #e31837;
+    /* Red */
+    --goldmex-light-color: #f8f9fa;
+    /* Very Light Gray/Off-white */
+    --goldmex-gray-color: #e9ecef;
+    /* Light Gray */
+    --goldmex-dark-color: #212529;
+    /* Very Dark Gray/Almost Black */
+    --goldmex-white-color: #ffffff;
+    /* White */
+
+    --color-bg: var(--goldmex-light-color);
+    --color-surface: var(--goldmex-white-color);
+    --color-border: var(--goldmex-gray-color);
+    --color-text-primary: var(--goldmex-primary-color);
+    --color-text-secondary: #495057;
+    --color-tooltip-bg: var(--goldmex-primary-color);
+    --color-tooltip-text: var(--goldmex-white-color);
+    --shadow-border: rgba(26, 54, 93, 0.15);
+    --user-bg-color: var(--goldmex-gray-color);
+    --active-hover-bg: var(--goldmex-gray-color);
+    --active-hover-text: var(--goldmex-primary-color);
+    --brand-text-color: var(--goldmex-primary-color);
+
+    /* RGB versions for semi-transparent backgrounds */
+    --goldmex-primary-color-rgb: 26, 54, 93;
+    --goldmex-secondary-color-rgb: 212, 175, 55;
+    --goldmex-white-color-rgb: 255, 255, 255;
+    --color-surface-rgb: 255, 255, 255;
+
+    /* Animation Variables */
+    --animation-duration-normal: 0.6s;
+    --animation-timing-function: ease-out;
+}
+
+body.dark-mode {
+    /* Goldmex Dark Theme */
+    --color-bg: var(--goldmex-dark-color);
+    --color-surface: var(--goldmex-primary-color);
+    --color-border: #2c4a78;
+    --color-text-primary: var(--goldmex-light-color);
+    --color-text-secondary: var(--goldmex-gray-color);
+    --color-tooltip-bg: var(--goldmex-light-color);
+    --color-tooltip-text: var(--goldmex-primary-color);
+    --shadow-border: rgba(248, 249, 250, 0.1);
+    --user-bg-color: #25426c;
+    --active-hover-bg: var(--goldmex-dark-color);
+    --active-hover-text: var(--goldmex-light-color);
+    --brand-text-color: var(--goldmex-light-color);
+    --color-surface-rgb: 26, 54, 93;
+}
+
+/* Body */
+body {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-bg);
+    transition: color 0.5s ease, background-color 0.3s ease, left 0.5s ease;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 15rem;
+    height: 100%;
+    padding: 1.4rem 1rem 0 1rem;
+    background-color: var(--color-surface);
+    box-shadow: 1px 0px 10px var(--shadow-border);
+    transition: width 0.5s ease;
+    z-index: 100;
+    /* Ensure sidebar is above main content for shadow */
+}
+
+.sidebar.minimize {
+    width: 4.94rem;
+}
+
+/* Header */
+.header {
+    width: 100%;
+}
+
+/* 1. Actualiza el estilo base del botón para que la transición sea suave en todas direcciones */
+.menu-btn {
+    position: absolute;
+    top: 3.5%;
+    right: -0.87rem;
+    /* Posición original cuando está ABIERTO (sobresaliendo) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background-color: var(--goldmex-white-color);
+    color: var(--goldmex-primary-color);
+    box-shadow: 2px 2px 5px var(--shadow-border);
+    cursor: pointer;
+
+    /* IMPORTANTE: Cambiamos transition para que anime 'top' y 'right' también */
+    transition: all 0.3s ease;
+
+    z-index: 110;
+}
+
+body.dark-mode .menu-btn {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+}
+
+.menu-btn i {
+    font-size: 1.5rem;
+}
+
+.sidebar.minimize .menu-btn {
+    /* Ya no lo queremos a la derecha estorbando al título */
+    right: auto;
+
+    /* Lo centramos horizontalmente dentro de la barra delgada */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Lo bajamos para que quede DEBAJO del logo */
+    top: 5rem;
+    /* Ajusta este valor si choca con tu logo, 5rem o 6rem suele estar bien */
+}
+
+.sidebar.minimize .menu-btn i {
+    transform: rotate(180deg);
+}
+
+/* Brand */
+.brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0;
+    margin-bottom: 1.8rem;
+    overflow: hidden;
+}
+
+.brand img {
+    height: 45px;
+    width: auto;
+    flex-shrink: 0;
+    transition: height 0.3s ease;
+}
+
+.sidebar.minimize .brand img {
+    max-width: 100%;
+    height: 42px;
+}
+
+.sidebar.minimize .brand {
+    padding-left: 0;
+    gap: 0;
+    justify-content: center;
+}
+
+.sidebar.minimize .brand span {
+    display: none;
+}
+
+.brand span {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--brand-text-color);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Menu Container */
+.menu-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Search */
+.search {
+    display: flex;
+    width: 100%;
+    padding: 0.55rem 0;
+    margin-bottom: 1.2rem;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 0 1px var(--color-border);
+    cursor: pointer;
+    transition: box-shadow 0.5s ease;
+}
+
+.search:hover {
+    box-shadow: 0 0 0 1px var(--goldmex-secondary-color);
+}
+
+.sidebar.minimize .search {
+    box-shadow: none;
+}
+
+.sidebar.minimize .search:hover {
+    background-color: var(--color-bg);
+}
+
+.search i {
+    font-size: 1.35rem;
+    color: var(--color-text-secondary);
+    padding: 0 0.8rem;
+}
+
+.search:hover i {
+    color: var(--goldmex-secondary-color);
+}
+
+.search input {
+    width: 70%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: var(--color-text-primary);
+}
+
+.search input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+/* Menu */
+.menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu .menu-item {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+}
+
+.menu .menu-link,
+.sub-menu .sub-menu-link {
+    display: flex;
+    align-items: center;
+    padding: 0.55rem 0;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: 0.3rem;
+    transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Hover general para enlaces NO activos */
+.menu .menu-link:not(.link-active):hover,
+.sub-menu .sub-menu-link:not(.link-active):hover {
+    color: var(--active-hover-text);
+    background-color: var(--active-hover-bg);
+}
+
+.menu .menu-link:not(.link-active):hover>i:first-child,
+.sub-menu .sub-menu-link:not(.link-active):hover>i:first-child {
+    color: var(--active-hover-text);
+}
+
+/* Estilo para el enlace del módulo actualmente activo */
+.menu .menu-link.link-active,
+.sub-menu .sub-menu-link.link-active {
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.12);
+    color: var(--goldmex-secondary-color);
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 0 var(--goldmex-secondary-color);
+}
+
+.menu .menu-link.link-active:hover,
+.sub-menu .sub-menu-link.link-active:hover {
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.2);
+    color: var(--goldmex-secondary-color);
+}
+
+/* Iconos para enlaces activos */
+.menu .menu-link.link-active>i:first-child,
+.sub-menu .sub-menu-link.link-active>i:first-child {
+    color: var(--goldmex-secondary-color);
+}
+
+/* Estilo para el elemento de menú desplegable padre cuando un hijo está activo */
+.menu-item-dropdown.parent-active>.menu-link {
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.05);
+}
+
+body.dark-mode .menu-item-dropdown.parent-active>.menu-link {
+    background-color: rgba(var(--goldmex-white-color-rgb), 0.05);
+}
+
+.menu-item-dropdown.parent-active>.menu-link>i:first-child {
+    color: var(--goldmex-secondary-color);
+}
+
+/* Estilo específico para el menu-link dentro de un menu-item-dropdown que está abierto (sub-menu-toggle) */
+.menu-item-dropdown.sub-menu-toggle>.menu-link:not(.link-active) {
+    background-color: var(--active-hover-bg);
+    color: var(--active-hover-text);
+}
+
+.menu-item-dropdown.sub-menu-toggle.parent-active>.menu-link {
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.05);
+}
+
+body.dark-mode .menu-item-dropdown.sub-menu-toggle.parent-active>.menu-link {
+    background-color: rgba(var(--goldmex-white-color-rgb), 0.05);
+}
+
+.menu-link i {
+    font-size: 1.35rem;
+    padding: 0 0.8rem;
+    min-width: 2.95rem;
+    text-align: center;
+}
+
+.menu-link i:last-child {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    padding-right: 0.8rem;
+}
+
+.sidebar.minimize .menu-link i:last-child {
+    display: none;
+}
+
+.menu-item-dropdown.sub-menu-toggle>.menu-link i:last-child {
+    transform: rotate(180deg);
+}
+
+.menu-link span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.sidebar.minimize .menu-item:hover>.menu-link span,
+.sidebar.minimize .menu-item-dropdown:hover>.menu-link span,
+.sidebar.minimize .menu-item-dropdown.sub-menu-toggle>.menu-link span {
+    position: absolute;
+    left: 4.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-tooltip-bg);
+    border-radius: 0.4rem;
+    color: var(--color-tooltip-text);
+    font-size: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+.sidebar.minimize .sub-menu .sub-menu-link span {
+    display: none;
+}
+
+/* Sub menu*/
+.sub-menu {
+    height: 0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.02);
+    position: relative;
+    padding: 0;
+}
+
+body.dark-mode .sub-menu {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.sidebar.minimize .sub-menu {
+    position: absolute;
+    left: 4.2rem;
+    top: 0;
+    width: max-content;
+    min-width: 150px;
+    background-color: var(--color-surface);
+    border-radius: 0.2rem;
+    box-shadow: 0 4px 10px var(--shadow-border);
+    padding: 0.5rem 0;
+    z-index: 99;
+}
+
+.sub-menu .sub-menu-link {
+    margin-left: 2.5rem;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.menu-item-dropdown .sub-menu::before {
+    content: "";
+    position: absolute;
+    top: 0.2rem;
+    height: calc(100% - 0.4rem);
+    width: 0.07rem;
+    left: 1.4rem;
+    background-color: var(--color-border);
+    transition: background-color 0.3s ease, height 0.3s ease, top 0.3s ease;
+    z-index: 1;
+}
+
+.menu-item-dropdown.sub-menu-toggle .sub-menu::before,
+.menu-item-dropdown.parent-active .sub-menu::before {
+    background-color: var(--goldmex-secondary-color);
+}
+
+.sidebar.minimize .sub-menu::before {
+    width: 0;
+}
+
+.sidebar.minimize .sub-menu a.sub-menu-link {
+    margin: 0;
+    padding: 0.55rem 1rem;
+}
+
+/* Footer */
+.footer {
+    width: 100%;
+    padding: 1rem 0;
+    box-shadow: 0 -0.02rem 0 0 var(--color-border);
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: var(--user-bg-color);
+    border-radius: 0.3rem;
+}
+
+.user-img {
+    display: flex;
+    margin-right: 0.7rem;
+}
+
+.user-img img {
+    width: 2.2rem;
+    height: 2.2rem;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--goldmex-secondary-color);
+}
+
+.user-data {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+.user-data .name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.user-data .email {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+}
+
+.user-icon {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--color-text-secondary);
+    padding: 0 0.4rem;
+    cursor: pointer;
+}
+
+.user-icon:hover {
+    color: var(--goldmex-accent-color);
+}
+
+/* Sidebar button*/
+.sidebar-btn {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1001;
+    padding: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+body.dark-mode .sidebar-btn {
+    background-color: var(--goldmex-primary-color);
+    color: var(--goldmex-light-color);
+}
+
+.sidebar-btn i {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-btn .bx-x {
+    display: none;
+}
+
+body.sidebar-hidden .sidebar-btn .bx-menu {
+    display: none;
+}
+
+body.sidebar-hidden .sidebar-btn .bx-x {
+    display: flex;
+}
+
+/* ============================================================ */
+/* == CORRECCIÓN DEL "BOXED IN": Eliminamos padding del main == */
+/* ============================================================ */
+main {
+    flex-grow: 1;
+    padding: 0 0 0 15rem;
+    transition: padding-left 0.5s ease;
+    color: var(--color-text-primary);
+    min-width: 0;
+    overflow-x: hidden;
+
+    /* CONFIRMA QUE ESTO ESTÁ ASÍ: */
+    overflow-y: auto;
+    height: 100vh;
+    position: relative;
+}
+
+.sidebar.minimize+main {
+    padding-left: 4.94rem;
+    /* Solo espacio para sidebar minimizado */
+}
+
+body.sidebar-hidden main {
+    padding-left: 0;
+    /* Pantalla completa real en móviles */
+}
+
+/* Dark mode button */
+.dark-mode-btn {
+    position: fixed;
+    width: 2.4rem;
+    height: 2.4rem;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-surface);
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px var(--shadow-border);
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+body.dark-mode .dark-mode-btn {
+    background-color: var(--goldmex-secondary-color);
+}
+
+.dark-mode-btn i {
+    font-size: 1.5rem;
+    position: absolute;
+    transition: transform 0.3s ease-in, color 0.3s ease-in;
+    color: var(--goldmex-primary-color);
+}
+
+body.dark-mode .dark-mode-btn i {
+    color: var(--goldmex-dark-color);
+}
+
+.dark-mode-btn i:last-child {
+    transform: translateY(150%);
+}
+
+body.dark-mode .dark-mode-btn i:last-child {
+    transform: translateY(0%);
+}
+
+body.dark-mode .dark-mode-btn i:first-child {
+    transform: translateY(-150%);
+}
+
+/* Brand image toggling */
+.brand-dark {
+    display: none;
+}
+
+body.dark-mode .brand-dark {
+    display: flex;
+}
+
+body.dark-mode .brand-light {
+    display: none;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.module-enter-animation {
+    animation-name: fadeInSlideUp;
+    animation-duration: var(--animation-duration-normal);
+    animation-timing-function: var(--animation-timing-function);
+    animation-fill-mode: both;
+    /* Keeps the state of the last keyframe */
+}
+
+/* Responsive */
+@media (max-height: 683px) {
+    .footer {
+        box-shadow: none;
+    }
+
+    .menu-container {
+        overflow-y: auto;
+    }
+
+    .search {
+        box-shadow: none;
+        border: 1px solid var(--color-border);
+    }
+
+    .search:hover {
+        box-shadow: none;
+        border-color: var(--goldmex-secondary-color);
+    }
+}
+
+@media (max-width: 768px) {
+    #menu-btn {
+        display: none;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.minimize {
+        width: 15rem;
+        transform: translateX(-100%);
+    }
+
+    body.sidebar-hidden .sidebar,
+    body.sidebar-hidden .sidebar.minimize {
+        transform: translateX(0);
+        width: 15rem;
+    }
+
+    .sidebar-btn {
+        display: flex;
+    }
+
+    /* En móviles, main no tiene padding */
+    main {
+        padding: 0;
+    }
+
+    .dark-mode-btn {
+        right: 1rem;
+        bottom: 1rem;
+    }
+}
+
+
+/* --- FIX ANTI-PARPADEO (FLASH OF CONTENT) --- */
+
+/* Mientras carga permisos, ocultar items del menú */
+body.loading-permissions .sidebar .menu-item {
+    display: none !important;
+}
+
+/* Opcional: Mostrar un loader en el sidebar mientras carga */
+body.loading-permissions .sidebar .menu-container::after {
+    content: "Loading access...";
+    display: block;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    padding-top: 2rem;
+    opacity: 0.7;
+}
+
+/* Asegurar que el usuario y footer sigan ocultos o visibles según prefieras */
+body.loading-permissions .sidebar .footer {
+    opacity: 0; 
+}

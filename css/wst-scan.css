@@ -1,0 +1,451 @@
+/* ============================================================
+   Warehouse Scanner Styles (Fixed Dark Mode & Contrast)
+   File: css/wst-scan.css
+   ============================================================ */
+
+:root {
+    --scan-bg: #f0f2f5;
+    --scan-card: #ffffff;
+    --scan-text: #1f2937;
+    --scan-light: #6b7280;
+    --scan-border: #e5e7eb;
+
+    /* Branding Colors */
+    --scan-primary: #0e2c4c;
+    /* Dark Blue */
+    --scan-accent: #d4af37;
+    /* Gold */
+
+    /* Semantic Colors */
+    --scan-success: #10b981;
+    --scan-error: #ef4444;
+}
+
+/* --- DARK MODE VARIABLES FIXED --- */
+body.dark-mode {
+    --scan-bg: #111827;
+    /* Very dark bg */
+    --scan-card: #1f2937;
+    /* Slightly lighter card */
+    --scan-text: #f3f4f6;
+    /* High contrast white text */
+    --scan-light: #9ca3af;
+    /* Light gray for secondary text */
+    --scan-border: #374151;
+    /* Visible border */
+
+    /* In dark mode, Primary Blue is too dark for text. 
+       We keep it for buttons, but text needs to switch. */
+}
+
+.wst-scan-container {
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header Styling */
+.wst-scan-header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.wst-scan-header h2 {
+    font-size: 1.8rem;
+    color: var(--scan-primary);
+    /* Default Light Mode Blue */
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+/* FIX: Header in Dark Mode becomes GOLD */
+body.dark-mode .wst-scan-header h2 {
+    color: var(--scan-accent);
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+    /* Soft Gold Glow */
+}
+
+.wst-scan-header p {
+    color: var(--scan-light);
+}
+
+/* Main Box */
+.wst-scan-box {
+    background: var(--scan-card);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--scan-border);
+}
+
+/* Input Section */
+.wst-input-group {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--scan-border);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    background: var(--scan-bg);
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Gold Focus Effect */
+.wst-input-group:focus-within {
+    border-color: var(--scan-accent);
+    background: var(--scan-card);
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+}
+
+.wst-input-group i {
+    font-size: 1.8rem;
+    color: var(--scan-light);
+    margin-right: 1rem;
+}
+
+/* Input Text Color Fix */
+.wst-input-group input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--scan-text);
+    /* Uses dynamic variable */
+    outline: none;
+    letter-spacing: 0.5px;
+}
+
+.wst-input-group input::placeholder {
+    font-weight: 400;
+    opacity: 0.6;
+    font-size: 1.2rem;
+    color: var(--scan-light);
+}
+
+#wst-manual-search-btn {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    color: var(--scan-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+/* Button Icon Color in Dark Mode */
+body.dark-mode #wst-manual-search-btn {
+    color: var(--scan-text);
+}
+
+body.dark-mode #wst-manual-search-btn:hover {
+    color: var(--scan-accent);
+}
+
+.wst-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: var(--scan-light);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.wst-divider::before,
+.wst-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--scan-border);
+}
+
+.wst-divider span {
+    padding: 0 10px;
+}
+
+/* Camera Container */
+.wst-camera-wrapper {
+    text-align: center;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+#wst-reader {
+    width: 100%;
+    min-height: 300px;
+}
+
+/* Buttons */
+.btn-block {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-goldmex-primary {
+    background: var(--scan-primary);
+    color: white;
+}
+
+.btn-goldmex-success {
+    background: var(--scan-success);
+    color: white;
+}
+
+.btn-goldmex-danger {
+    background: var(--scan-error);
+    color: white;
+}
+
+.btn-goldmex-secondary {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Mobile Camera Button - HIDDEN ON DESKTOP */
+#wst-open-camera-btn {
+    display: none;
+}
+
+/* Results */
+.wst-result-card {
+    margin-top: 2rem;
+    text-align: center;
+    border-top: 1px dashed var(--scan-border);
+    padding-top: 2rem;
+}
+
+.result-state.hidden {
+    display: none;
+}
+
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+}
+
+.icon-circle.success {
+    background: var(--scan-success);
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+}
+
+.icon-circle.error {
+    background: var(--scan-error);
+    box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+}
+
+.pallet-info {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    text-align: left;
+    border: 1px solid var(--scan-border);
+}
+
+/* Ensure pallet info background is visible in dark mode */
+body.dark-mode .pallet-info {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.info-row.highlight {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--scan-border);
+    font-size: 1.1rem;
+    color: var(--scan-primary);
+}
+
+/* Highlight color in dark mode */
+body.dark-mode .info-row.highlight {
+    color: var(--scan-accent);
+}
+
+.info-row .label {
+    color: var(--scan-light);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.info-row .value {
+    font-weight: 700;
+    color: var(--scan-text);
+}
+
+/* HISTORY TABLE */
+.wst-scan-history {
+    flex: 1;
+    background: var(--scan-card);
+    border-radius: 16px;
+    border: 1px solid var(--scan-border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--scan-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+body.dark-mode .history-header {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.history-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--scan-text);
+}
+
+.history-list-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.wst-scan-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.wst-scan-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    background: var(--scan-bg);
+    font-size: 0.8rem;
+    color: var(--scan-light);
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--scan-border);
+    z-index: 5;
+}
+
+.wst-scan-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--scan-border);
+    font-size: 0.95rem;
+    color: var(--scan-text);
+}
+
+.wst-scan-table tr:last-child td {
+    border-bottom: none;
+}
+
+.wst-scan-table tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.01);
+}
+
+body.dark-mode .wst-scan-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* --- FIX: QR ID COLUMN VISIBILITY --- */
+/* The JS injects 'color: var(--scan-primary)' inline. 
+   We use !important here to force the correct color in both modes cleanly. */
+.wst-scan-table .col-qr-id {
+    color: var(--scan-primary) !important;
+    font-weight: 600;
+}
+
+/* In Dark Mode, force it to GOLD so it's readable */
+body.dark-mode .wst-scan-table .col-qr-id {
+    color: var(--scan-accent) !important;
+}
+
+.wst-spinner {
+    font-size: 3rem;
+    color: var(--scan-primary);
+}
+
+body.dark-mode .wst-spinner {
+    color: var(--scan-accent);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .wst-scan-container {
+        padding: 1rem;
+        height: auto;
+        min-height: calc(100vh - 70px);
+    }
+
+    .wst-scan-box {
+        padding: 1.5rem;
+    }
+
+    #wst-open-camera-btn {
+        display: flex;
+        margin-top: 1rem;
+    }
+
+    .wst-input-group {
+        padding: 0.8rem 1rem;
+    }
+
+    .wst-input-group input {
+        font-size: 1.2rem;
+    }
+
+    .wst-scan-table th,
+    .wst-scan-table td {
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-block {
+        padding: 1.2rem;
+        font-size: 1.1rem;
+    }
+}

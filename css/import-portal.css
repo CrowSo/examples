@@ -1,0 +1,1414 @@
+/*
+ * ====================================================================
+ * == STYLES FOR IMPORT MANAGEMENT PORTAL (IMP) - v16 TRINITY LAYOUT ==
+ * ====================================================================
+ */
+
+/* --- Main Container & Layout (Full Height Fix) --- */
+.imp-container {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    /* Trinity Step 1: Full Height Container */
+    height: 100vh;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* --- Entrance Animations --- */
+.imp-container>.imp-header,
+.imp-container>.imp-dashboard-summary,
+.imp-container>.imp-table-container {
+    animation-name: fadeInSlideUp;
+    animation-duration: 0.6s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.imp-container>.imp-header {
+    animation-delay: 0.05s;
+}
+
+.imp-container>.imp-dashboard-summary {
+    animation-delay: 0.1s;
+}
+
+.imp-container>.imp-table-container {
+    animation-delay: 0.15s;
+    /* Trinity Step 2: Flex Grow for Table Container */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* --- Header --- */
+.imp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #2e4975 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-primary-color-rgb), 0.2);
+}
+
+body.dark-mode .imp-header {
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #25426c 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-white-color-rgb), 0.1);
+}
+
+.imp-header h2 {
+    color: var(--goldmex-white-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.imp-header h2 .bx {
+    color: var(--goldmex-secondary-color);
+}
+
+.imp-header-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+/* --- Dashboard Summary --- */
+.imp-dashboard-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.imp-scorecard {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left-width: 5px;
+    border-left-style: solid;
+}
+
+.imp-scorecard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px var(--shadow-border);
+}
+
+.imp-scorecard-icon {
+    font-size: 2.8rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.imp-scorecard-info {
+    min-width: 0;
+}
+
+.imp-scorecard-info h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.imp-scorecard-info p {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.imp-scorecard-info span {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+/* Scorecard color variations */
+.imp-scorecard.balance {
+    border-left-color: #28a745;
+}
+
+.imp-scorecard.balance .imp-scorecard-icon {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.imp-scorecard.action-required {
+    border-left-color: #fd7e14;
+}
+
+.imp-scorecard.action-required .imp-scorecard-icon {
+    color: #fd7e14;
+    background-color: rgba(253, 126, 20, 0.1);
+}
+
+.imp-scorecard.in-progress {
+    border-left-color: #17a2b8;
+}
+
+.imp-scorecard.in-progress .imp-scorecard-icon {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+.imp-scorecard.completed {
+    border-left-color: var(--goldmex-primary-color);
+}
+
+.imp-scorecard.completed .imp-scorecard-icon {
+    color: var(--goldmex-primary-color);
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.1);
+}
+
+.imp-link-btn {
+    background: none;
+    border: none;
+    color: var(--goldmex-primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 0.2rem;
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
+}
+
+.imp-link-btn:hover {
+    color: var(--goldmex-secondary-color);
+}
+
+body.dark-mode .imp-link-btn {
+    color: var(--goldmex-secondary-color);
+}
+
+body.dark-mode .imp-link-btn:hover {
+    color: var(--goldmex-light-color);
+}
+
+/* --- Table Container (Updated) --- */
+.imp-table-container {
+    background-color: var(--color-surface);
+    padding: 1.5rem;
+    padding-bottom: 0; /* Adjust for footer */
+    border-radius: 0.6rem;
+    box-shadow: 0 4px 15px var(--shadow-border);
+    border: 1px solid var(--color-border);
+    overflow: hidden; /* Important for flex */
+}
+
+.imp-table-container h3 {
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* ====================================================================
+ * == DATATABLES FLEXBOX HACK (The Trinity Implementation)           ==
+ * ====================================================================
+ */
+
+/* Custom Header Wrapper (Injected by JS) */
+.imp-dt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* Scoped Inputs & Selects for DataTables */
+.imp-dt-header input,
+.imp-dt-header select {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    height: 32px;
+}
+
+/* DataTables Scroll Wrappers */
+.imp-container .dt-scroll,
+.imp-container .dataTables_scroll,
+.imp-modal .dt-scroll, 
+.imp-modal .dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 6px 6px 0 0;
+}
+
+/* The Hack: Force body to ignore JS height and use Flex */
+.imp-container .dataTables_scrollBody,
+.imp-modal .dataTables_scrollBody {
+    flex: 1 1 auto !important;
+    height: 10px !important;
+    max-height: none !important;
+    width: 100% !important;
+    background-color: var(--color-surface);
+}
+
+/* Fixed Footer (Pagination) */
+.imp-dt-footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+}
+
+/* Ensure tables fill width */
+.imp-container table.dataTable,
+.imp-modal table.dataTable {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
+.imp-container table.dataTable thead th,
+.imp-modal table.dataTable thead th {
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.imp-container table.dataTable tbody td,
+.imp-modal table.dataTable tbody td {
+    padding: 8px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+/* --- General Modal Styles (Updated for Flexbox) --- */
+.imp-modal {
+    display: none;
+    position: fixed;
+    z-index: 1200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    align-items: center;
+    justify-content: center;
+}
+
+.imp-modal.imp-modal-open {
+    display: flex;
+    opacity: 1;
+}
+
+.imp-modal-content {
+    background-color: rgba(var(--color-surface-rgb), 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 0.6rem;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+    /* Flexbox for Full Height Modal Content */
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+
+.imp-modal.imp-modal-open .imp-modal-content {
+    transform: scale(1);
+}
+
+.imp-modal-content.imp-modal-large {
+    max-width: 900px;
+}
+
+/* UPDATED: XL Modals (History/Ledger) fixed height */
+.imp-modal-content.imp-modal-xlarge {
+    max-width: 1200px;
+    width: 95vw;
+    height: 85vh; /* Forced height for expansion */
+}
+
+.imp-modal-content.imp-modal-fullscreen {
+    width: 95vw;
+    max-width: 1800px;
+    height: 90vh;
+}
+
+.imp-modal-header {
+    padding: 1.2rem 1.8rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+    flex-shrink: 0;
+}
+
+.imp-modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.imp-close-button {
+    background: none;
+    border: none;
+    font-size: 1.9rem;
+    color: var(--goldmex-light-color);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.imp-close-button:hover {
+    transform: rotate(90deg);
+}
+
+/* Modal Body Flexbox */
+.imp-modal-body {
+    padding: 1.8rem;
+    flex: 1; /* Allow growing */
+    overflow-y: auto; /* Internal scroll */
+    display: flex;
+    flex-direction: column;
+}
+
+.imp-modal-footer {
+    padding: 1.2rem 1.8rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    background-color: var(--color-bg);
+    flex-shrink: 0;
+}
+
+/* Ensure Table Containers inside Modals Grow */
+.imp-modal .imp-table-container {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* --- New Shipment Modal: Entry Type Selection --- */
+#imp-entry-type-selection h4 {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--color-text-secondary);
+}
+
+.imp-entry-type-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.imp-entry-type-card {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.imp-entry-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--shadow-border);
+    border-color: var(--goldmex-secondary-color);
+}
+
+.imp-entry-type-card i {
+    font-size: 3rem;
+    color: var(--goldmex-primary-color);
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .imp-entry-type-card i {
+    color: var(--goldmex-secondary-color);
+}
+
+.imp-entry-type-card:hover i {
+    color: var(--goldmex-secondary-color);
+}
+
+.imp-entry-type-card strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.imp-entry-type-card span {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+}
+
+
+/* --- New Shipment Modal: Stepper & Forms --- */
+.imp-form-stepper {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+.imp-step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    opacity: 0.5;
+}
+
+.imp-step.active {
+    color: var(--goldmex-primary-color);
+    font-weight: 600;
+    opacity: 1;
+}
+
+body.dark-mode .imp-step.active {
+    color: var(--goldmex-secondary-color);
+}
+
+.imp-step span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+.imp-step.active span {
+    background-color: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+}
+
+body.dark-mode .imp-step.active span {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+}
+
+.imp-form-step-content {
+    display: none;
+}
+
+.imp-form-step-content.active {
+    display: block;
+}
+
+.imp-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.imp-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.imp-form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.imp-form-group input,
+.imp-form-group select,
+.imp-form-group textarea {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+}
+
+.imp-instructions {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.imp-file-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* --- History & Ledger Modals --- */
+.imp-history-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+.imp-balance-summary {
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+    margin-bottom: 1rem;
+}
+
+.imp-balance-summary span {
+    font-weight: 700;
+    color: var(--goldmex-primary-color);
+}
+
+body.dark-mode .imp-balance-summary span {
+    color: var(--goldmex-secondary-color);
+}
+
+/* --- Ledger Modal Controls --- */
+.imp-ledger-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+
+/*
+ * ====================================================================
+ * ==                Table Action Button Styles                      ==
+ * ====================================================================
+ */
+
+@keyframes pulse-orange {
+    0% {
+        box-shadow: 0 0 0 0 rgba(253, 126, 20, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(253, 126, 20, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(253, 126, 20, 0);
+    }
+}
+
+.imp-table-btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.imp-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: var(--color-surface);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.imp-icon-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+.imp-icon-btn.imp-btn-view {
+    color: var(--goldmex-primary-color);
+    border-color: var(--goldmex-primary-color);
+}
+
+.imp-icon-btn.imp-btn-view:hover:not(:disabled) {
+    background-color: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+}
+
+.imp-icon-btn.imp-btn-edit {
+    color: var(--goldmex-secondary-color);
+    border-color: var(--goldmex-secondary-color);
+}
+
+.imp-icon-btn.imp-btn-edit:hover:not(:disabled) {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+}
+
+.imp-icon-btn.imp-btn-delete {
+    color: var(--goldmex-accent-color);
+    border-color: var(--goldmex-accent-color);
+}
+
+.imp-icon-btn.imp-btn-delete:hover:not(:disabled) {
+    background-color: #e31837;
+    color: var(--goldmex-white-color);
+}
+
+body.dark-mode .imp-icon-btn.imp-btn-view {
+    border-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-secondary-color);
+}
+
+body.dark-mode .imp-icon-btn.imp-btn-edit {
+    border-color: var(--goldmex-light-color);
+    color: var(--goldmex-light-color);
+}
+
+.btn-imp-alert {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.8rem;
+    background-color: #fd7e14;
+    color: white;
+    box-shadow: 0 2px 5px rgba(253, 126, 20, 0.4);
+    animation: pulse-orange 2s infinite;
+    transition: all 0.2s ease;
+}
+
+.btn-imp-alert:hover {
+    background-color: #e87313;
+    box-shadow: 0 4px 10px rgba(253, 126, 20, 0.6);
+    transform: translateY(-2px);
+    animation: none;
+}
+
+.btn-imp-archive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid #2a9d8f;
+    color: #2a9d8f;
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-imp-archive:hover:not(:disabled) {
+    background-color: #2a9d8f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+body.dark-mode .btn-imp-archive {
+    border-color: #51cf66;
+    color: #51cf66;
+}
+
+body.dark-mode .btn-imp-archive:hover:not(:disabled) {
+    background-color: #51cf66;
+    color: var(--goldmex-dark-color);
+}
+
+/*
+ * ====================================================================
+ * ==                 View Details Modal Styles (Compacted)          ==
+ * ====================================================================
+ */
+
+/* Override for Details Modal Size */
+#imp-details-modal .imp-modal-content {
+    max-width: 1000px;
+    height: 85vh; /* Fixed height for flexbox */
+}
+
+.imp-view-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem 2rem;
+}
+
+@media (min-width: 992px) {
+    .imp-view-columns {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.imp-detail-section {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.imp-view-columns .imp-detail-section:last-child {
+    border-bottom: none;
+}
+
+.imp-detail-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.imp-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+@media (min-width: 576px) {
+    .imp-detail-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.imp-detail-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.imp-detail-group.imp-detail-full-width {
+    grid-column: 1 / -1;
+}
+
+.imp-detail-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.2rem;
+}
+
+.imp-detail-value {
+    font-size: 0.9rem;
+    background-color: var(--color-bg);
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    word-wrap: break-word;
+    border: 1px solid var(--color-border);
+}
+
+.imp-view-attachments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.imp-view-attachments-list li {
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.imp-view-attachments-list li:last-child {
+    border-bottom: none;
+}
+
+/*
+ * ====================================================================
+ * ==              Document Management Modal Styles                  ==
+ * ====================================================================
+ */
+
+.imp-doc-upload-section,
+.imp-doc-list-section {
+    margin-bottom: 2rem;
+}
+
+.imp-doc-upload-section h4,
+.imp-doc-list-section h4 {
+    font-size: 1.15rem;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.imp-form-grid-upload {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.imp-doc-list-container {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+}
+
+.imp-no-docs-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text-secondary);
+}
+
+.imp-doc-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    transition: background-color 0.2s ease;
+}
+
+.imp-doc-card:hover {
+    background-color: var(--active-hover-bg);
+}
+
+.imp-doc-card-icon {
+    font-size: 2.2rem;
+    color: var(--goldmex-primary-color);
+    margin-right: 1rem;
+}
+
+body.dark-mode .imp-doc-card-icon {
+    color: var(--goldmex-secondary-color);
+}
+
+.imp-doc-card-info {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.imp-doc-card-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.imp-doc-card-date {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+.imp-doc-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.imp-doc-action-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.imp-doc-action-btn:hover {
+    background-color: var(--active-hover-bg);
+    color: var(--active-hover-text);
+}
+
+.imp-doc-action-btn[data-action="delete"]:hover {
+    color: var(--goldmex-accent-color);
+}
+
+/*
+ * ====================================================================
+ * ==              Quote/Report Modal Styles (Ported)              ==
+ * ====================================================================
+ */
+
+.imp-report-modal-content {
+    background-color: #f8f9fa;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-size: 9pt;
+    border-radius: 0.5rem;
+    max-width: 900px;
+    width: 95%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.imp-report-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.imp-report-printable-area {
+    /* Styles for the content that will be converted to PDF */
+}
+
+.imp-report-header {
+    text-align: center;
+    border-bottom: 2px solid var(--goldmex-primary-color);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.imp-report-header h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--goldmex-primary-color);
+}
+
+.imp-report-header p {
+    margin: 0.2rem 0 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.imp-report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.imp-report-section {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.4rem;
+    padding: 1rem;
+}
+
+.imp-report-section ul {
+    padding-left: 20px;
+}
+
+.imp-report-section h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--goldmex-primary-color);
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.imp-report-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.imp-report-item:last-child {
+    border-bottom: none;
+}
+
+.imp-report-label {
+    font-weight: bold;
+    color: #495057;
+    flex-shrink: 0;
+    margin-right: 1rem;
+}
+
+.imp-report-value {
+    color: #212529;
+    text-align: right;
+    word-break: break-word;
+}
+
+.imp-report-quote-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.imp-report-quote-table th,
+.imp-report-quote-table td {
+    padding: 0.5rem;
+    border: 1px solid #e9ecef;
+    text-align: right;
+}
+
+.imp-report-quote-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.imp-report-quote-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+.imp-report-quote-table .grand-total td {
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: #f1f3f5;
+    border-top: 2px solid #adb5bd;
+}
+
+.imp-report-full-width {
+    grid-column: 1 / -1;
+}
+
+.imp-report-notes {
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 0.3rem;
+    font-style: italic;
+    color: #495057;
+    text-align: left;
+    margin-top: 0.5rem;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/*
+ * ====================================================================
+ * ==                 Status Badge Styles (NEW)                      ==
+ * ====================================================================
+ */
+
+.imp-status-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 1em;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.status-submitted,
+.status-in-review {
+    background-color: var(--goldmex-primary-color);
+}
+
+.status-info-needed,
+.status-clarification {
+    background-color: #fd7e14;
+}
+
+.status-client-reply {
+    background-color: #6f42c1;
+}
+
+.status-docs-ok {
+    background-color: #20c997;
+}
+
+.status-quote-sent {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+    text-shadow: none;
+}
+
+.status-approved {
+    background-color: #17a2b8;
+}
+
+.status-paid {
+    background-color: #28a745;
+}
+
+.status-completed {
+    background-color: #28a745;
+}
+
+.status-cancelled {
+    background-color: #6c757d;
+}
+
+/*
+ * ====================================================================
+ * ==                NEW STYLES FOR REQUESTED CHANGES                ==
+ * ====================================================================
+ */
+
+/* New button colors */
+.imp-btn-assets {
+    /* Structural styles for the button */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.8rem;
+    height: 30px;
+    /* Corresponds to btn-sm */
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+
+    /* Color styles */
+    background-color: #2a9d8f;
+    border-color: #2a9d8f;
+    color: white !important;
+    transition: all 0.2s ease;
+}
+
+.imp-btn-assets:hover:not(:disabled) {
+    background-color: #248478;
+    border-color: #248478;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+.imp-icon-btn.imp-btn-docs {
+    color: #e76f51;
+    border-color: #e76f51;
+}
+
+.imp-icon-btn.imp-btn-docs:hover:not(:disabled) {
+    background-color: #e76f51;
+    color: white;
+}
+
+/* Styling for Archive button to match Operations' Complete button */
+.imp-btn-archive-styled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: 34px;
+    padding: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #28a745;
+    color: white;
+    border: 1px solid #28a745;
+    font-size: 1.2rem;
+}
+
+.imp-btn-archive-styled:hover:not(:disabled) {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+/* Z-index fix for Doc Management modal */
+#imp-doc-management-modal {
+    z-index: 1201;
+}
+
+
+/*
+ * ====================================================================
+ * ==                 STYLES FOR NEW RESOURCES FEATURE               ==
+ * ====================================================================
+ */
+
+/* New Sky Blue Button */
+.btn-goldmex-info {
+    background-color: #3498DB;
+    border-color: #3498DB;
+    color: var(--goldmex-white-color);
+}
+
+.btn-goldmex-info:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    color: var(--goldmex-white-color);
+}
+
+/* Resources Modal Controls */
+.imp-resources-controls {
+    display: flex;
+    justify-content: flex-end;
+    /* Client view only has search */
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+}
+
+.imp-resources-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.imp-resources-search .bx {
+    position: absolute;
+    left: 10px;
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+}
+
+#imp-resource-search-input {
+    padding: 0.6rem 0.8rem 0.6rem 2.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    min-width: 300px;
+}
+
+/* Resources List Grid */
+#imp-resources-list-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0.5rem;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.imp-resource-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px var(--shadow-border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.imp-resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px var(--shadow-border);
+}
+
+.imp-resource-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.8rem;
+}
+
+.imp-resource-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--goldmex-white-color);
+    background-color: var(--goldmex-secondary-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.imp-resource-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    word-break: break-all;
+}
+
+.imp-resource-card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.imp-resource-btn-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #28a745;
+    color: #28a745;
+    border-radius: 5px;
+    background-color: var(--color-surface);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.imp-resource-btn-download:hover {
+    background-color: #28a745;
+    color: white;
+}

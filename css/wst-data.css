@@ -1,0 +1,450 @@
+/* ============================================================
+   Warehouse Data Manager Styles (WST) - ISOLATED & FIXED
+   File: css/wst-data.css
+   ============================================================ */
+
+/* --- VARIABLES LOCALES (Scopeados al contenedor) --- */
+.wst-data-container {
+    --wst-bg-color: #ffffff;
+    --wst-text-main: #333333;
+    --wst-text-light: #6b7280;
+    --wst-border: #e5e7eb;
+    --wst-header-bg: #0e2c4c;
+    --wst-header-text: #ffffff;
+    --wst-tab-active-bg: #f3f4f6;
+    --wst-tab-inactive-text: #64748b;
+    --wst-primary: #0e2c4c;
+    --wst-secondary: #d4af37;
+}
+
+body.dark-mode .wst-data-container {
+    --wst-bg-color: #1f2937;
+    --wst-text-main: #f3f4f6;
+    --wst-text-light: #9ca3af;
+    --wst-border: #374151;
+    --wst-header-bg: #0a1f35;
+    --wst-tab-active-bg: #374151;
+    --wst-tab-inactive-text: #9ca3af;
+    --wst-primary: #3b82f6;
+}
+
+/* --- MAIN LAYOUT --- */
+.wst-data-container {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: fadeInWst 0.4s ease-out;
+}
+
+@keyframes fadeInWst {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- HEADER --- */
+.wst-data-container .wst-header {
+    background-color: var(--wst-header-bg);
+    color: var(--wst-header-text);
+    padding: 0 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    height: 70px;
+    flex-shrink: 0;
+}
+
+.wst-data-container .wst-title-area h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+    margin: 0;
+}
+
+.wst-data-container .wst-title-area h2 i {
+    color: #ffd700;
+    font-size: 1.6rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+/* --- TABS --- */
+.wst-data-container .wst-tabs {
+    display: flex;
+    gap: 0.5rem;
+    height: 100%;
+    align-items: flex-end;
+}
+
+.wst-data-container .wst-tab-button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 1rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 4px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+}
+
+.wst-data-container .wst-tab-button.active {
+    color: #ffd700;
+    border-bottom-color: #ffd700;
+    background: linear-gradient(to top, rgba(255, 215, 0, 0.15), transparent);
+    font-weight: 700;
+}
+
+/* --- FILTERS --- */
+.wst-data-container .wst-filters-section {
+    background-color: var(--wst-bg-color);
+    border: 1px solid var(--wst-border);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    flex-shrink: 0;
+}
+
+.wst-data-container .wst-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.wst-data-container .wst-filter-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--wst-text-light);
+    font-weight: 700;
+}
+
+.wst-data-container .wst-date-inputs {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--wst-border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    background: var(--wst-bg-color);
+}
+
+.wst-data-container .wst-date-inputs input {
+    border: none;
+    background: transparent;
+    color: var(--wst-text-main);
+    padding: 0.3rem;
+    outline: none;
+}
+
+.wst-data-container .wst-date-inputs span {
+    color: var(--wst-text-light);
+    padding: 0 0.5rem;
+}
+
+.wst-data-container .wst-filter-group select {
+    padding: 0.3rem;
+    border: 1px solid var(--wst-border);
+    border-radius: 6px;
+    background-color: var(--wst-bg-color);
+    color: var(--wst-text-main);
+}
+
+.wst-data-container .wst-tab-content-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.wst-data-container .wst-tab-content {
+    display: none;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.wst-data-container .wst-tab-content.active {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    animation: fadeInWst 0.3s ease;
+}
+
+/* --- TABLE CONTAINER --- */
+.wst-data-container .wst-table-container {
+    background: var(--wst-bg-color);
+    border: 1px solid var(--wst-border);
+    border-radius: 8px;
+    padding: 1rem 0 0 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ============================================================
+   DATATABLES 2.0 CUSTOM LAYOUT (ISOLATED)
+   ============================================================ */
+
+/* Contenedor principal DataTables */
+.wst-data-container .dt-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* 1. Header Personalizado (wst-dt-header) */
+.wst-data-container .wst-dt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem 0.5rem 1rem;
+    flex-shrink: 0;
+}
+
+/* DataTables Inputs/Selects */
+.wst-data-container .dt-length select,
+.wst-data-container .dt-search input {
+    border: 1px solid var(--wst-border);
+    background: transparent;
+    color: var(--wst-text-main);
+    padding: 4px;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.wst-data-container .dt-length,
+.wst-data-container .dt-search {
+    font-size: 0.85rem;
+    color: var(--wst-text-main);
+}
+
+/* 2. Área Central (Scroll) */
+.wst-data-container .dt-scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    border-top: 1px solid var(--wst-border);
+    border-bottom: 1px solid var(--wst-border);
+}
+
+.wst-data-container .dt-scroll-head {
+    flex-shrink: 0;
+    background-color: var(--wst-bg-color);
+}
+
+.wst-data-container .dt-scroll-body {
+    flex: 1 1 auto !important;
+    height: 10px !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    background-color: var(--wst-bg-color);
+}
+
+/* 3. Footer Personalizado (wst-dt-footer) */
+.wst-data-container .wst-dt-footer {
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: var(--wst-bg-color);
+    flex-shrink: 0;
+}
+
+/* --- CLASES DE DATATABLES (Scopeadas) --- */
+
+.wst-data-container .dt-info {
+    font-size: 0.75rem !important;
+    color: var(--wst-text-light) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.wst-data-container .dt-paging {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.wst-data-container button.dt-paging-button {
+    background: transparent !important;
+    padding: 0 8px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    line-height: 22px !important;
+    font-size: 0.75rem !important;
+    border-radius: 4px !important;
+    color: var(--wst-text-light) !important;
+    border: 1px solid transparent !important;
+    cursor: pointer;
+    box-shadow: none !important;
+}
+
+.wst-data-container button.dt-paging-button.current {
+    background: rgba(255, 215, 0, 0.1) !important;
+    color: #d4b106 !important;
+    border-color: #ffd700 !important;
+    font-weight: bold;
+}
+
+.wst-data-container button.dt-paging-button:hover:not(.current):not(.disabled) {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: var(--wst-text-main) !important;
+}
+
+/* --- ESTILOS DE TABLA (AISLADOS) --- */
+.wst-data-container table.dataTable {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+}
+
+.wst-data-container table.dataTable thead th {
+    background-color: #f8f9fa; /* Fondo gris claro default */
+    color: var(--wst-text-main);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    padding: 10px !important;
+    border-bottom: 2px solid var(--wst-border) !important;
+    white-space: nowrap;
+    text-align: left;
+}
+
+body.dark-mode .wst-data-container table.dataTable thead th {
+    background-color: #111827; /* Fondo oscuro en dark mode */
+}
+
+/* Alineaciones */
+.wst-data-container table.dataTable th.dt-center,
+.wst-data-container table.dataTable td.dt-center {
+    text-align: center;
+}
+
+.wst-data-container table.dataTable th.dt-right,
+.wst-data-container table.dataTable td.dt-right {
+    text-align: right;
+}
+
+/* Celdas */
+.wst-data-container table.dataTable tbody td {
+    padding: 8px 10px !important;
+    border-bottom: 1px solid var(--wst-border);
+    color: var(--wst-text-main);
+    font-size: 0.85rem;
+    vertical-align: middle;
+}
+
+/* Scrollbars */
+.wst-data-container .dt-scroll-body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.wst-data-container .dt-scroll-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+body.dark-mode .wst-data-container .dt-scroll-body::-webkit-scrollbar-thumb {
+    background: #4b5563;
+}
+
+/* --- OTROS COMPONENTES --- */
+.wst-data-container .wst-database-toolbar {
+    margin-bottom: 1rem !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.wst-data-container .btn-icon-action {
+    font-size: 1.1rem;
+    padding: 4px;
+    color: var(--wst-text-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.wst-data-container .btn-icon-action:hover {
+    color: #ffd700;
+}
+
+.wst-data-container .ml-auto {
+    margin-left: auto;
+}
+
+/* Botones Principales (Scopeados) */
+.wst-data-container .btn-goldmex-primary {
+    background-color: var(--wst-primary);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.wst-data-container .btn-goldmex-secondary {
+    background-color: transparent;
+    border: 1px solid var(--wst-primary);
+    color: var(--wst-primary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+body.dark-mode .wst-data-container .btn-goldmex-secondary {
+    border-color: var(--wst-secondary);
+    color: var(--wst-secondary);
+}
+
+/* Modal específico de WST Data */
+.wst-data-container .cm-modal-content {
+    border: 1px solid var(--wst-border);
+    background-color: var(--wst-bg-color);
+    color: var(--wst-text-main);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .wst-data-container {
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .wst-data-container .wst-dt-footer {
+        height: auto;
+        padding: 10px;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

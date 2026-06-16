@@ -1,0 +1,822 @@
+/* ====================================================================
+ * == STYLES FOR INVENTORY MANAGEMENT (INV) - V8.8 (HISTORY MODAL FIX) ==
+ * ====================================================================
+ */
+
+/* 1. CONTENEDOR PRINCIPAL */
+.inventory-container {
+  padding: 1.5rem;
+  background-color: var(--color-bg);
+  height: 100vh;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  gap: 1rem;
+}
+
+.inventory-container > * {
+  animation: fadeInSlideUp 0.6s var(--animation-timing-function) both;
+}
+
+.inventory-container > .inv-header {
+  animation-delay: 0s;
+  flex-shrink: 0;
+}
+
+.inventory-container > .inv-tab-content {
+  animation-delay: 0.1s;
+}
+
+/* 2. HEADER */
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  height: 60px;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    110deg,
+    var(--goldmex-primary-color) 0%,
+    #2e4975 100%
+  );
+  box-shadow: 0 4px 15px rgba(var(--goldmex-primary-color-rgb), 0.2);
+  flex-shrink: 0;
+}
+
+body.dark-mode .inv-header {
+  background: linear-gradient(
+    110deg,
+    var(--goldmex-primary-color) 0%,
+    #25426c 100%
+  );
+  box-shadow: 0 4px 15px rgba(var(--goldmex-white-color-rgb), 0.1);
+}
+
+.inv-header-title h2 {
+  color: var(--goldmex-white-color);
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.inv-header-title h2 .bx {
+  color: var(--goldmex-secondary-color);
+}
+
+/* Tabs */
+.inv-tabs {
+  display: flex;
+  gap: 0.5rem;
+  height: 100%;
+  align-items: flex-end;
+  margin-left: 2rem;
+  flex-grow: 1;
+  overflow-x: auto;
+}
+
+.inv-tab-button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0 1.2rem;
+  height: 100%;
+  cursor: pointer;
+  border-bottom: 4px solid transparent;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.inv-tab-button:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.inv-tab-button.active {
+  color: var(--goldmex-secondary-color);
+  border-bottom-color: var(--goldmex-secondary-color);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+  font-weight: 700;
+}
+
+/* Actions */
+.inv-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  height: 100%;
+}
+
+#headerKardexSearchWidget {
+  display: flex;
+  height: 36px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.kardex-header-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  width: 250px;
+  transition: all 0.2s ease;
+}
+
+.kardex-header-input-wrapper:focus-within {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--goldmex-secondary-color);
+}
+
+.kardex-header-input-wrapper i.bx-search {
+  padding-left: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.kardex-header-input-wrapper input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  width: 100%;
+  outline: none;
+  font-size: 0.9rem;
+  padding-right: 2rem;
+}
+
+.kardex-header-input-wrapper input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-input-clear {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0 4px;
+  display: none;
+  transition: color 0.2s;
+}
+
+.btn-input-clear:hover {
+  color: #fff;
+}
+
+/* 3. CONTENIDO */
+.inv-tab-content {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.inv-tab-content.active {
+  display: flex;
+  animation: fadeInSlideUp 0.3s ease-out;
+}
+
+.inv-dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.inv-scorecard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  border-left: 5px solid;
+}
+
+.inv-scorecard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px var(--shadow-border);
+}
+
+.inv-scorecard-icon {
+  font-size: 2.5rem;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.inv-scorecard .total {
+  border-color: var(--goldmex-primary-color);
+}
+
+.inv-scorecard-icon.total {
+  color: var(--goldmex-primary-color);
+  background-color: rgba(var(--goldmex-primary-color-rgb), 0.1);
+}
+
+.inv-scorecard .items {
+  border-color: #28a745;
+}
+
+.inv-scorecard-icon.items {
+  color: #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.inv-scorecard .recent {
+  border-color: #17a2b8;
+}
+
+.inv-scorecard-icon.recent {
+  color: #17a2b8;
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
+.inv-scorecard-info h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.inv-scorecard-info p {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+/* 4. FILTROS */
+.inv-controls-bar {
+  padding: 0.8rem;
+  background-color: var(--color-surface);
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.inv-filters {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.8rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.inv-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 100px;
+}
+
+.inv-filter-group.search-group {
+  flex: 2;
+  min-width: 200px;
+}
+
+.inv-filter-group.sku-group,
+.inv-filter-group.date-group {
+  flex: 1;
+}
+
+.inv-filter-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inv-filter-group input,
+.inv-filter-group select {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  width: 100%;
+  height: 36px;
+}
+
+.inv-filter-group input:focus,
+.inv-filter-group select:focus {
+  border-color: var(--goldmex-secondary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--goldmex-secondary-color-rgb), 0.2);
+}
+
+.inv-filter-actions-group {
+  display: flex;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+  align-items: flex-end;
+}
+
+.inv-filter-actions-group button {
+  height: 36px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#btnOpenRawHistory {
+  background-color: var(--color-bg);
+  transition: all 0.2s ease;
+}
+
+#btnOpenRawHistory:hover {
+  background-color: var(--goldmex-secondary-color);
+  color: var(--goldmex-primary-color);
+  border-color: var(--goldmex-secondary-color);
+}
+
+/* 5. TABLA */
+.inv-table-container {
+  background-color: var(--color-surface);
+  padding: 0;
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 10px var(--shadow-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.inv-table-container .dataTables_wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.inv-table-container .dt-scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.inv-table-container .dataTables_scrollBody {
+  flex: 1 1 auto;
+  height: 10px !important;
+  max-height: none !important;
+  background-color: var(--color-surface);
+}
+
+.inv-dt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.inv-dt-header .dataTables_length select,
+.inv-dt-header .dataTables_filter input {
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  outline: none;
+  margin-left: 0.5rem;
+  height: 34px;
+}
+
+.inv-table-container thead th {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 1rem !important;
+}
+
+.inv-table-container tbody td {
+  padding: 0.8rem 1rem !important;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+}
+
+.inv-dt-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  background-color: var(--color-bg);
+}
+
+/* Badges */
+.inv-status-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  display: inline-block;
+}
+
+.status-on-hand {
+  background-color: #28a745;
+}
+
+.status-shipped {
+  background-color: var(--goldmex-primary-color);
+}
+
+.status-quarantine {
+  background-color: #fd7e14;
+}
+
+.status-adjusted {
+  background-color: #dc3545;
+}
+
+.status-available {
+  background-color: #10b981;
+}
+
+.status-allocated {
+  background-color: #f59e0b;
+}
+
+.status-consumed {
+  background-color: #6b7280;
+}
+
+/* 6. MODALES */
+.inv-modal {
+  display: none;
+  position: fixed;
+  z-index: 1500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.inv-modal.open {
+  display: flex;
+  opacity: 1;
+}
+
+.inv-modal-content {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  /* MODIFIED: Use auto height to fit content, prevent large white space */
+  height: auto;
+  max-height: 90vh; 
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.inv-modal-large {
+  max-width: 800px;
+}
+
+.inv-modal-large .inv-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.inv-modal-large .inv-table-container {
+  flex: 1;
+  min-height: 250px;
+}
+
+.inv-modal.open .inv-modal-content {
+  transform: scale(1);
+}
+
+.inv-modal-header {
+  padding: 1rem 1.5rem;
+  background-color: var(--goldmex-primary-color);
+  color: #fff;
+  border-radius: 0.6rem 0.6rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.inv-modal-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inv-close-button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.inv-close-button:hover {
+  color: #fff;
+}
+
+.inv-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.inv-modal-footer {
+  padding: 1rem 1.5rem;
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  border-radius: 0 0 0.6rem 0.6rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+.inv-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.inv-info-card {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.inv-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.inv-detail-row .value {
+    color: var(--color-text-primary);
+    font-weight: 600;
+    text-align: right;
+}
+
+.inv-action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-goldmex-danger-outline {
+    background: transparent;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btn-goldmex-danger-outline:hover { background-color: #dc3545; color: #fff; }
+
+.btn-goldmex-danger {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    color: #fff;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+.btn-goldmex-danger:hover { background-color: #c82333; }
+
+.inv-form-group {
+  margin-bottom: 1rem;
+}
+
+.inv-form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--color-text-primary);
+}
+
+.inv-form-group input,
+.inv-form-group select,
+.inv-form-group textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}
+
+/* --- PCP DASHBOARD STYLES (Job Ticket Modal) --- */
+.inv-pcp-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.pcp-card {
+  background-color: white;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pcp-card.highlight {
+  background-color: #eff6ff;
+  border: 1px solid #3b82f6;
+}
+
+.pcp-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.pcp-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}
+
+.pcp-card.highlight .pcp-value {
+  color: #1d4ed8;
+}
+
+.inv-ticket-history {
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+
+/* Buttons */
+.btn-goldmex-secondary {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-main);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-goldmex-secondary:hover {
+  background-color: var(--color-bg);
+}
+
+.btn-goldmex-primary {
+  background-color: var(--goldmex-primary-color);
+  border: 1px solid var(--goldmex-primary-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-goldmex-primary:hover {
+  background-color: #1e3a8a;
+}
+
+/* --- FIX: HISTORY MODAL SPECIFIC STYLES --- 
+   This ensures the history modal is wider and handles overflow correctly,
+   overriding the generic .inv-modal-content styles that were crushing the table.
+*/
+#invRawHistoryModal .inv-modal-content {
+    width: 90vw !important; /* Force width */
+    max-width: 1100px !important;
+    height: 85vh !important; /* Force fixed height */
+    display: flex;
+    flex-direction: column;
+}
+
+#invRawHistoryModal .inv-modal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevent double scrollbars */
+}
+
+#invRawHistoryModal .inv-table-container {
+    flex: 1;
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure DataTables has room to breathe specifically in this modal */
+#invRawHistoryModal .dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#invRawHistoryModal .dataTables_scrollBody {
+    flex: 1 1 auto;
+    max-height: none !important;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .inv-details-grid { grid-template-columns: 1fr; }
+  .inv-action-buttons { flex-direction: column; }
+  
+  .inv-pcp-dashboard {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  #jobTicketForm {
+    grid-template-columns: 1fr !important;
+  }
+
+  #jobTicketForm button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .inv-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inv-filter-group {
+    width: 100%;
+  }
+}

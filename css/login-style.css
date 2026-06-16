@@ -1,0 +1,468 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+  --goldmex-primary: #1a365d;
+  --goldmex-secondary: #d4af37;
+  --goldmex-light: #f8f9fa;
+  --goldmex-gray: #e9ecef;
+  --goldmex-dark: #212529;
+  --goldmex-white: #ffffff;
+  --input-border: #cbd5e1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--goldmex-white);
+}
+
+/* --- LAYOUT DIVIDIDO --- */
+.split-screen-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* --- IZQUIERDA: FORMULARIO --- */
+.left-pane-form {
+  width: 50%;
+  background-color: var(--goldmex-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* HEADER MARCA (Posicionado Absoluto) */
+.brand-header {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 10;
+}
+
+.brand-logo-container {
+  width: 40px;
+  height: 40px;
+  background: var(--goldmex-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--goldmex-secondary);
+  font-size: 1.4rem;
+  box-shadow: 0 4px 10px rgba(26, 54, 93, 0.2);
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--goldmex-primary);
+  letter-spacing: 0.5px;
+}
+
+/* Contenedor del Formulario */
+.form-content-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 3rem;
+}
+
+.welcome-text {
+  margin-bottom: 2rem;
+}
+
+.welcome-text h1 {
+  font-size: 2.2rem;
+  color: var(--goldmex-dark);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.welcome-text p {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+/* INPUTS ESTILIZADOS */
+.input-group {
+  margin-bottom: 1.2rem;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--goldmex-dark);
+  margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.9rem 1rem 0.9rem 2.8rem;
+  /* Espacio para el icono */
+  border: 1.5px solid var(--input-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  transition: all 0.3s ease;
+  color: var(--goldmex-dark);
+  background-color: #f8fafc;
+}
+
+.input-wrapper input:focus {
+  border-color: var(--goldmex-primary);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 2;
+  transition: color 0.2s;
+}
+
+.toggle-password:hover {
+  color: var(--goldmex-primary);
+}
+
+/* BOTÓN PRINCIPAL (Sign In) */
+.btn-sign-in-main {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: var(--goldmex-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 6px rgba(26, 54, 93, 0.2);
+}
+
+.btn-sign-in-main:hover {
+  background-color: #2c4a78;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(26, 54, 93, 0.25);
+}
+
+/* SEPARADOR */
+.divider-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #94a3b8;
+  margin: 1.8rem 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.divider-container::before,
+.divider-container::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.divider-container span {
+  padding: 0 15px;
+}
+
+/* --- BOTONES SOCIALES (GRID ALINEADA) --- */
+.social-buttons-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* 50% - 50% */
+  gap: 1rem;
+  width: 100%;
+  align-items: center;
+  /* Centrado vertical crucial */
+}
+
+/* El contenedor del botón de Google */
+.g_id_signin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  /* Forzar altura para igualar */
+}
+
+/* Botón de Microsoft Custom */
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 40px;
+  /* Altura estándar de Google 'large' */
+  width: 100%;
+  padding: 0 1rem;
+  background: white;
+  border: 1px solid #dadce0;
+  /* Color gris Google */
+  border-radius: 4px;
+  /* Radio Google */
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #3c4043;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.btn-social:hover {
+  background-color: #f7fafe;
+  border-color: #d2e3fc;
+  transform: translateY(-1px);
+}
+
+.btn-social svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* FOOTER */
+.login-footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* --- DERECHA: ANIMACIÓN Y FONDO --- */
+.right-pane-animated {
+  width: 50%;
+  background-color: var(--goldmex-primary);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-image: linear-gradient(135deg, var(--goldmex-primary) 0%, #0f2444 100%);
+}
+
+.overlay-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+}
+
+.overlay-content h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--goldmex-secondary);
+  line-height: 1.1;
+}
+
+.overlay-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* --- ANIMACIÓN DE PARTÍCULAS (Original) --- */
+.animated-bg-flow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.animated-bg-flow li {
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: animate_flow 25s linear infinite;
+  bottom: -150px;
+  border-radius: 50%;
+}
+
+.animated-bg-flow li:nth-child(odd) {
+  background: rgba(212, 175, 55, 0.4);
+}
+
+.animated-bg-flow li:nth-child(even) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Variaciones de posición */
+.animated-bg-flow li:nth-child(1) {
+  left: 25%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0s;
+}
+
+.animated-bg-flow li:nth-child(2) {
+  left: 10%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+
+.animated-bg-flow li:nth-child(3) {
+  left: 70%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 4s;
+}
+
+.animated-bg-flow li:nth-child(4) {
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  animation-delay: 0s;
+  animation-duration: 18s;
+}
+
+.animated-bg-flow li:nth-child(5) {
+  left: 65%;
+  width: 20px;
+  height: 20px;
+  animation-delay: 0s;
+}
+
+.animated-bg-flow li:nth-child(6) {
+  left: 75%;
+  width: 110px;
+  height: 110px;
+  animation-delay: 3s;
+}
+
+.animated-bg-flow li:nth-child(7) {
+  left: 35%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 7s;
+}
+
+.animated-bg-flow li:nth-child(8) {
+  left: 50%;
+  width: 25px;
+  height: 25px;
+  animation-delay: 15s;
+  animation-duration: 45s;
+}
+
+.animated-bg-flow li:nth-child(9) {
+  left: 20%;
+  width: 15px;
+  height: 15px;
+  animation-delay: 2s;
+  animation-duration: 35s;
+}
+
+.animated-bg-flow li:nth-child(10) {
+  left: 85%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 0s;
+  animation-duration: 11s;
+}
+
+@keyframes animate_flow {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .right-pane-animated {
+    display: none; /* Oculta la parte derecha */
+  }
+
+  .left-pane-form {
+    width: 100%;
+    height: 100vh; /* Asegura altura completa */
+    padding: 2rem;
+    /* Esto es nuevo: usamos Flexbox para centrar todo verticalmente */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+  }
+
+  /* ARREGLO DEL LOGO: Quitamos el 'absolute' */
+  .brand-header {
+    position: relative; /* Ya no es absoluto */
+    top: auto;          /* Reseteamos top */
+    left: auto;         /* Reseteamos left */
+    width: 100%;
+    margin-bottom: 2rem; /* Espacio antes del "Welcome" */
+    justify-content: center; /* Centra el logo y el texto horizontalmente */
+  }
+
+  /* Aseguramos que el formulario no se desborde */
+  .form-content-wrapper {
+    margin-top: 0;
+    width: 100%;
+    max-width: 400px; /* Mantiene un ancho elegante */
+    text-align: center; /* Centra los textos internos si es necesario */
+  }
+
+  /* Alineamos el texto de bienvenida al centro explícitamente */
+  .welcome-text {
+    text-align: center;
+  }
+}

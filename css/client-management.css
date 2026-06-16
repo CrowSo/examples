@@ -1,0 +1,615 @@
+/* ====================================================================
+ * == STYLES FOR CLIENT MANAGEMENT (CM) - v15 FULL HEIGHT FIX        ==
+ * ====================================================================
+ */
+
+/* 1. CONTENEDOR MAESTRO: 100vh y Flex Column */
+.client-management-container {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    /* Full Height Fix */
+    height: 100vh;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Animaciones */
+.client-management-container > * {
+    animation: fadeInSlideUp 0.6s var(--animation-timing-function) both;
+}
+
+/* Retrasos escalonados para la animación */
+.client-management-container > .cm-header { animation-delay: 0s; flex-shrink: 0; }
+.client-management-container > .cm-dashboard-summary { animation-delay: 0.05s; flex-shrink: 0; }
+.client-management-container > .cm-table-container { 
+    animation-delay: 0.1s; 
+    /* Flex Growth for Table */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* SECTION: Encabezado del Módulo */
+.cm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.cm-header-left h1 {
+    color: var(--color-text-primary);
+    font-size: 1.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+}
+.cm-header-left h1 .bx {
+    color: var(--goldmex-secondary-color);
+}
+.cm-header-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+
+/* SECTION: Dashboard (Scorecards) */
+.cm-dashboard-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem; /* Reduced margin */
+}
+.cm-scorecard {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem; 
+    box-shadow: 0 2px 5px rgba(var(--shadow-border-rgb, 26, 54, 93), 0.05);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.cm-scorecard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(var(--shadow-border-rgb, 26, 54, 93), 0.1);
+}
+.cm-scorecard-icon {
+    font-size: 2.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+}
+.cm-scorecard-icon.total {
+    color: var(--goldmex-primary-color);
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.1);
+}
+body.dark-mode .cm-scorecard-icon.total {
+    color: var(--goldmex-secondary-color);
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.15);
+}
+.cm-scorecard-icon.regular {
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.1);
+}
+.cm-scorecard-icon.new {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+}
+.cm-scorecard-icon.grupo-lr {
+    color: #6610f2;
+    background-color: rgba(102, 16, 242, 0.1);
+}
+.cm-scorecard-icon.tramites-ry {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+.cm-scorecard-info h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+.cm-scorecard-info p {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+}
+
+/* SECTION: Contenedor y Estilos de la Tabla (Flexbox Updated) */
+.cm-table-container {
+    background-color: var(--color-surface);
+    padding: 1.5rem;
+    padding-bottom: 0; /* Adjust for footer */
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px var(--shadow-border);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+/* ====================================================================
+ * == DATATABLES FLEXBOX HACK (Scoped for CM)                        ==
+ * ====================================================================
+ */
+
+/* Wrapper del Header (Inyectado por JS) */
+.cm-dt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* Inputs & Selects dentro del header de tabla */
+.cm-dt-header input,
+.cm-dt-header select {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    height: 32px;
+}
+
+/* Wrapper generado por DataTables */
+.client-management-container .dt-scroll,
+.client-management-container .dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 6px 6px 0 0;
+}
+
+/* EL HACK: Forzar body a flex */
+.client-management-container .dataTables_scrollBody {
+    flex: 1 1 auto !important;
+    height: 10px !important;
+    max-height: none !important;
+    width: 100% !important;
+    background-color: var(--color-surface);
+}
+
+/* Footer (Paginación) fijo abajo */
+.cm-dt-footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+}
+
+/* Tablas full width */
+.client-management-container table.dataTable {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
+.client-management-container table.dataTable thead th {
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+    text-align: center !important;
+}
+
+.client-management-container table.dataTable tbody td {
+    padding: 8px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+
+/* SECTION: Modal Styles (Generales) */
+.cm-modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.65);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+.cm-modal.open { /* Use .open class for consistency */
+    display: flex;
+}
+
+.cm-modal-content {
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    width: 100%;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: cm-animatetop 0.4s;
+    /* Flexbox for Modal Content */
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Max height for modal */
+    overflow: hidden;
+}
+
+@keyframes cm-animatetop {
+    from {transform: translateY(-50px); opacity: 0}
+    to {transform: translateY(0); opacity: 1}
+}
+
+.cm-modal-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+.cm-modal-header h2 { margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 0.6rem; }
+.cm-close-btn {
+    color: var(--color-text-secondary);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.cm-close-btn:hover,
+.cm-close-btn:focus {
+    color: var(--goldmex-accent-color);
+    text-decoration: none;
+}
+
+.cm-modal-body { 
+    padding: 1.5rem;
+    flex: 1; /* Allow body to grow */
+    overflow-y: auto; /* Scroll inside body */
+}
+
+#addClientForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+}
+.cm-form-group { display: flex; flex-direction: column; }
+.cm-form-group.cm-address-field {
+    grid-column: 1 / -1;
+}
+.cm-form-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.cm-form-group input,
+.cm-form-group select,
+.cm-form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.cm-form-group input:focus,
+.cm-form-group select:focus,
+.cm-form-group textarea:focus {
+    outline: none;
+    border-color: var(--goldmex-secondary-color);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+.cm-form-group textarea { resize: vertical; min-height: 80px; }
+
+.cm-modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    flex-shrink: 0;
+}
+#addClientForm .cm-modal-footer {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+    justify-content: right;
+    border-top: none; /* Remove border inside form if footer is used */
+    padding: 0;
+}
+
+/* SECTION: Botones de Acción en la Tabla (CORREGIDO) */
+.cm-actions-btn {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+/* Estilo base para TODOS los botones de la tabla para evitar conflictos */
+.client-management-container .cm-actions-btn button, 
+.client-management-container .cm-docs-btn {
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    height: 34px;
+    box-sizing: border-box;
+    border: 1px solid; /* Se define el borde aquí */
+}
+
+.client-management-container .cm-actions-btn button:hover, 
+.client-management-container .cm-docs-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Botones pequeños (edit, delete) */
+.client-management-container .cm-actions-btn button {
+    font-size: 1.1rem;
+    width: 34px;
+    background-color: var(--goldmex-white-color);
+}
+
+/* Botón Editar */
+.client-management-container .cm-edit-btn {
+    color: #d4af37;
+    border-color: #d4af37;
+}
+.client-management-container .cm-edit-btn:hover {
+    background-color: #d4af37;
+    color: var(--goldmex-primary-color);
+}
+
+/* Botón Borrar */
+.client-management-container .cm-delete-btn {
+    color: #e31837;
+    border-color: #e31837;
+}
+.client-management-container .cm-delete-btn:hover {
+    background-color: #e31837;
+    color: var(--goldmex-white-color);
+}
+
+/* Botón de Docs (verde) */
+.client-management-container .cm-docs-btn {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.6rem;
+    gap: 0.4rem;
+    background-color: #28a745; 
+    color: var(--goldmex-white-color); 
+    border-color: #28a745; 
+}
+.client-management-container .cm-docs-btn:hover {
+    background-color: #218838; 
+    border-color: #1e7e34;
+}
+.client-management-container .cm-docs-btn .bx {
+    font-size: 1rem;
+}
+
+/* --- Estilos para Dark Mode en botones de acción --- */
+body.dark-mode .client-management-container .cm-actions-btn button, 
+body.dark-mode .client-management-container .cm-docs-btn {
+    background-color: transparent;
+}
+
+body.dark-mode .client-management-container .cm-edit-btn:hover {
+    background-color: #d4af37;
+    color: var(--goldmex-primary-color);
+}
+
+body.dark-mode .client-management-container .cm-delete-btn:hover {
+    background-color: #e31837;
+    color: var(--goldmex-light-color);
+}
+
+body.dark-mode .client-management-container .cm-docs-btn {
+    color: #28a745;
+    border-color: #28a745;
+}
+body.dark-mode .client-management-container .cm-docs-btn:hover {
+    background-color: #28a745;
+    color: var(--goldmex-light-color);
+}
+
+
+/* SECTION: ESTILOS PARA MODAL DE CSV Y DOCUMENTOS */
+
+.cm-file-input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+.cm-file-input:hover {
+    border-color: var(--goldmex-secondary-color);
+}
+.cm-modal-instructions {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.05);
+    padding: 0.8rem 1rem;
+    border-left: 3px solid var(--goldmex-secondary-color);
+    border-radius: 0.3rem;
+}
+body.dark-mode .cm-modal-instructions {
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.08);
+}
+.cm-csv-results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+}
+.cm-csv-results h4 {
+    margin-bottom: 0.5rem;
+}
+.cm-doc-upload-section,
+.cm-doc-list-section {
+    margin-bottom: 2rem;
+}
+.cm-doc-list-section { 
+    margin-bottom: 0; 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+.cm-doc-upload-section h4,
+.cm-doc-list-section h4 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+.cm-form-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+.cm-doc-list-container {
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+    flex: 1; /* Allow this container to grow */
+    min-height: 200px; /* Minimum height */
+}
+.cm-doc-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    transition: background-color 0.2s ease;
+}
+.cm-doc-card:hover {
+    background-color: var(--active-hover-bg);
+}
+.cm-doc-card-icon {
+    font-size: 2.2rem;
+    color: var(--goldmex-primary-color);
+    margin-right: 1rem;
+}
+body.dark-mode .cm-doc-card-icon {
+    color: var(--goldmex-secondary-color);
+}
+.cm-doc-card-info {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.cm-doc-card-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cm-doc-card-date {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+.cm-doc-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+.cm-doc-action-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.cm-doc-action-btn:hover {
+    background-color: var(--active-hover-bg);
+    color: var(--active-hover-text);
+}
+.cm-doc-action-btn[data-action="delete"]:hover {
+    color: var(--goldmex-accent-color);
+}
+.cm-no-docs-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text-secondary);
+}
+
+/* SECTION: Ajustes Responsivos */
+@media (max-width: 768px) {
+    #addClientForm { grid-template-columns: 1fr 1fr; }
+    .cm-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .cm-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .cm-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 576px) {
+    #addClientForm { grid-template-columns: 1fr; }
+}

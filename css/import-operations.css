@@ -1,0 +1,1329 @@
+/* import-operations.css */
+
+/* --- Main Container & Layout (The "Trinity" Fix applied) --- */
+.iop-container {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    /* Full Height Fix */
+    height: 100vh;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* --- Entrance Animations --- */
+.iop-container>.iop-header,
+.iop-container>.iop-dashboard-summary,
+.iop-container>.iop-table-container {
+    animation-name: fadeInSlideUp;
+    animation-duration: 0.6s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    flex-shrink: 0; /* Prevent header/dashboard from shrinking */
+}
+
+.iop-container>.iop-header {
+    animation-delay: 0.05s;
+}
+
+.iop-container>.iop-dashboard-summary {
+    animation-delay: 0.1s;
+}
+
+.iop-container>.iop-table-container {
+    animation-delay: 0.15s;
+    /* Allow table container to grow and fill space */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+
+/* --- Header --- */
+.iop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #2e4975 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-primary-color-rgb), 0.2);
+}
+
+body.dark-mode .iop-header {
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #25426c 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-white-color-rgb), 0.1);
+}
+
+.iop-header h2 {
+    color: var(--goldmex-white-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.iop-header h2 .bx {
+    color: var(--goldmex-secondary-color);
+}
+
+.iop-header-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+/* --- Dashboard Summary --- */
+.iop-dashboard-summary {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem; /* Reduced margin for tighter fit */
+}
+
+.iop-scorecard {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top-width: 4px;
+    border-top-style: solid;
+}
+
+.iop-scorecard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px var(--shadow-border);
+}
+
+.iop-scorecard-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.iop-scorecard-info h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.iop-scorecard-info p {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.iop-scorecard.new-requests {
+    border-top-color: var(--goldmex-primary-color);
+}
+
+.iop-scorecard.new-requests .iop-scorecard-icon {
+    color: var(--goldmex-primary-color);
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.1);
+}
+
+.iop-scorecard.pending-client {
+    border-top-color: var(--goldmex-secondary-color);
+}
+
+.iop-scorecard.pending-client .iop-scorecard-icon {
+    color: var(--goldmex-secondary-color);
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.1);
+}
+
+.iop-scorecard.in-progress {
+    border-top-color: #17a2b8;
+}
+
+.iop-scorecard.in-progress .iop-scorecard-icon {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+.iop-scorecard.completed {
+    border-top-color: #28a745;
+}
+
+.iop-scorecard.completed .iop-scorecard-icon {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+
+/* --- Table Container (Updated for Flexbox) --- */
+.iop-table-container {
+    background-color: var(--color-surface);
+    padding: 1.5rem;
+    /* Adjust padding for table footer */
+    padding-bottom: 0; 
+    border-radius: 0.6rem;
+    box-shadow: 0 4px 15px var(--shadow-border);
+    border: 1px solid var(--color-border);
+    /* Flex properties handled in animation section above, refining here */
+    overflow: hidden;
+}
+
+.iop-table-container h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+/* ====================================================================
+ * == DATATABLES FLEXBOX HACK (The "Trinity" Implementation) ==
+ * ====================================================================
+ */
+
+/* Custom Header Wrapper (Injected by JS) */
+.iop-dt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    flex-shrink: 0;
+}
+
+/* Scoped Inputs & Selects for DataTables */
+.iop-dt-header input,
+.iop-dt-header select {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+    height: 32px;
+}
+
+/* DataTables Scroll Wrappers */
+.iop-container .dt-scroll,
+.iop-container .dataTables_scroll,
+.iop-modal .dt-scroll, 
+.iop-modal .dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 6px 6px 0 0;
+}
+
+/* The Hack: Force body to ignore JS height and use Flex */
+.iop-container .dataTables_scrollBody,
+.iop-modal .dataTables_scrollBody {
+    flex: 1 1 auto !important;
+    height: 10px !important;
+    max-height: none !important;
+    width: 100% !important;
+    background-color: var(--color-surface);
+}
+
+/* Fixed Footer (Pagination) */
+.iop-dt-footer {
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+}
+
+/* Ensure tables fill width */
+.iop-container table.dataTable,
+.iop-modal table.dataTable {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
+.iop-container table.dataTable thead th,
+.iop-modal table.dataTable thead th {
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 10px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.iop-container table.dataTable tbody td,
+.iop-modal table.dataTable tbody td {
+    padding: 8px 12px !important;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+/* --- General Modal Styles (Updated for Flexbox) --- */
+.iop-modal {
+    display: none;
+    position: fixed;
+    z-index: 1200;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    align-items: center;
+    justify-content: center;
+}
+
+.iop-modal.iop-modal-open {
+    display: flex;
+    opacity: 1;
+}
+
+.iop-modal-content {
+    background-color: rgba(var(--color-surface-rgb), 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 0.6rem;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+    /* Flexbox for Full Height Modal Content */
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+
+.iop-modal.iop-modal-open .iop-modal-content {
+    transform: scale(1);
+}
+
+.iop-modal-content.iop-modal-large {
+    max-width: 950px;
+}
+
+/* === UPDATED: XLARGE MODAL (Ledger & History) === */
+.iop-modal-content.iop-modal-xlarge {
+    max-width: 1400px; /* Increased to accommodate History table */
+    width: 95vw;     /* Wider usage of screen */
+    height: 85vh;    /* FORCE HEIGHT: This makes the modal tall */
+}
+
+.iop-modal-content.iop-modal-fullscreen {
+    width: 80vw;
+    max-width: 1800px;
+    height: 85vh;
+}
+
+.iop-modal-header {
+    padding: 1.2rem 1.8rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+    flex-shrink: 0;
+}
+
+.iop-modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.iop-close-button {
+    background: none;
+    border: none;
+    font-size: 1.9rem;
+    color: var(--goldmex-light-color);
+    cursor: pointer;
+}
+
+/* Modal Body Flexbox Fix */
+.iop-modal-body {
+    padding: 1.8rem;
+    flex: 1; /* Grow to fill space */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden; /* Scroll handled by children (tables) or explicit overflow-y */
+}
+
+/* For simple text content modals that need scrolling directly on body */
+.iop-modal-body.iop-workspace-body,
+.iop-report-body {
+    overflow-y: auto;
+    display: block; 
+}
+
+/* Special handling for Workspace layout */
+.iop-modal-body.iop-workspace-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg);
+}
+
+.iop-modal-footer {
+    padding: 1.2rem 1.8rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-bg);
+    flex-shrink: 0;
+}
+
+.iop-footer-left,
+.iop-footer-right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+
+/* --- Ledger Modal Layout (The Compact Fix) --- */
+.iop-ledger-toolbar {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+    flex-shrink: 0;
+    flex-wrap: wrap; /* Safety for very small screens */
+}
+
+.iop-ledger-client-group {
+    flex: 2; /* Client name needs space */
+    min-width: 200px;
+}
+
+.iop-ledger-form-inline {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.8rem;
+    flex: 4;
+}
+
+.iop-ledger-amount-group {
+    width: 120px; /* Fixed small width */
+}
+
+.iop-ledger-ref-group {
+    flex: 2; /* Reference can grow */
+}
+
+.iop-ledger-add-btn {
+    height: 38px; /* Match input height roughly */
+    white-space: nowrap;
+    margin-bottom: 1px; /* Align visually with inputs */
+}
+
+.iop-balance-badge {
+    color: var(--color-text-secondary);
+    font-weight: normal;
+    font-size: 0.85em;
+    margin-left: 0.5rem;
+}
+
+.iop-balance-badge span {
+    color: var(--goldmex-primary-color);
+    font-weight: 700;
+}
+
+body.dark-mode .iop-balance-badge span {
+    color: var(--goldmex-secondary-color);
+}
+
+/* Ensure Ledger Table Container grows */
+#iop-ledger-modal .iop-table-container {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-top: 0; /* No margin needed with the toolbar */
+}
+
+/* --- History Filter Styles --- */
+.iop-history-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+/* Ensure History Table Container grows */
+#iop-history-modal .iop-table-container {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+
+/* --- General Form Controls --- */
+.iop-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.iop-form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.iop-form-group input,
+.iop-form-group select {
+    padding: 0.55rem 0.8rem; /* Slightly smaller vertical padding for compact look */
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    height: 38px; /* Fixed height for alignment */
+    box-sizing: border-box;
+}
+
+.iop-form-inline {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.iop-form-inline .iop-form-group {
+    flex-grow: 1;
+}
+
+/* --- Table Action Buttons --- */
+.iop-table-btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.iop-btn-process {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: var(--goldmex-white-color) !important;
+    transition: all 0.3s ease;
+}
+
+.iop-btn-process:hover {
+    background-color: var(--goldmex-secondary-color) !important;
+    border-color: var(--goldmex-secondary-color) !important;
+    color: var(--goldmex-primary-color) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+.btn-iop-archive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #28a745;
+    color: #fff;
+    background-color: #28a745;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.2rem;
+}
+
+.btn-iop-archive:hover:not(:disabled) {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+body.dark-mode .btn-iop-archive {
+    border-color: #28a745;
+    background-color: #28a745;
+    color: #fff;
+}
+
+body.dark-mode .btn-iop-archive:hover:not(:disabled) {
+    background-color: #218838;
+    color: #fff;
+}
+
+/* --- Status Badges --- */
+.iop-status-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 1em;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.status-submitted,
+.status-in-review {
+    background-color: var(--goldmex-primary-color);
+}
+
+.status-info-needed,
+.status-clarification {
+    background-color: #fd7e14;
+}
+
+.status-client-reply {
+    background-color: #6f42c1;
+}
+
+.status-docs-ok {
+    background-color: #20c997;
+}
+
+.status-quote-sent {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+    text-shadow: none;
+}
+
+.status-approved {
+    background-color: #17a2b8;
+}
+
+.status-paid {
+    background-color: #28a745;
+}
+
+.status-completed {
+    background-color: #28a745;
+}
+
+.status-cancelled,
+.status-archived {
+    background-color: #6c757d;
+}
+
+
+/* --- Complete Button --- */
+.btn-iop-complete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: 34px;
+    padding: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #28a745;
+    color: white;
+    border: 1px solid #28a745;
+    font-size: 1.2rem;
+}
+
+.btn-iop-complete:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+/* --- Workspace Modal --- */
+.iop-workspace-stepper {
+    display: flex;
+    background-color: var(--color-bg);
+    padding: 0 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.iop-step {
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-bottom: 3px solid transparent;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.iop-step.active {
+    color: var(--goldmex-secondary-color);
+    font-weight: 600;
+    border-bottom-color: var(--goldmex-secondary-color);
+    cursor: default;
+    opacity: 1;
+}
+
+.iop-step.unlocked {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.iop-step.unlocked:not(.active):hover {
+    background-color: var(--active-hover-bg);
+}
+
+.iop-step-content {
+    display: none;
+    padding: 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.iop-step-content.active {
+    display: block;
+}
+
+.iop-workspace-grid {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.iop-workspace-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.iop-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1.2rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.iop-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: -1.2rem -1.5rem 1.2rem -1.5rem;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.iop-section-title .bx {
+    color: var(--goldmex-secondary-color);
+    font-size: 1.3rem;
+}
+
+/* Client Info & Documents styling */
+.iop-detail-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0.2rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9rem;
+}
+
+.iop-detail-group:last-child {
+    border-bottom: none;
+}
+
+.iop-detail-label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-right: 1rem;
+}
+
+.iop-detail-value {
+    font-weight: 500;
+    text-align: right;
+    word-break: break-all;
+}
+
+#iop-client-documents-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#iop-client-documents-container li {
+    background-color: var(--color-bg);
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--color-border);
+}
+
+.iop-doc-download-btn {
+    background: none;
+    border: none;
+    color: var(--goldmex-secondary-color);
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: color 0.2s ease;
+}
+
+.iop-doc-download-btn:hover {
+    color: #c5a030;
+}
+
+/* Operator Form Styling */
+.iop-form-group textarea {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.iop-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.iop-checkbox-label input {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+#iop-charges-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.iop-charge-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 100px auto;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.iop-charge-row input,
+.iop-charge-row select {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+}
+
+.iop-remove-charge-btn {
+    /* NEW */
+    background-color: transparent;
+    border: 1px solid #e31837;
+    color: #e31837;
+    border-radius: 5px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.iop-remove-charge-btn:hover {
+    /* NEW */
+    background-color: #e31837;
+    color: white;
+}
+
+.iop-footer-step {
+    display: none;
+}
+
+.iop-footer-step.active {
+    display: flex;
+    gap: 0.8rem;
+}
+
+
+/* --- Report Modal Styles --- */
+.iop-report-modal-content {
+    background-color: #f8f9fa;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-size: 9pt;
+    border-radius: 0.5rem;
+    max-width: 900px;
+    width: 95%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.iop-report-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.iop-report-header {
+    text-align: center;
+    border-bottom: 2px solid var(--goldmex-primary-color);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.iop-report-header h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--goldmex-primary-color);
+}
+
+.iop-report-header p {
+    margin: 0.2rem 0 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.iop-report-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.iop-report-section {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.4rem;
+    padding: 1rem;
+}
+
+.iop-report-section ul {
+    /* NEW */
+    padding-left: 20px;
+    margin: 0;
+}
+
+.iop-report-section h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--goldmex-primary-color);
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.iop-report-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.iop-report-item:last-child {
+    border-bottom: none;
+}
+
+.iop-report-label {
+    font-weight: bold;
+    color: #495057;
+    flex-shrink: 0;
+    margin-right: 1rem;
+}
+
+.iop-report-value {
+    color: #212529;
+    text-align: right;
+    word-break: break-word;
+}
+
+.iop-report-quote-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+.iop-report-quote-table th,
+.iop-report-quote-table td {
+    padding: 0.5rem;
+    border: 1px solid #e9ecef;
+    text-align: right;
+}
+
+.iop-report-quote-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.iop-report-quote-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+.iop-report-quote-table .grand-total td {
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: #f1f3f5;
+    border-top: 2px solid #adb5bd;
+}
+
+.iop-report-full-width {
+    grid-column: 1 / -1;
+}
+
+.iop-report-notes {
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 0.3rem;
+    font-style: italic;
+    color: #495057;
+    text-align: left;
+    margin-top: 0.5rem;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Styles for PDF Rendering --- */
+.iop-pdf-render-mode .iop-report-printable-area {
+    background-color: #ffffff;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.iop-pdf-render-mode .iop-report-header h3 {
+    font-size: 18pt;
+    margin-bottom: 4px;
+}
+
+.iop-pdf-render-mode .iop-report-header p {
+    font-size: 9pt;
+}
+
+.iop-pdf-render-mode .iop-report-section {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.iop-pdf-render-mode .iop-report-section h4 {
+    font-size: 11pt;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.iop-pdf-render-mode .iop-report-item {
+    padding: 0.25rem 0;
+    font-size: 9pt;
+}
+
+.iop-pdf-render-mode .iop-report-notes {
+    padding: 0.6rem;
+    font-size: 8.5pt;
+}
+
+.iop-pdf-render-mode .iop-report-quote-table th,
+.iop-pdf-render-mode .iop-report-quote-table td {
+    padding: 0.35rem;
+    font-size: 8.5pt;
+}
+
+.iop-pdf-render-mode .iop-report-quote-table .grand-total td {
+    font-size: 10pt;
+}
+
+/* Base structure for new custom buttons */
+.iop-btn-view-quote,
+.iop-btn-view-docs {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.8rem;
+    height: 30px;
+    /* Corresponds to btn-sm */
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.iop-btn-view-quote:hover:not(:disabled),
+.iop-btn-view-docs:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+
+/* New custom colored buttons */
+.iop-btn-view-quote {
+    background-color: #6f42c1;
+    /* Purple */
+    border-color: #6f42c1;
+    color: #fff;
+}
+
+.iop-btn-view-quote:hover:not(:disabled) {
+    background-color: #5a37a0;
+    border-color: #5a37a0;
+}
+
+.iop-btn-view-docs {
+    background-color: #fd7e14;
+    /* Orange */
+    border-color: #fd7e14;
+    color: #fff;
+}
+
+.iop-btn-view-docs:hover:not(:disabled) {
+    background-color: #e36a05;
+    border-color: #e36a05;
+}
+
+/* Styles for Docs Viewer Modal */
+.iop-docs-viewer-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.iop-docs-viewer-col h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.iop-docs-viewer-list {
+    background-color: var(--color-bg);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+}
+
+.iop-docs-viewer-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.iop-docs-viewer-list li {
+    background-color: var(--color-surface);
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--color-border);
+}
+
+/* New Resources Feature */
+.btn-goldmex-info {
+    background-color: #3498DB;
+    border-color: #3498DB;
+    color: var(--goldmex-white-color);
+}
+
+.btn-goldmex-info:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    color: var(--goldmex-white-color);
+}
+
+/* Resources Modal Controls */
+.iop-resources-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+}
+
+.iop-resources-uploader {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+#iop-resource-selected-file-name {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.iop-resources-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.iop-resources-search .bx {
+    position: absolute;
+    left: 10px;
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+}
+
+#iop-resource-search-input {
+    padding: 0.6rem 0.8rem 0.6rem 2.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    min-width: 300px;
+}
+
+/* Resources List Grid */
+#iop-resources-list-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0.5rem;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.iop-resource-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px var(--shadow-border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.iop-resource-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px var(--shadow-border);
+}
+
+.iop-resource-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.8rem;
+}
+
+.iop-resource-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--goldmex-white-color);
+    background-color: var(--goldmex-secondary-color);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.iop-resource-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    word-break: break-all;
+}
+
+.iop-resource-card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.iop-resource-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: var(--color-surface);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.iop-resource-btn-download {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.iop-resource-btn-download:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+.iop-resource-btn-delete {
+    color: var(--goldmex-accent-color);
+    border-color: var(--goldmex-accent-color);
+}
+
+.iop-resource-btn-delete:hover {
+    background-color: #e31837;
+    color: white;
+}

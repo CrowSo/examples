@@ -1,0 +1,1209 @@
+/*
+ * ====================================================================
+ * == STYLES FOR BROKERAGE CQP (CLIENT PORTAL) MODULE (V10 - HYBRID FIX) ==
+ * ====================================================================
+ */
+
+/* Animaciones de Entrada */
+.cqp-container>.cqp-header,
+.cqp-container>.cqp-dashboard-summary,
+.cqp-container>.cqp-tabs,
+.cqp-container>.cqp-tab-content {
+    animation-name: fadeInSlideUp;
+    animation-duration: var(--animation-duration-normal);
+    animation-timing-function: var(--animation-timing-function);
+    animation-fill-mode: both;
+}
+
+.cqp-container>.cqp-header {
+    animation-delay: 0s;
+}
+
+.cqp-container>.cqp-dashboard-summary {
+    animation-delay: 0.05s;
+}
+
+.cqp-container>.cqp-tabs {
+    animation-delay: 0.1s;
+}
+
+.cqp-container>.cqp-tab-content {
+    animation-delay: 0.15s;
+}
+
+/* Layout General - FULL HEIGHT */
+.cqp-container {
+    padding: 1.5rem;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* Ocupar toda la ventana */
+    max-height: 100%;
+    overflow: hidden;
+    /* Evitar doble scroll en la página */
+    box-sizing: border-box;
+}
+
+/* Cabecera */
+.cqp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #2e4975 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-primary-color-rgb), 0.2);
+    border-bottom: none;
+    flex-shrink: 0;
+}
+
+body.dark-mode .cqp-header {
+    background: linear-gradient(110deg, var(--goldmex-primary-color) 0%, #25426c 100%);
+    box-shadow: 0 4px 15px rgba(var(--goldmex-white-color-rgb), 0.1);
+}
+
+.cqp-header h2 {
+    color: var(--goldmex-white-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cqp-header h2 .bx {
+    color: var(--goldmex-secondary-color);
+}
+
+.cqp-header-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+/* Dashboard */
+.cqp-dashboard-summary {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+    /* Importante: no encoger el dashboard */
+}
+
+.cqp-scorecard {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-top: 3px solid var(--goldmex-secondary-color);
+}
+
+.cqp-scorecard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px var(--shadow-border);
+}
+
+.cqp-scorecard.action-required {
+    border-top-color: #fd7e14;
+}
+
+.cqp-scorecard.action-required .cqp-scorecard-icon {
+    color: #fd7e14;
+    background-color: rgba(253, 126, 20, 0.1);
+}
+
+body.dark-mode .cqp-scorecard.action-required .cqp-scorecard-icon {
+    color: #ff922b;
+    background-color: rgba(255, 146, 43, 0.15);
+}
+
+.cqp-scorecard-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.cqp-scorecard-icon {
+    font-size: 2.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px;
+    height: 55px;
+    flex-shrink: 0;
+}
+
+.cqp-scorecard-icon.total {
+    color: var(--goldmex-primary-color);
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.1);
+}
+
+body.dark-mode .cqp-scorecard-icon.total {
+    color: var(--goldmex-secondary-color);
+    background-color: rgba(var(--goldmex-secondary-color-rgb), 0.15);
+}
+
+.cqp-scorecard-icon.in-progress {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+body.dark-mode .cqp-scorecard-icon.in-progress {
+    color: #63d3e4;
+    background-color: rgba(99, 211, 228, 0.15);
+}
+
+.cqp-scorecard-icon.completed {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+body.dark-mode .cqp-scorecard-icon.completed {
+    color: #51cf66;
+    background-color: rgba(81, 207, 102, 0.15);
+}
+
+.cqp-scorecard-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.cqp-scorecard-info h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.cqp-scorecard-info p {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+}
+
+.cqp-scorecard-footer {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    width: 100%;
+    text-align: center;
+}
+
+/* Pestañas */
+.cqp-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.cqp-tab-button {
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    margin-bottom: -2px;
+}
+
+.cqp-tab-button:hover {
+    background-color: var(--active-hover-bg);
+    color: var(--active-hover-text);
+}
+
+.cqp-tab-button.active {
+    color: var(--goldmex-secondary-color);
+    border-bottom-color: var(--goldmex-secondary-color);
+    font-weight: 600;
+}
+
+.cqp-tab-content {
+    display: none;
+    /* Base style setup for flex growth */
+    flex: 1;
+    min-height: 0;
+}
+
+/* === CORE FIX: ESTRUCTURA HÍBRIDA === 
+   1. Reglas generales para contenedores de tabla (Historial y General)
+*/
+.cqp-table-container {
+    display: block;
+    /* Default block para Historial (Modal) */
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+}
+
+/* 2. OVERRIDE ESPECÍFICO PARA TABLA PRINCIPAL (ACTIVE REQUESTS) 
+Esto replica exactamente la lógica "Universal Flex" del módulo CQ 
+solo en la vista principal para que llene la pantalla.
+*/
+#active-requests-content.cqp-tab-content.active {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Forzar altura */
+}
+
+#active-requests-content .cqp-table-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* Crecer para ocupar el espacio */
+    min-height: 0;
+    padding: 0;
+    /* Reset de padding para limpieza */
+    border: none;
+    /* Borde opcional en modo full screen */
+}
+
+/* Forzar wrapper de DataTables a usar Flex */
+#active-requests-content .dataTables_wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Estructura interna del scroll */
+#active-requests-content .dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#active-requests-content .dataTables_scrollHead {
+    flex-shrink: 0;
+}
+
+/* LA CLAVE: Ignorar altura JS y llenar espacio con Flex */
+#active-requests-content .dataTables_scrollBody {
+    flex: 1 1 auto;
+    height: 10px !important;
+    /* Ignorar altura calculada por JS */
+    max-height: none !important;
+}
+
+/* Estructura del DOM de DataTables Correcto (Buscador y Paginación) */
+.dt-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0 1rem;
+    /* Padding extra si se quitó del contenedor */
+}
+
+#active-requests-content .dt-top {
+    padding-top: 1rem;
+    /* Espacio arriba en vista principal */
+}
+
+.dt-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0 1rem 1rem 1rem;
+}
+
+/* Color for Table Headers */
+.cqp-container .dataTables_wrapper thead th {
+    background-color: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+    white-space: nowrap;
+}
+
+/* Fix for search input and length select */
+.dataTables_length select,
+.dataTables_filter input {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    padding: 0.4rem;
+    border-radius: 0.3rem;
+}
+
+/* Modales */
+.cqp-modal {
+    display: none;
+    position: fixed;
+    z-index: 1250;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    align-items: center;
+    justify-content: center;
+}
+
+#cqpDocManagementModal {
+    z-index: 1251;
+}
+
+.cqp-modal.cqp-modal-open {
+    display: flex;
+    opacity: 1;
+}
+
+.cqp-modal-content {
+    background-color: rgba(var(--color-surface-rgb), 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 0.6rem;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.cqp-modal-content-xlarge {
+    max-width: 1000px;
+}
+
+/* History Modal Specifics - MANTENIENDO LO QUE FUNCIONA */
+#cqpHistoryModal .cqp-modal-content {
+    width: 95%;
+    max-width: 1400px;
+    height: 85vh;
+    /* Fixed height */
+    display: flex;
+    flex-direction: column;
+}
+
+#cqpHistoryModal .cqp-modal-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    /* Permitir scroll normal del cuerpo */
+}
+
+/* El contenedor de historial usa display: block por defecto (definido arriba),
+   lo cual es correcto para este modal */
+
+.cqp-modal.cqp-modal-open .cqp-modal-content {
+    transform: scale(1);
+}
+
+.cqp-modal-header {
+    padding: 1.2rem 1.8rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+}
+
+.cqp-modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--goldmex-white-color);
+}
+
+.cqp-close-button {
+    background: none;
+    border: none;
+    font-size: 1.9rem;
+    color: var(--goldmex-light-color);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.cqp-close-button:hover {
+    color: var(--goldmex-accent-color);
+    transform: rotate(90deg);
+}
+
+.cqp-modal-body {
+    padding: 1.8rem;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.cqp-modal-footer {
+    padding: 1.2rem 1.8rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: var(--color-bg);
+}
+
+/* Formulario Multi-paso */
+.cqp-form-stepper {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    background-color: var(--color-bg);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.cqp-step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    opacity: 0.5;
+}
+
+.cqp-step.active {
+    color: var(--goldmex-primary-color);
+    font-weight: 600;
+    opacity: 1;
+}
+
+body.dark-mode .cqp-step.active {
+    color: var(--goldmex-secondary-color);
+}
+
+.cqp-step span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    color: var(--color-text-secondary);
+    transition: all 0.3s ease;
+}
+
+.cqp-step.active span {
+    background-color: var(--goldmex-primary-color);
+    color: var(--goldmex-white-color);
+}
+
+body.dark-mode .cqp-step.active span {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+}
+
+.cqp-form-step-content {
+    display: none;
+}
+
+.cqp-form-step-content.active {
+    display: block;
+    animation: fadeInSlideUp 0.5s ease-out;
+}
+
+.cqp-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem 1.5rem;
+}
+
+.cqp-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.cqp-form-group.cqp-grid-full {
+    grid-column: 1 / -1;
+}
+
+.cqp-form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.cqp-form-group .cqp-required {
+    color: var(--goldmex-accent-color);
+    margin-left: 3px;
+}
+
+.cqp-form-group input,
+.cqp-form-group select,
+.cqp-form-group textarea {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cqp-form-group input:focus,
+.cqp-form-group select:focus,
+.cqp-form-group textarea:focus {
+    outline: none;
+    border-color: var(--goldmex-secondary-color);
+    box-shadow: 0 0 0 3px rgba(var(--goldmex-secondary-color-rgb), 0.2);
+}
+
+.cqp-pga-flags {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+    padding: 0.8rem;
+    background-color: var(--color-bg);
+    border-radius: 0.4rem;
+}
+
+.cqp-pga-flags label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.cqp-pga-flags input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--goldmex-primary-color);
+}
+
+.cqp-modal-instructions {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    background-color: rgba(var(--goldmex-primary-color-rgb), 0.05);
+    padding: 0.8rem 1.2rem;
+    border-left: 4px solid var(--goldmex-secondary-color);
+    border-radius: 0.3rem;
+}
+
+.cqp-file-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    border-radius: .4rem;
+}
+
+.cqp-file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.8rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.cqp-file-item span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1rem;
+}
+
+.cqp-file-item button {
+    background: none;
+    border: none;
+    color: var(--goldmex-accent-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Insignias de Estado */
+.cqp-status-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 1em;
+    text-transform: uppercase;
+    color: white;
+}
+
+.cqp-status-badge.status-pending {
+    background-color: #6c757d;
+}
+
+.cqp-status-badge.status-in-process {
+    background-color: #17a2b8;
+}
+
+.cqp-status-badge.status-awaiting-documents {
+    background-color: #fd7e14;
+}
+
+.cqp-status-badge.status-documents-submitted {
+    background-color: #6f42c1;
+}
+
+.cqp-status-badge.status-completed {
+    background-color: #28a745;
+}
+
+.cqp-status-badge.status-cancelled {
+    background-color: #495057;
+}
+
+/* Filtros de Historial */
+.cqp-history-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.4rem;
+    flex-shrink: 0;
+}
+
+.cqp-history-filters .cqp-form-group {
+    gap: 0.4rem;
+}
+
+.cqp-history-filters .cqp-form-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Notificaciones */
+.custom-notification-cqp-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2150;
+}
+
+/* === EDICIÓN Y VISTA MEJORADA === */
+hr.cqp-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.5rem 0;
+}
+
+#cqp-existing-files-container h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cqp-existing-file-item {
+    background-color: var(--color-bg);
+}
+
+.cqp-form-stepper.editable .cqp-step {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.cqp-form-stepper.editable .cqp-step:hover {
+    opacity: 1;
+}
+
+.cqp-form-stepper.editable .cqp-step.active {
+    opacity: 1;
+}
+
+.cqp-view-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 2.5rem;
+}
+
+.cqp-view-columns .le-detail-section {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.cqp-view-columns .le-detail-section:last-child {
+    border-bottom: none;
+}
+
+.le-detail-grid {
+    grid-template-columns: 1fr;
+}
+
+/* ====================================================================
+ * == SECCION: Estilos de Botones en Tabla ==
+ * ====================================================================
+ */
+
+.cqp-table-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dt-actions-col {
+    width: 1%;
+    white-space: nowrap;
+    text-align: center !important;
+}
+
+.cqp-table-actions button[data-action="view"],
+.cqp-table-actions button[data-action="edit"],
+.cqp-table-actions button[data-action="delete"],
+.cqp-table-actions .btn-cqp-archive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: var(--color-surface);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cqp-table-actions button[data-action="view"]:hover,
+.cqp-table-actions button[data-action="edit"]:hover,
+.cqp-table-actions button[data-action="delete"]:hover,
+.cqp-table-actions .btn-cqp-archive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cqp-table-actions button[data-action="view"] {
+    color: var(--goldmex-primary-color);
+    border-color: var(--goldmex-primary-color);
+}
+
+.cqp-table-actions button[data-action="edit"] {
+    color: var(--goldmex-secondary-color);
+    border-color: var(--goldmex-secondary-color);
+}
+
+.cqp-table-actions button[data-action="delete"] {
+    color: var(--goldmex-accent-color);
+    border-color: var(--goldmex-accent-color);
+}
+
+.cqp-table-actions .btn-cqp-archive {
+    width: auto;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: transparent;
+    border-color: #2a9d8f;
+    color: #2a9d8f;
+}
+
+.cqp-table-actions button[data-action="view"]:hover {
+    background-color: var(--goldmex-primary-color);
+    color: white;
+}
+
+.cqp-table-actions button[data-action="edit"]:hover {
+    background-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+}
+
+.cqp-table-actions button[data-action="delete"]:hover {
+    background-color: #e31837;
+    color: white;
+    border-color: var(--goldmex-accent-color);
+}
+
+.cqp-table-actions .btn-cqp-archive:hover {
+    background-color: #2a9d8f;
+    border-color: #2a9d8f;
+    color: white;
+}
+
+.btn-cqp-alert {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+    background-color: #fd7e14;
+    color: white;
+    box-shadow: 0 2px 5px rgba(253, 126, 20, 0.4);
+    animation: pulse-orange 2s infinite;
+}
+
+.btn-cqp-alert:hover {
+    background-color: #e87313;
+    box-shadow: 0 4px 10px rgba(253, 126, 20, 0.6);
+    transform: translateY(-2px);
+    animation: none;
+}
+
+@keyframes pulse-orange {
+    0% {
+        box-shadow: 0 0 0 0 rgba(253, 126, 20, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(253, 126, 20, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(253, 126, 20, 0);
+    }
+}
+
+.btn-cqp-docs {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    border: 1px solid #28a745;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    background-color: #28a745;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.btn-cqp-docs:hover {
+    background-color: var(--goldmex-secondary-color);
+    border-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-primary-color);
+    transform: translateY(-2px);
+}
+
+.btn-cqp-view-results,
+.btn-cqp-download-quote {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    padding: 0 0.8rem;
+    gap: 0.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.btn-cqp-view-results {
+    background-color: var(--goldmex-primary-color);
+    color: white;
+    border: 1px solid var(--goldmex-primary-color);
+}
+
+.btn-cqp-download-quote {
+    background-color: transparent;
+    border: 1px solid #1a365d;
+    color: var(--color-text-primary);
+}
+
+.btn-cqp-view-results:hover {
+    background-color: #142a49;
+    transform: translateY(-2px);
+}
+
+.btn-cqp-download-quote:hover {
+    background-color: var(--active-hover-bg);
+    border-color: var(--active-hover-text);
+    transform: translateY(-2px);
+}
+
+/* Modal de Informacion Faltante */
+.cqp-missing-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.cqp-missing-info-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    border-bottom: 2px solid var(--goldmex-secondary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.cqp-check-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cqp-check-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+}
+
+.cqp-check-list li .bx {
+    color: var(--goldmex-secondary-color);
+    font-size: 1.4rem;
+}
+
+.cqp-agent-comments {
+    background-color: var(--color-bg);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-left: 4px solid var(--color-border);
+    min-height: 100px;
+    overflow-wrap: break-word;
+}
+
+.cqp-upload-action-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Modal de Gestion de Documentos */
+.cqp-doc-upload-section,
+.cqp-doc-list-section {
+    margin-bottom: 2rem;
+}
+
+.cqp-doc-list-section {
+    margin-bottom: 0;
+}
+
+.cqp-doc-upload-section h4,
+.cqp-doc-list-section h4 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cqp-form-grid-upload {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.cqp-file-input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.cqp-doc-list-container {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: var(--color-bg);
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+}
+
+.cqp-no-docs-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text-secondary);
+}
+
+.cqp-doc-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    transition: background-color 0.2s ease;
+}
+
+.cqp-doc-card:hover {
+    background-color: var(--active-hover-bg);
+}
+
+.cqp-doc-card-icon {
+    font-size: 2.2rem;
+    color: var(--goldmex-primary-color);
+    margin-right: 1rem;
+}
+
+body.dark-mode .cqp-doc-card-icon {
+    color: var(--goldmex-secondary-color);
+}
+
+.cqp-doc-card-info {
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.cqp-doc-card-name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cqp-doc-card-date {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+.cqp-doc-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.cqp-doc-action-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.cqp-doc-action-btn:hover {
+    background-color: var(--active-hover-bg);
+    color: var(--active-hover-text);
+}
+
+.cqp-doc-action-btn[data-action="delete"]:hover {
+    color: var(--goldmex-accent-color);
+}
+
+body.dark-mode .cqp-table-actions button[data-action="view"] {
+    border-color: var(--goldmex-secondary-color);
+    color: var(--goldmex-secondary-color);
+}
+
+body.dark-mode .cqp-table-actions button[data-action="edit"] {
+    border-color: var(--goldmex-white-color);
+    color: var(--goldmex-white-color);
+}
+
+body.dark-mode .cqp-table-actions .btn-cqp-archive {
+    border-color: #adb5bd;
+    color: #adb5bd;
+}
+
+body.dark-mode .cqp-table-actions .btn-cqp-archive:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* * ====================================================================
+ * == FIX VISUAL DE CARGA DE TABLAS (CORREGIDO) ==
+ * ====================================================================
+ */
+/* REGLA DE ORO: La tabla debe nacer INVISIBLE. 
+Usamos opacity: 0 en el wrapper directamente.
+*/
+.cqp-container .dataTables_wrapper {
+    visibility: hidden;
+    /* Seguridad extra */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Solo cuando JS agregue esta clase (después de ajustar las columnas),
+la tabla se hará visible suavemente.
+*/
+.cqp-container .dataTables_wrapper.cqp-ready {
+    visibility: visible;
+    opacity: 1;
+}

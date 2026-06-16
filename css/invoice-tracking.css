@@ -1,0 +1,2062 @@
+:root {
+  /* Informational Colors */
+  --it-info-color: var(--goldmex-info-color, #17a2b8);
+  /* Base info color */
+  --it-info-hover-color: var(--goldmex-info-hover-color, #138496);
+  /* Info color on hover */
+  --it-info-text-color: var(--goldmex-white-color, #ffffff);
+  /* Text color for info elements */
+  --it-info-color-dark: var(--goldmex-info-color-dark, #63d3e4);
+  /* Base info color for dark mode */
+  --it-info-hover-color-dark: var(--goldmex-info-hover-color-dark, #4ac0d0);
+  /* Info hover color for dark mode */
+  --it-info-text-color-dark: var(--goldmex-dark-color, #212529);
+  /* Text color for info elements in dark mode */
+
+  /* Neutral Colors */
+  --it-neutral-color: var(--goldmex-neutral-color, #6c757d);
+  /* Base neutral color */
+  --it-neutral-hover-color: var(--goldmex-neutral-hover-color, #5a6268);
+  /* Neutral color on hover */
+  --it-neutral-text-color: var(--goldmex-white-color, #ffffff);
+  /* Text color for neutral elements */
+  --it-neutral-color-dark: var(--goldmex-neutral-color-dark, #495057);
+  /* Base neutral color for dark mode */
+  --it-neutral-hover-color-dark: var(--goldmex-neutral-hover-color-dark,
+      #3a4045);
+  /* Neutral hover color for dark mode */
+  --it-neutral-text-color-dark: var(--goldmex-light-color, #f8f9fa);
+  /* Text color for neutral elements in dark mode */
+
+  /* Goldmex Theme Colors (referenced from main style.css) */
+  --goldmex-success-color: var(--goldmex-success-color, #28a745);
+  --goldmex-success-color-rgb: var(--goldmex-success-color-rgb, 40, 167, 69);
+  --goldmex-success-color-dark: var(--goldmex-success-color-dark, #51cf66);
+  --goldmex-success-color-dark-rgb: var(--goldmex-success-color-dark-rgb,
+      81,
+      207,
+      102);
+  --goldmex-success-hover-color: var(--goldmex-success-hover-color, #218838);
+  --goldmex-success-hover-color-dark: var(--goldmex-success-hover-color-dark,
+      #40916c);
+
+  --goldmex-warning-color: var(--goldmex-warning-color, #ffc107);
+  --goldmex-warning-color-rgb: var(--goldmex-warning-color-rgb, 255, 193, 7);
+  --goldmex-warning-text-color: var(--goldmex-warning-text-color,
+      #3b2c00
+      /* Dark text for light warning background */
+    );
+  --goldmex-warning-hover-color: var(--goldmex-warning-hover-color, #e0a800);
+
+  --goldmex-warning-color-dark: var(--goldmex-warning-color-dark, #ffd43b);
+  --goldmex-warning-color-dark-rgb: var(--goldmex-warning-color-dark-rgb,
+      255,
+      212,
+      59);
+  --goldmex-warning-text-color-dark: var(--goldmex-warning-text-color-dark,
+      #382d02
+      /* Dark text for dark warning background */
+    );
+  --goldmex-warning-hover-color-dark: var(--goldmex-warning-hover-color-dark,
+      #ffca2c);
+
+  --goldmex-accent-color: var(--goldmex-accent-color, #dc3545);
+  --goldmex-accent-color-rgb: var(--goldmex-accent-color-rgb, 227, 24, 55);
+  --goldmex-accent-color-dark: var(--goldmex-accent-color-dark, #ff6b6b);
+  --goldmex-accent-color-dark-rgb: var(--goldmex-accent-color-dark-rgb,
+      255,
+      107,
+      107);
+  --goldmex-accent-hover-color: var(--goldmex-accent-hover-color, #c82333);
+  --goldmex-accent-hover-color-dark: var(--goldmex-accent-hover-color-dark,
+      #e05252);
+
+  --goldmex-dark-text-for-warning: var(--goldmex-dark-color, #212529);
+
+  /* Table Row Backgrounds based on Service Type */
+  --it-row-ocean-bg: var(--st-row-ocean-bg, rgba(0, 123, 255, 0.07));
+  --it-row-air-bg: var(--st-row-air-bg, rgba(40, 167, 69, 0.07));
+  --it-row-truck-bg: var(--st-row-truck-bg, rgba(253, 126, 20, 0.07));
+
+  --it-row-ocean-bg-dark: var(--st-row-ocean-bg-dark, rgba(50, 130, 255, 0.15));
+  --it-row-air-bg-dark: var(--st-row-air-bg-dark, rgba(60, 180, 90, 0.15));
+  --it-row-truck-bg-dark: var(--st-row-truck-bg-dark, rgba(255, 150, 50, 0.15));
+
+  /* Border Opacity Variations */
+  --color-border-soft: rgba(var(--color-border-rgb), 0.5);
+  --color-border-very-soft: rgba(var(--color-border-rgb), 0.25);
+}
+
+body.dark-mode:root {
+  --color-border-soft: rgba(var(--color-border-rgb), 0.3);
+  --color-border-very-soft: rgba(var(--color-border-rgb), 0.15);
+}
+
+/* ====================================================================
+ * == LAYOUT GENERAL - UNIVERSAL FLEX (MODIFICADO PARA FULL HEIGHT) ==
+ * ====================================================================
+ */
+/* Main container for the invoice tracking module */
+.invoice-tracking-container {
+  padding: 1.5rem;
+  background-color: var(--color-bg);
+  /* Flexbox setup for full height */
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Ocupar toda la ventana */
+  max-height: 100%;
+  overflow: hidden; /* Evitar doble scroll en la página */
+  box-sizing: border-box;
+  padding-bottom: 0; /* Padding inferior controlado por flex */
+}
+
+body.dark-mode .invoice-tracking-container {
+  background-color: var(--color-bg);
+}
+
+/* Apply entrance animation to main content blocks within the container */
+.invoice-tracking-container>.it-header,
+.invoice-tracking-container>.it-dashboard-summary,
+.invoice-tracking-container>.it-controls-bar,
+.invoice-tracking-container>.it-table-container {
+  animation-name: fadeInSlideUp;
+  /* Defined in style.css */
+  animation-duration: var(--animation-duration-normal);
+  animation-timing-function: var(--animation-timing-function);
+  animation-fill-mode: both;
+}
+
+/* Staggered animation delays for a smoother entrance */
+.invoice-tracking-container>.it-header {
+  animation-delay: 0s;
+  flex-shrink: 0; /* No encoger header */
+}
+
+.invoice-tracking-container>.it-dashboard-summary {
+  animation-delay: 0.05s;
+  flex-shrink: 0; /* No encoger dashboard */
+}
+
+.invoice-tracking-container>.it-controls-bar {
+  animation-delay: 0.1s;
+  flex-shrink: 0; /* No encoger controles */
+}
+
+.invoice-tracking-container>.it-table-container {
+  animation-delay: 0.15s;
+}
+
+
+/* Header section of the module */
+.it-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+body.dark-mode .it-header {
+  border-bottom-color: var(--color-border);
+}
+
+.it-header h2 {
+  color: var(--color-text-primary);
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  /* Space between icon and text */
+}
+
+body.dark-mode .it-header h2 {
+  color: var(--color-text-primary);
+}
+
+.it-header h2 .bx {
+  /* Icon styling within header */
+  color: var(--goldmex-secondary-color);
+}
+
+body.dark-mode .it-header h2 .bx {
+  color: var(--goldmex-secondary-color);
+}
+
+/* Dashboard summary cards section */
+.it-dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Responsive grid */
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.it-scorecard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 5px rgba(var(--shadow-border-rgb, 26, 54, 93), 0.05);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.it-scorecard:hover {
+  transform: translateY(-3px);
+  /* Slight lift on hover */
+  box-shadow: 0 4px 12px rgba(var(--shadow-border-rgb, 26, 54, 93), 0.1);
+}
+
+body.dark-mode .it-scorecard {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+body.dark-mode .it-scorecard:hover {
+  box-shadow: 0 4px 12px rgba(var(--goldmex-white-color-rgb, 255, 255, 255), 0.08);
+}
+
+.it-scorecard-icon {
+  font-size: 2.2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  flex-shrink: 0;
+}
+
+.it-scorecard-icon i {
+  line-height: 1;
+}
+
+.it-scorecard-icon.total {
+  /* Style for "Total Invoices" card icon */
+  color: var(--goldmex-primary-color);
+  background-color: rgba(var(--goldmex-primary-color-rgb), 0.1);
+}
+
+body.dark-mode .it-scorecard-icon.total {
+  color: var(--goldmex-secondary-color);
+  background-color: rgba(var(--goldmex-secondary-color-rgb), 0.15);
+}
+
+.it-scorecard-icon.paid {
+  /* Style for "Paid Invoices" card icon */
+  color: var(--goldmex-success-color, #28a745);
+  background-color: rgba(var(--goldmex-success-color-rgb, 40, 167, 69), 0.1);
+}
+
+body.dark-mode .it-scorecard-icon.paid {
+  color: var(--goldmex-success-color-dark, #51cf66);
+  background-color: rgba(var(--goldmex-success-color-dark-rgb, 81, 207, 102),
+      0.15);
+}
+
+.it-scorecard-icon.pending {
+  /* Style for "Pending Invoices" card icon */
+  color: var(--goldmex-warning-color, #ffc107);
+  background-color: rgba(var(--goldmex-warning-color-rgb, 255, 193, 7), 0.1);
+}
+
+body.dark-mode .it-scorecard-icon.pending {
+  color: var(--goldmex-warning-color-dark, #ffd43b);
+  background-color: rgba(var(--goldmex-warning-color-dark-rgb, 255, 212, 59),
+      0.15);
+}
+
+.it-scorecard-icon.overdue {
+  /* Style for "Overdue Invoices" card icon */
+  color: var(--goldmex-accent-color);
+  background-color: rgba(var(--goldmex-accent-color-rgb, 227, 24, 55), 0.1);
+}
+
+body.dark-mode .it-scorecard-icon.overdue {
+  color: var(--goldmex-accent-color-dark, #ff6b6b);
+  background-color: rgba(var(--goldmex-accent-color-dark-rgb, 255, 107, 107),
+      0.15);
+}
+
+.it-scorecard-info h4 {
+  /* Scorecard title style */
+  margin: 0 0 0.2rem 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.it-scorecard-info p {
+  /* Scorecard value style */
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+body.dark-mode .it-scorecard-info h4 {
+  color: var(--color-text-secondary);
+}
+
+body.dark-mode .it-scorecard-info p {
+  color: var(--color-text-primary);
+}
+
+/* Controls bar for filters and actions */
+.it-controls-bar {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--color-surface);
+  border-radius: 0.4rem;
+  box-shadow: 0 1px 4px rgba(var(--shadow-border-rgb, 26, 54, 93), 0.05);
+  border: 1px solid var(--color-border);
+}
+
+.it-filters {
+  /* Container for all filter groups and buttons */
+  display: flex;
+  flex-wrap: wrap;
+  /* Allow items to wrap to next line on smaller screens */
+  align-items: flex-end;
+  /* Align items to the bottom */
+  gap: 1rem;
+}
+
+.it-filter-group {
+  /* Individual filter group (label + input/select) */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex-grow: 1;
+  /* Allow filter groups to take available space */
+  min-width: 150px;
+  /* Minimum width before wrapping */
+}
+
+.it-filter-group label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.it-filter-group input[type="text"],
+.it-filter-group input[type="date"],
+.it-filter-group select {
+  /* Styling for input fields and select dropdowns */
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-size: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.it-filter-group input[type="text"]:focus,
+.it-filter-group input[type="date"]:focus,
+.it-filter-group select:focus {
+  /* Focus state for inputs and selects */
+  outline: none;
+  border-color: var(--goldmex-secondary-color);
+  box-shadow: 0 0 0 2px rgba(var(--goldmex-secondary-color-rgb), 0.2);
+}
+
+.it-filter-group span {
+  /* "to" text in date range filter */
+  padding: 0 0.5rem;
+  align-self: center;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.it-filters button {
+  /* Buttons within the filter bar */
+  flex-shrink: 0;
+  /* Prevent buttons from shrinking */
+  align-self: flex-end;
+  /* Align buttons to the bottom of the flex container */
+}
+
+/* Base button styles for Goldmex theme */
+.btn-goldmex-base,
+.btn-goldmex-primary,
+.btn-goldmex-secondary,
+.btn-goldmex-info,
+.btn-goldmex-neutral {
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.1s ease, border-color 0.2s ease;
+  display: inline-flex;
+  /* Allows icon and text alignment */
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  /* Space between icon and text in button */
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.btn-goldmex-base:active,
+.btn-goldmex-primary:active,
+.btn-goldmex-secondary:active,
+.btn-goldmex-info:active,
+.btn-goldmex-neutral:active {
+  transform: translateY(1px);
+  /* Slight press effect */
+}
+
+/* Primary Button Style */
+.btn-goldmex-primary {
+  background-color: var(--goldmex-primary-color);
+  color: var(--goldmex-white-color);
+  border-color: var(--goldmex-primary-color);
+}
+
+.btn-goldmex-primary:hover {
+  background-color: var(--goldmex-secondary-color);
+  color: var(--goldmex-primary-color);
+  border-color: var(--goldmex-secondary-color);
+  box-shadow: 0 2px 8px rgba(var(--shadow-border-rgb, 0, 0, 0), 0.15);
+}
+
+body.dark-mode .btn-goldmex-primary {
+  background-color: var(--goldmex-secondary-color);
+  color: var(--goldmex-primary-color);
+  border-color: var(--goldmex-secondary-color);
+}
+
+body.dark-mode .btn-goldmex-primary:hover {
+  background-color: var(--goldmex-light-color);
+  color: var(--goldmex-primary-color);
+  border-color: var(--goldmex-light-color);
+}
+
+/* Secondary Button Style */
+.btn-goldmex-secondary {
+  background-color: var(--color-border);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+
+.btn-goldmex-secondary:hover {
+  background-color: var(--color-text-secondary);
+  color: var(--color-surface);
+  border-color: var(--color-text-secondary);
+}
+
+body.dark-mode .btn-goldmex-secondary {
+  background-color: var(--color-surface);
+  color: var(--goldmex-light-color);
+  border-color: #2c4a78;
+  /* Specific border for dark mode secondary */
+}
+
+body.dark-mode .btn-goldmex-secondary:hover {
+  background-color: var(--goldmex-dark-color);
+  color: var(--goldmex-light-color);
+  border-color: var(--goldmex-dark-color);
+}
+
+/* Info Button Style */
+.btn-goldmex-info {
+  background-color: var(--it-info-color);
+  color: var(--it-info-text-color);
+  border-color: var(--it-info-color);
+}
+
+.btn-goldmex-info:hover {
+  background-color: var(--it-info-hover-color);
+  border-color: var(--it-info-hover-color);
+  color: var(--it-info-text-color);
+}
+
+body.dark-mode .btn-goldmex-info {
+  background-color: var(--it-info-color-dark);
+  color: var(--it-info-text-color-dark);
+  border-color: var(--it-info-color-dark);
+}
+
+body.dark-mode .btn-goldmex-info:hover {
+  background-color: var(--it-info-hover-color-dark);
+  color: var(--it-info-text-color-dark);
+}
+
+/* Neutral Button Style (Used for Reset Button) */
+.btn-goldmex-neutral {
+  background-color: var(--it-neutral-color);
+  color: var(--it-neutral-text-color);
+  border-color: var(--it-neutral-color);
+}
+
+.btn-goldmex-neutral:hover {
+  background-color: var(--it-neutral-hover-color);
+  border-color: var(--it-neutral-hover-color);
+  color: var(--it-neutral-text-color);
+  box-shadow: 0 2px 8px rgba(var(--shadow-border-rgb, 0, 0, 0), 0.1);
+  /* Added subtle shadow on hover */
+}
+
+body.dark-mode .btn-goldmex-neutral {
+  background-color: var(--it-neutral-color-dark);
+  color: var(--it-neutral-text-color-dark);
+  border-color: var(--it-neutral-color-dark);
+}
+
+body.dark-mode .btn-goldmex-neutral:hover {
+  background-color: var(--it-neutral-hover-color-dark);
+  color: var(--it-neutral-text-color-dark);
+  box-shadow: 0 2px 8px rgba(var(--goldmex-white-color-rgb, 255, 255, 255), 0.08);
+  /* Subtle shadow for dark mode */
+}
+
+
+/* ====================================================================
+ * == TABLAS: ESTRUCTURA HÍBRIDA (CORE FIX) ==
+ * ====================================================================
+ */
+
+/* 1. Contenedor Flexible Principal para la Tabla */
+.it-table-container {
+  background-color: var(--color-surface);
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 10px var(--shadow-border);
+  
+  /* LÓGICA FLEX PARA LLENAR PANTALLA */
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Ocupar todo el espacio restante vertical */
+  min-height: 0; /* Crítico para scroll interno */
+  padding: 0; /* El padding lo maneja DataTables wrapper */
+  overflow: hidden; /* Evitar scroll externo */
+}
+
+/* 2. Forzar wrapper de DataTables a usar Flex */
+.it-table-container .dataTables_wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* 3. Estructura interna del scroll de DataTables */
+.it-table-container .dataTables_scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.it-table-container .dataTables_scrollHead {
+  flex-shrink: 0;
+  width: 100% !important; /* Fix alineación header */
+}
+
+.it-table-container .dataTables_scrollHeadInner {
+  width: 100% !important; /* Fix alineación header */
+}
+
+.it-table-container .dataTables_scrollHeadInner table {
+  width: 100% !important; /* Fix alineación header */
+}
+
+/* 4. LA CLAVE: Cuerpo de tabla expansible */
+.it-table-container .dataTables_scrollBody {
+  flex: 1 1 auto;
+  height: 10px !important; /* Ignorar altura calculada por JS, usar Flex */
+  max-height: none !important;
+  width: 100% !important;
+}
+
+/* ====================================================================
+ * == MODAL FLEX FIX (REPLACED PREVIOUS RESET) ==
+ * ====================================================================
+ * MODIFIED: Instead of resetting to block, we enforce flex structure 
+ * for modal tables to allow internal scrolling with sticky headers.
+ */
+
+/* 1. The table container inside the modal must fill available space */
+.it-modal .it-table-container {
+    flex: 1;              /* Grow to fill space inside modal body */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;        /* CRITICAL for internal scroll */
+    height: 100% !important; /* Force full height */
+}
+
+/* 2. Force DataTables wrapper to use flex inside modal */
+.it-modal .dataTables_wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 3. Ensure the scroll area takes up remaining space */
+.it-modal .dataTables_scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* 4. The scroll body should grow automatically */
+.it-modal .dataTables_scrollBody {
+    flex: 1;
+    height: auto !important; /* Let Flex control height */
+    max-height: none !important;
+}
+
+/* ==================================================================== */
+
+
+/* 5. Estructura del DOM de DataTables (Top y Bottom) */
+.dt-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 1rem 1rem 0 1rem;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dt-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0 1rem 1rem 1rem;
+  flex-shrink: 0;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+#invoicesTable {
+  /* Styling for the main invoices table */
+  width: 100% !important;
+  /* Override DataTables default width */
+  border-collapse: collapse;
+}
+
+/* DataTables specific styling for search and length controls */
+.dataTables_length select,
+.dataTables_filter input {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  margin: 0 0.25rem;
+  font-size: 0.85rem;
+}
+
+body.dark-mode .dataTables_length select,
+body.dark-mode .dataTables_filter input {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.dataTables_length label,
+.dataTables_filter label {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+body.dark-mode .dataTables_length label,
+body.dark-mode .dataTables_filter label {
+  color: var(--color-text-secondary);
+}
+
+/* Estilos de Headers de Tabla - Igual que CQP */
+.it-table-container thead th {
+  background-color: var(--goldmex-primary-color);
+  color: var(--goldmex-white-color);
+  white-space: nowrap;
+  padding: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+body.dark-mode .it-table-container thead th {
+  background-color: #25426c;
+}
+
+.it-table-container tbody td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+/* ====================================================================
+ * == FIX VISUAL DE CARGA DE TABLAS (Evitar Saltos) ==
+ * ====================================================================
+ */
+/* La tabla nace INVISIBLE */
+.it-table-container .dataTables_wrapper {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* JS agrega esta clase cuando termina de ajustar columnas */
+.it-table-container .dataTables_wrapper.it-ready {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Status badge styling for invoices */
+.it-status-badge {
+  display: inline-block;
+  padding: 0.3em 0.7em !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  border-radius: 1em !important;
+  /* Pill shape */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 80px !important;
+  /* Ensure badges have a minimum width */
+  color: #ffffff !important;
+  /* Default text color for most badges */
+}
+
+.it-status-badge.status-paid {
+  background-color: var(--goldmex-success-color, #28a745) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .it-status-badge.status-paid {
+  background-color: var(--goldmex-success-hover-color,
+      /* Using hover color for a slightly darker shade in dark mode */
+      #218838) !important;
+  color: #ffffff !important;
+}
+
+.it-status-badge.status-pending {
+  background-color: var(--goldmex-warning-color, #ffc107) !important;
+  color: var(--goldmex-warning-text-color,
+      /* Using specific text color for warning */
+      #3b2c00) !important;
+}
+
+body.dark-mode .it-status-badge.status-pending {
+  background-color: var(--goldmex-warning-hover-color,
+      /* Using hover color for dark mode */
+      #e0a800) !important;
+  color: var(--goldmex-warning-text-color-dark,
+      /* Specific text color for dark warning */
+      #382d02) !important;
+}
+
+.it-status-badge.status-overdue {
+  background-color: var(--goldmex-accent-color, #dc3545) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .it-status-badge.status-overdue {
+  background-color: var(--goldmex-accent-hover-color,
+      /* Using hover color for dark mode */
+      #c82333) !important;
+  color: #ffffff !important;
+}
+
+.it-status-badge.status-cancelled {
+  background-color: var(--it-neutral-color, #6c757d) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .it-status-badge.status-cancelled {
+  background-color: var(--it-neutral-hover-color,
+      /* Using hover color for dark mode */
+      #5a6268) !important;
+  color: #ffffff !important;
+}
+
+.it-status-badge.status-draft {
+  /* Example for a potential 'Draft' status */
+  background-color: #adb5bd !important;
+  color: #212529 !important;
+}
+
+body.dark-mode .it-status-badge.status-draft {
+  background-color: #868e96 !important;
+  color: #ffffff !important;
+}
+
+.it-status-badge.status-unknown {
+  /* Fallback for unknown statuses */
+  background-color: #b0b0b0 !important;
+  color: #333333 !important;
+}
+
+body.dark-mode .it-status-badge.status-unknown {
+  background-color: #707070 !important;
+  color: #f0f0f0 !important;
+}
+
+/* Action buttons within the table rows */
+.it-table-actions {
+  display: flex;
+  gap: 0.3rem;
+  /* Space between action buttons */
+  justify-content: center;
+  align-items: center;
+}
+
+.it-table-actions button {
+  /* Base style for individual action buttons */
+  padding: 0.3rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  /* Ensure buttons are tappable */
+  height: 30px;
+  background-color: transparent;
+  /* Usually icon buttons */
+}
+
+.it-table-actions button:active {
+  transform: translateY(1px);
+  /* Press effect */
+}
+
+.it-table-actions button i {
+  /* Icon style within action buttons */
+  font-size: 1.1rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* View action button style */
+.it-table-actions button[data-action="view"] {
+  color: var(--goldmex-primary-color, #1a365d);
+  border-color: var(--goldmex-primary-color, #1a365d);
+}
+
+.it-table-actions button[data-action="view"]:hover {
+  background-color: var(--goldmex-primary-color, #1a365d);
+  color: var(--goldmex-white-color, #ffffff);
+}
+
+body.dark-mode .it-table-actions button[data-action="view"] {
+  color: var(--goldmex-secondary-color, #d4af37);
+  border-color: var(--goldmex-secondary-color, #d4af37);
+}
+
+body.dark-mode .it-table-actions button[data-action="view"]:hover {
+  background-color: var(--goldmex-secondary-color, #d4af37);
+  color: var(--goldmex-primary-color, #1a365d);
+}
+
+/* Edit action button style */
+.it-table-actions button[data-action="edit"] {
+  color: var(--goldmex-warning-color, #ffc107);
+  border-color: var(--goldmex-warning-color, #ffc107);
+}
+
+.it-table-actions button[data-action="edit"]:hover {
+  background-color: var(--goldmex-warning-hover-color, #e0a800);
+  color: var(--goldmex-warning-text-color,
+      /* Dark text for better contrast on hover */
+      #3b2c00);
+}
+
+body.dark-mode .it-table-actions button[data-action="edit"] {
+  color: var(--goldmex-warning-color-dark, #ffd43b);
+  border-color: var(--goldmex-warning-color-dark, #ffd43b);
+}
+
+body.dark-mode .it-table-actions button[data-action="edit"]:hover {
+  background-color: var(--goldmex-warning-hover-color-dark, #ffca2c);
+  color: var(--goldmex-warning-text-color-dark,
+      /* Dark text for dark mode */
+      #382d02);
+}
+
+/* Download action button style */
+.it-table-actions button[data-action="download"] {
+  color: var(--it-info-color, #17a2b8);
+  border-color: var(--it-info-color, #17a2b8);
+}
+
+.it-table-actions button[data-action="download"]:hover {
+  background-color: var(--it-info-hover-color, #138496);
+  color: var(--it-info-text-color, #ffffff);
+}
+
+body.dark-mode .it-table-actions button[data-action="download"] {
+  color: var(--it-info-color-dark, #63d3e4);
+  border-color: var(--it-info-color-dark, #63d3e4);
+}
+
+body.dark-mode .it-table-actions button[data-action="download"]:hover {
+  background-color: var(--it-info-hover-color-dark, #4ac0d0);
+  color: var(--it-info-text-color-dark, #212529);
+}
+
+/* Mark as Paid action button style */
+.it-table-actions button[data-action="mark-paid"] {
+  color: var(--goldmex-success-color, #28a745);
+  border-color: var(--goldmex-success-color, #28a745);
+}
+
+.it-table-actions button[data-action="mark-paid"]:hover {
+  background-color: var(--goldmex-success-hover-color, #218838);
+  color: var(--goldmex-white-color, #ffffff);
+}
+
+body.dark-mode .it-table-actions button[data-action="mark-paid"] {
+  color: var(--goldmex-success-color-dark, #51cf66);
+  border-color: var(--goldmex-success-color-dark, #51cf66);
+}
+
+body.dark-mode .it-table-actions button[data-action="mark-paid"]:hover {
+  background-color: var(--goldmex-success-hover-color-dark, #40916c);
+  color: var(--goldmex-dark-color, #212529);
+}
+
+/* Cancel action button style */
+.it-table-actions button[data-action="cancel"] {
+  color: var(--goldmex-accent-color, #dc3545);
+  border-color: var(--goldmex-accent-color, #dc3545);
+}
+
+.it-table-actions button[data-action="cancel"]:hover {
+  background-color: var(--goldmex-accent-hover-color, #c82333);
+  color: var(--goldmex-white-color, #ffffff);
+}
+
+body.dark-mode .it-table-actions button[data-action="cancel"] {
+  color: var(--goldmex-accent-color-dark, #ff6b6b);
+  border-color: var(--goldmex-accent-color-dark, #ff6b6b);
+}
+
+body.dark-mode .it-table-actions button[data-action="cancel"]:hover {
+  background-color: var(--goldmex-accent-hover-color-dark, #e05252);
+  color: var(--goldmex-white-color, #ffffff);
+}
+
+/* Row background styles based on service type */
+#invoicesTable tbody tr.row-type-ocean td {
+  background-color: var(--it-row-ocean-bg) !important;
+}
+
+body.dark-mode #invoicesTable tbody tr.row-type-ocean td {
+  background-color: var(--it-row-ocean-bg-dark) !important;
+}
+
+#invoicesTable tbody tr.row-type-air td {
+  background-color: var(--it-row-air-bg) !important;
+}
+
+body.dark-mode #invoicesTable tbody tr.row-type-air td {
+  background-color: var(--it-row-air-bg-dark) !important;
+}
+
+#invoicesTable tbody tr.row-type-truck td {
+  background-color: var(--it-row-truck-bg) !important;
+}
+
+body.dark-mode #invoicesTable tbody tr.row-type-truck td {
+  background-color: var(--it-row-truck-bg-dark) !important;
+}
+
+/* General Modal Styles */
+.it-modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1100;
+  /* Sit on top - will be managed by JS for multiple modals */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  /* Black w/ opacity */
+  -webkit-backdrop-filter: blur(6px);
+  /* Blur effect for supporting browsers */
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  /* Start transparent for fade-in */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.it-modal.it-modal-open {
+  /* Class to show modal */
+  display: flex;
+  /* Use flex to center content */
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+/* --- MODIFIED: Modal Content now uses fixed height and Flexbox --- */
+.it-modal-content {
+  background-color: rgba(var(--color-surface-rgb), 0.9);
+  /* Semi-transparent surface */
+  -webkit-backdrop-filter: blur(12px);
+  /* Inner blur for content */
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  margin: auto;
+  /* Centering */
+  padding: 0;
+  /* Padding will be in header/body/footer */
+  width: 90%;
+  /* Default width */
+  max-width: 700px;
+  /* Default max width */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+  
+  /* --- MODIFIED: Flex properties to force full height --- */
+  display: flex;
+  flex-direction: column;
+  /* Stack header, body, footer vertically */
+  max-height: 90vh;
+  /* Limit height to 90% of viewport */
+  height: 90vh; /* Force height to take available space for table */
+  
+  transform: scale(0.95);
+  /* Start slightly smaller for scale-in effect */
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
+  /* Prevent content from spilling */
+}
+
+body.dark-mode .it-modal-content {
+  background-color: rgba(var(--color-surface-rgb), 0.9);
+  border-color: var(--color-border);
+}
+
+.it-modal-content.it-modal-content-large {
+  /* For slightly larger modals */
+  max-width: 900px;
+}
+
+.it-modal-content.it-modal-content-xlarge {
+  /* For extra large modals, e.g., manual invoice form */
+  max-width: 1100px;
+}
+
+.it-modal-content.it-modal-content-invoice-view {
+  /* Specific size for invoice view */
+  max-width: 800px;
+  width: 95%;
+}
+
+.it-modal.it-modal-open .it-modal-content {
+  transform: scale(1);
+  /* Scale to full size when open */
+}
+
+.it-modal-header {
+  padding: 1.2rem 1.8rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  /* Prevent header from shrinking */
+}
+
+body.dark-mode .it-modal-header {
+  border-bottom-color: var(--color-border);
+}
+
+.it-modal-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+body.dark-mode .it-modal-header h3 {
+  color: var(--color-text-primary);
+}
+
+.it-modal-header h3 .bx {
+  /* Icon in modal title */
+  color: var(--goldmex-secondary-color);
+}
+
+.it-close-button {
+  /* Modal close button (top right X) */
+  background: none;
+  border: none;
+  font-size: 1.9rem;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.it-close-button:hover {
+  color: var(--goldmex-accent-color);
+  transform: rotate(90deg);
+  /* Fun rotate effect on hover */
+}
+
+body.dark-mode .it-close-button {
+  color: var(--color-text-secondary);
+}
+
+/* --- MODIFIED: Modal Body uses Flexbox to handle internal scroll --- */
+.it-modal-body {
+  padding: 1.8rem;
+  flex: 1; /* Allow body to take available space */
+  display: flex; /* Flex container */
+  flex-direction: column;
+  overflow: hidden; /* Scroll handled by table, not body (unless content overflows) */
+  min-height: 0; /* CRITICAL for Flexbox scrolling */
+  overflow-y: auto; /* Fallback for non-table content */
+}
+
+/* Custom scrollbar for modal body */
+.it-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.it-modal-body::-webkit-scrollbar-track {
+  background: var(--goldmex-gray-color);
+  border-radius: 4px;
+}
+
+.it-modal-body::-webkit-scrollbar-thumb {
+  background: var(--goldmex-neutral-color, #6c757d);
+  border-radius: 4px;
+}
+
+.it-modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--goldmex-neutral-hover-color, #5a6268);
+}
+
+body.dark-mode .it-modal-body::-webkit-scrollbar-track {
+  background: var(--goldmex-dark-color);
+}
+
+body.dark-mode .it-modal-body::-webkit-scrollbar-thumb {
+  background: var(--goldmex-neutral-color-dark, #495057);
+}
+
+body.dark-mode .it-modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--goldmex-neutral-hover-color-dark, #3a4045);
+}
+
+/* Form group styling within modal body */
+.it-modal-body .it-form-group {
+  margin-bottom: 1rem;
+}
+
+.it-modal-body .it-form-group label {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  display: block;
+  /* Ensure label is on its own line */
+}
+
+.it-modal-body .it-form-group input,
+.it-modal-body .it-form-group select,
+.it-modal-body .it-form-group textarea {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  /* Include padding and border in element's total width/height */
+}
+
+.it-modal-body .it-form-group input:focus,
+.it-modal-body .it-form-group select:focus,
+.it-modal-body .it-form-group textarea:focus {
+  outline: none;
+  border-color: var(--goldmex-secondary-color);
+  box-shadow: 0 0 0 2px rgba(var(--goldmex-secondary-color-rgb), 0.2);
+}
+
+.it-modal-body .it-form-group textarea {
+  min-height: 80px;
+  /* Minimum height for textareas */
+  resize: vertical;
+  /* Allow vertical resizing */
+}
+
+.it-modal-body .it-required {
+  /* Asterisk for required fields */
+  color: var(--goldmex-accent-color);
+  margin-left: 0.2rem;
+  font-weight: bold;
+}
+
+body.dark-mode .it-modal-body .it-required {
+  color: var(--goldmex-accent-color-dark, #ff8080);
+}
+
+.it-modal-footer {
+  padding: 1.2rem 1.8rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  /* Align buttons to the right */
+  gap: 0.8rem;
+  /* Space between footer buttons */
+  background-color: transparent;
+  /* Footer background, can be same as content if needed */
+  border-bottom-left-radius: 0.6rem;
+  /* Match content border radius */
+  border-bottom-right-radius: 0.6rem;
+  flex-shrink: 0;
+  /* Prevent footer from shrinking */
+}
+
+body.dark-mode .it-modal-footer {
+  border-top-color: var(--color-border);
+}
+
+/* Styles for the invoice preview content within the view modal */
+#invoiceContentContainer {
+  font-family: "Arial", sans-serif;
+  /* Using a common font for PDF-like appearance */
+  color: #333;
+  /* Dark gray text */
+  padding: 1rem;
+  background-color: #fff;
+  /* White background for the "paper" */
+  border-radius: 0.3rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Soft shadow for depth */
+}
+
+body.dark-mode #invoiceContentContainer {
+  /* Slightly off-white for dark mode contrast */
+  color: var(--goldmex-dark-color);
+  /* Ensure text is readable */
+  background-color: #fdfdfd;
+}
+
+.invoice-preview .invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.invoice-preview .invoice-logo img {
+  max-height: 60px;
+  width: auto;
+}
+
+.invoice-preview .invoice-company-details {
+  text-align: right;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.invoice-preview .invoice-parties {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.invoice-preview .invoice-customer {
+  max-width: 50%;
+}
+
+.invoice-preview .invoice-meta {
+  text-align: right;
+  max-width: 45%;
+}
+
+.invoice-preview .invoice-meta strong {
+  /* For labels like "Invoice Number:" */
+  display: inline-block;
+  min-width: 100px;
+}
+
+.invoice-preview hr {
+  /* Simple horizontal rule */
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+}
+
+body.dark-mode .invoice-preview hr {
+  border-top-color: #555;
+  /* Darker HR for dark mode */
+}
+
+.invoice-preview .invoice-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.85em;
+}
+
+.invoice-preview .invoice-items-table th,
+.invoice-preview .invoice-items-table td {
+  border: 1px solid #ddd;
+  /* Light gray borders for table cells */
+  padding: 8px 10px;
+  text-align: left;
+}
+
+body.dark-mode .invoice-preview .invoice-items-table th,
+body.dark-mode .invoice-preview .invoice-items-table td {
+  border-color: #444;
+  /* Darker borders for dark mode */
+}
+
+.invoice-preview .invoice-items-table th {
+  background-color: #f2f2f2;
+  /* Very light gray for table header */
+  font-weight: bold;
+}
+
+body.dark-mode .invoice-preview .invoice-items-table th {
+  background-color: #2a2a2a;
+  /* Dark background for table header in dark mode */
+}
+
+.invoice-preview .invoice-items-table tfoot td {
+  /* For total rows */
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+body.dark-mode .invoice-preview .invoice-items-table tfoot td {
+  background-color: #333;
+}
+
+.invoice-preview .invoice-footer {
+  margin-top: 30px;
+  font-size: 0.8em;
+  text-align: center;
+  color: #777;
+  /* Lighter text for footer notes */
+}
+
+body.dark-mode .invoice-preview .invoice-footer {
+  color: #aaa;
+}
+
+/* Custom Notification Styles (for success, error, info messages) */
+.custom-notification-it-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2100;
+  /* Ensure notifications are on top of modals */
+  width: auto;
+  max-width: 400px;
+  display: none;
+  /* Hidden by default, shown by JS */
+  flex-direction: column;
+  align-items: flex-end;
+  /* Align notifications to the right */
+  gap: 10px;
+  /* Space between multiple notifications */
+}
+
+.custom-notification-st {
+  /* Individual notification style */
+  padding: 12px 18px;
+  border-radius: 6px;
+  color: var(--goldmex-white-color, #fff);
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+  /* Minimum width for notifications */
+  opacity: 0;
+  /* Start transparent for animation */
+  transform: translateX(110%);
+  /* Start off-screen for slide-in animation */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-sizing: border-box;
+  position: relative;
+  /* For potential future absolute positioned elements inside */
+}
+
+.custom-notification-st.show {
+  /* Class to show notification */
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.custom-notification-st.hide {
+  /* Class to hide notification */
+  opacity: 0;
+  transform: translateX(110%);
+}
+
+.custom-notification-st.success {
+  background-color: var(--goldmex-success-color, #28a745);
+}
+
+.custom-notification-st.error {
+  background-color: var(--goldmex-accent-color, #e31837);
+}
+
+.custom-notification-st.warning {
+  background-color: var(--goldmex-warning-color, #ffc107);
+  color: var(--goldmex-dark-text-for-warning, #212529);
+  /* Dark text for light warning */
+}
+
+.custom-notification-st.info {
+  background-color: var(--it-info-color, #17a2b8);
+}
+
+.custom-notification-st i {
+  /* Icon in notification */
+  font-size: 1.3rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.custom-notification-st span {
+  /* Message text in notification */
+  flex-grow: 1;
+  line-height: 1.4;
+}
+
+.custom-notification-st-close {
+  /* Close button for notification */
+  background: none;
+  border: none;
+  color: inherit;
+  /* Inherit color from notification type */
+  opacity: 0.7;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 0 0 10px;
+  /* Padding to the left */
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.custom-notification-st-close:hover {
+  opacity: 1;
+}
+
+/* Styles for multi-column layout in forms (e.g., Manual Invoice Modal) */
+.it-form-columns {
+  display: flex;
+  gap: 2rem;
+  /* Space between columns */
+  margin-bottom: 1.5rem;
+}
+
+.it-form-column {
+  /* Individual column in a multi-column layout */
+  flex: 1;
+  /* Each column takes equal width */
+  min-width: 0;
+  /* Prevents overflow issues with flex items */
+}
+
+.it-form-column h4 {
+  /* Title for a form column section */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-soft);
+  /* Subtle separator */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.it-form-column h4 .bx {
+  /* Icon within column title */
+  color: var(--goldmex-primary-color);
+}
+
+body.dark-mode .it-form-column h4 .bx {
+  color: var(--goldmex-secondary-color);
+}
+
+.it-form-group small {
+  /* Helper text or small notes within a form group */
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+hr.it-form-divider {
+  /* Horizontal rule to divide form sections */
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 1.5rem 0;
+}
+
+/* Container for invoice charge lines in the manual invoice form */
+.it-charges-container {
+  margin-top: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  padding: 1rem;
+  background-color: rgba(var(--color-bg-rgb), 0.5);
+  /* Slightly transparent background */
+}
+
+body.dark-mode .it-charges-container {
+  background-color: rgba(var(--color-surface-rgb), 0.1);
+}
+
+/* Headers for the charge lines table/grid */
+.it-charge-line-headers {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) 1fr 1.5fr 1fr 1.5fr 0.5fr;
+  /* Responsive grid columns */
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border-soft);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+/* Aligning specific header texts */
+.it-charge-line-headers span:nth-child(2),
+/* Qty */
+.it-charge-line-headers span:nth-child(3),
+/* Unit Price */
+.it-charge-line-headers span:nth-child(5) {
+  /* Amount */
+  text-align: right;
+}
+
+.it-charge-line-headers span:nth-child(4),
+/* Currency */
+.it-charge-line-headers span:nth-child(6) {
+  /* Action */
+  text-align: center;
+}
+
+/* Individual charge line item */
+.it-charge-line {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) 1fr 1.5fr 1fr 1.5fr 0.5fr;
+  /* Match header columns */
+  gap: 0.75rem;
+  align-items: center;
+  /* Vertically align items in the line */
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border-very-soft);
+  /* Very subtle separator */
+}
+
+.it-charge-line:last-child {
+  /* Remove bottom border from the last line */
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Input fields within a charge line */
+.it-charge-line input[type="text"],
+.it-charge-line input[type="number"],
+.it-charge-line select {
+  font-size: 0.85rem;
+  padding: 0.45rem 0.6rem;
+  /* Slightly smaller padding for compact lines */
+}
+
+/* Text alignment for specific inputs in charge lines */
+.it-charge-line input[name="charge_quantity[]"],
+.it-charge-line input[name="charge_unit_price[]"],
+.it-charge-line input[name="charge_amount[]"] {
+  text-align: right;
+}
+
+.it-charge-line select[name="charge_currency[]"] {
+  text-align: center;
+  -moz-text-align-last: center;
+  /* Firefox specific for centering select text */
+  text-align-last: center;
+  /* Standard property for centering select text */
+}
+
+/* Remove charge line button style */
+.it-remove-charge-line-btn {
+  padding: 0 !important;
+  /* Remove padding to help center icon */
+  font-size: 0.9rem !important;
+  min-width: 28px !important;
+  /* Explicit width */
+  width: 28px !important;
+  height: 28px !important;
+  /* Explicit height */
+  justify-self: center;
+  /* Center button within its grid cell */
+  display: inline-flex !important;
+  /* Crucial for centering icon within button */
+  align-items: center !important;
+  /* Vertical centering for icon */
+  justify-content: center !important;
+  /* Horizontal centering for icon */
+  transition: background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, transform 0.1s ease;
+}
+
+.it-remove-charge-line-btn i {
+  line-height: 1;
+  /* Ensure icon itself is aligned */
+  font-size: 1.1rem;
+  /* Adjust icon size if needed */
+}
+
+/* Danger button style (used for remove charge line) */
+.btn-goldmex-danger {
+  background-color: transparent;
+  color: var(--goldmex-accent-color, #dc3545);
+  border: 1px solid var(--goldmex-accent-color, #dc3545);
+}
+
+.btn-goldmex-danger:hover {
+  background-color: var(--goldmex-accent-color, #dc3545);
+  color: var(--goldmex-white-color, #ffffff);
+  border-color: var(--goldmex-accent-color, #dc3545);
+  transform: scale(1.05);
+  /* Slight scale on hover */
+}
+
+.btn-goldmex-danger:active {
+  transform: scale(0.95) translateY(1px);
+  /* Scale down on click */
+}
+
+body.dark-mode .btn-goldmex-danger {
+  color: var(--goldmex-accent-color-dark, #ff6b6b);
+  border-color: var(--goldmex-accent-color-dark, #ff6b6b);
+}
+
+body.dark-mode .btn-goldmex-danger:hover {
+  background-color: var(--goldmex-accent-color-dark, #ff6b6b);
+  color: var(--goldmex-dark-color, #212529);
+  /* Dark text for dark mode danger button */
+  border-color: var(--goldmex-accent-color-dark, #ff6b6b);
+}
+
+/* Small button variant */
+.btn-goldmex-small {
+  padding: 0.4rem 0.8rem !important;
+  font-size: 0.8rem !important;
+}
+
+.btn-goldmex-small i {
+  font-size: 1rem !important;
+  /* Smaller icon for small buttons */
+}
+
+/* Summary section for totals in manual invoice form */
+.it-totals-summary {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  background-color: var(--color-surface);
+}
+
+body.dark-mode .it-totals-summary {
+  background-color: var(--color-bg);
+  /* Use main background for contrast */
+}
+
+.it-totals-summary p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.it-totals-summary p strong {
+  /* Make labels within totals bold */
+  color: var(--color-text-primary);
+}
+
+.it-totals-summary .total-currency-line {
+  /* Individual line for each currency total */
+  display: flex;
+  justify-content: space-between;
+  /* Currency label left, amount right */
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.it-totals-summary .total-currency-line span:first-child {
+  /* Currency label */
+  color: var(--color-text-primary);
+}
+
+.it-totals-summary .total-currency-line span:last-child {
+  /* Currency amount */
+  color: var(--goldmex-success-color);
+  /* Use success color for positive totals */
+}
+
+body.dark-mode .it-totals-summary .total-currency-line span:last-child {
+  color: var(--goldmex-success-color-dark);
+}
+
+/* General required field indicator (asterisk) */
+.it-required {
+  color: var(--goldmex-accent-color, #dc3545);
+  font-weight: bold;
+  margin-left: 2px;
+}
+
+body.dark-mode .it-required {
+  color: var(--goldmex-accent-color-dark, #ff8080);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+
+  /* For tablets and smaller desktops */
+  .it-form-columns {
+    /* Stack form columns vertically */
+    flex-direction: column;
+    gap: 0;
+    /* Remove gap, margin will handle spacing */
+  }
+
+  .it-form-column {
+    margin-bottom: 1.5rem;
+  }
+
+  .it-form-column:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* For mobile devices */
+  .it-header {
+    /* Stack header items vertically */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .it-header .btn-goldmex-primary {
+    /* Make create button full width */
+    width: 100%;
+  }
+
+  .it-dashboard-summary {
+    /* Adjust scorecard grid for smaller screens */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .it-scorecard {
+    /* Smaller padding and gap for scorecards */
+    padding: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .it-scorecard-icon {
+    font-size: 1.8rem;
+    width: 45px;
+    height: 45px;
+  }
+
+  .it-scorecard-info h4 {
+    font-size: 0.8rem;
+  }
+
+  .it-scorecard-info p {
+    font-size: 1.4rem;
+  }
+
+  .it-controls-bar {
+    /* Smaller padding for controls bar */
+    padding: 0.8rem;
+  }
+
+  .it-filters {
+    /* Stack filters vertically */
+    flex-direction: column;
+    align-items: stretch;
+    /* Make filter groups full width */
+  }
+
+  .it-filters .it-filter-group {
+    min-width: 100%;
+  }
+
+  .it-filters button {
+    /* Make filter buttons full width */
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .it-modal-content,
+  .it-modal-content-large,
+  .it-modal-content-invoice-view,
+  .it-modal-content-xlarge {
+    /* Modals take more screen width/height */
+    width: 95%;
+    max-width: 95%;
+    max-height: 95vh;
+  }
+
+  .it-modal-body {
+    /* Smaller padding in modal body */
+    padding: 1rem;
+  }
+
+  .it-modal-header,
+  .it-modal-footer {
+    /* Smaller padding in modal header/footer */
+    padding: 0.8rem 1rem;
+  }
+
+  .invoice-preview .invoice-header,
+  .invoice-preview .invoice-parties {
+    /* Stack invoice preview sections */
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .invoice-preview .invoice-company-details,
+  .invoice-preview .invoice-meta,
+  .invoice-preview .invoice-customer {
+    /* Align text left and make full width */
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .custom-notification-it-container {
+    /* Adjust notification container for mobile */
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    /* Span across screen width */
+    width: auto;
+    max-width: none;
+    align-items: stretch;
+    /* Notifications take full width */
+  }
+
+  .custom-notification-st {
+    /* Adjust individual notifications */
+    min-width: auto;
+    width: 100%;
+    margin-bottom: 0;
+    /* Remove bottom margin if they stack directly */
+    transform: translateY(-120%);
+    /* Animate from top */
+  }
+
+  .custom-notification-st.show {
+    transform: translateY(0);
+  }
+
+  .custom-notification-st.hide {
+    transform: translateY(-120%);
+  }
+
+  .it-charge-line-headers,
+  .it-charge-line {
+    /* Adjust charge line grid for smaller screens */
+    grid-template-columns: minmax(0, 2.5fr) 0.8fr 1.2fr 0.8fr 1.2fr 0.5fr;
+    /* Tweak column proportions */
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    /* Smaller font for charge lines */
+  }
+
+  .it-charge-line input[type="text"],
+  .it-charge-line input[type="number"],
+  .it-charge-line select {
+    /* Smaller font and padding for inputs in charge lines */
+    font-size: 0.8rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .it-remove-charge-line-btn {
+    /* Smaller remove button */
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.8rem !important;
+  }
+
+  #itAddChargeLineBtn {
+    /* Make "Add Charge Line" button full width */
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+/* ===== INICIA ESTILOS PARA VISTA DE FACTURA DETALLADA (VERSIÓN CORREGIDA) ===== */
+
+.it-charges-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.it-charges-wrapper {
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  overflow: hidden;
+  /* Clave para que los bordes internos se vean bien */
+}
+
+/* Estilo para el encabezado de la tabla */
+.it-charge-details-header {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr 1fr;
+  background-color: rgba(var(--color-bg-rgb), 0.4);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Estilo para cada fila de cargos */
+.it-charge-details-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr 1fr;
+  background-color: var(--color-surface);
+}
+
+/* Estilo para todas las "celdas" (los span) */
+.it-charge-details-header span,
+.it-charge-details-row span {
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  align-items: center;
+  /* Línea vertical divisoria para todas las celdas menos la primera */
+  border-left: 1px solid var(--color-border-very-soft);
+}
+
+/* Quitamos el borde izquierdo de la primera celda en cada fila */
+.it-charge-details-header span:first-child,
+.it-charge-details-row span:first-child {
+  border-left: none;
+}
+
+/* Alineación del texto en las celdas */
+.it-charge-details-header span:not(:first-child),
+.it-charge-details-row span:not(:first-child) {
+  justify-content: flex-end;
+  /* Alinea el contenido a la derecha */
+  text-align: right;
+}
+
+/* Estilo específico para el precio final */
+.it-charge-details-row .charge-final {
+  font-weight: 600;
+  color: var(--goldmex-success-color);
+}
+
+body.dark-mode .it-charge-details-row .charge-final {
+  color: var(--goldmex-success-color-dark);
+}
+
+/* Estilo para la sección de totales */
+.invoice-totals {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.invoice-total-line {
+  font-size: 1.1rem;
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ===== FIN DE ESTILOS ===== */
+
+/* ===== NUEVO CÓDIGO PARA BOTONES DESACTIVADOS ===== */
+
+/* Estilo general para cualquier botón de acción en la tabla que esté desactivado */
+.it-table-actions button:disabled {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Se asegura de que no haya efectos de hover en botones desactivados */
+.it-table-actions button:disabled:hover {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  transform: none;
+  /* Cancela cualquier animación de hover */
+  box-shadow: none;
+  /* Cancela cualquier sombra de hover */
+}
+
+.it-charge-line .it-remove-charge-line-btn:disabled {
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: transparent;
+  border: none;
+}
